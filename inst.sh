@@ -223,7 +223,7 @@ installOLEDScreenPython() {
 installC9() {
 	
 	
-	sudo ufw allow 9191;
+	sudo ufw allow ${c9portToUse};
 	cd ~;
 	git clone git://github.com/c9/core.git c9sdk;
 	cd c9sdk;
