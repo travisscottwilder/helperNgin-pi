@@ -23,8 +23,6 @@ exe_sevenC9=false;
 
 exe_actionDone="NA";
 
-vhosts_added="";
-
 c9portToUse=9191;
 
 
@@ -41,10 +39,30 @@ freshInstall() {
 	echo "${blue}--- Fresh Install - updating System --------------------------------------------${resetColor}"
 
 	rootfs-expand;
+	sudo apt-get update -y;
 	
 	drawTimeElapsed
 	
+	sudo apt-get upgrade -y;
+	
 	drawTimeElapsed
+	
+	sudo apt-get clean;
+	sudo apt full-upgrade -y;
+	sudo apt-get clean;
+	
+	drawTimeElapsed
+	
+	#INSTALL FIREWALL AND ALLOW OUR EXPECTED PORTS
+	sudo apt install ufw -y;
+	sudo ufw allow 22; sudo ufw allow 80;sudo ufw allow 443;
+	sudo ufw enable;
+	
+	drawTimeElapsed
+	
+	#install brute force auto ban software
+	sudo apt install fail2ban -y;
+	sudo service fail2ban start;
 	
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
@@ -65,13 +83,25 @@ installNodeJS() {
 	echo "${blue}--- Install NodeJS --------------------------------------------${resetColor}"
 
 	
-	
-	drawTimeElapsed
-	
-	drawTimeElapsed
+	sudo apt remove node -y;sudo apt remove nodejs -y;sudo apt remove npm -y;
+	cd /mnt/SDB;curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -;
+	sudo apt-get install -y nodejs npm;sudo apt-get install npm -y;
+
+	sudo mkdir WebServer;
+	cd /mnt/SDB/WebServer;npm install;npm install rpio --save;
 	
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	
+	
+	#FIX YARN:
+	#sudo apt remove cmdtest
+	#sudo apt remove yarn
+	#curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+	#echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+	#sudo apt-get update
+	#sudo apt-get install yarn -y
+	
 }
 
 
@@ -89,6 +119,9 @@ installARGOFanScript() {
 	
 	
 	drawTimeElapsed
+	
+	curl https://download.argon40.com/argon1.sh | bash 
+	argonone-config
 	
 	drawTimeElapsed
 	
@@ -111,10 +144,51 @@ installGPIOPythonLibs() {
 	
 	drawTimeElapsed
 	
+	
+	#ACCESS GPIO PINS
+	#ACCESS GPIO PINS
+	#ACCESS GPIO PINS
+
+	#enable i2c and SPI interfaces
+	#sudo raspi-config
+	#	-> Interface Options -> enable I2C and SPI
+
+	#confirm interfaces on are on -> will return something like "XXX_bcm24323"
+	#lsmod | grep i2c_
+	#lsmod | grep spi_
+	
+	
 	drawTimeElapsed
 	
 	
+	#NODE EXAMPLE
+	#git clone https://github.com/tutRPi/Raspberry-Pi-Simple-Web-GPIO-GUI;cd Raspberry-Pi-Simple-Web-GPIO-GUI;npm install;sudo npm start;
+	#	-> then go to the node project in the web browser 
+	#		-> WEBSITE.com/Raspberry-Pi-Simple-Web-GPIO-GUI
+
+	#npm install rpio --save;
+	#npm install rpio;
+	#https://github.com/jperkin/node-rpio/blob/master/examples/blink.js
+	
+	
+	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	
+	
+	#import the GPIO and time package
+	#import RPi.GPIO as GPIO
+	#import time
+	#GPIO.setmode(GPIO.BOARD)
+	#GPIO.setup(7, GPIO.OUT)
+	# loop through 50 times, on/off for 1 second
+	#for i in range(50):
+	#	GPIO.output(7,True)
+	#	time.sleep(1)
+	#	GPIO.output(7,False)
+	#	time.sleep(1)
+	#GPIO.cleanup()	
+	
+	
 }
 
 
@@ -179,6 +253,12 @@ installC9() {
 
 
 
+#get access to your SSD that is actually a usb (ARGON METAL CASE)
+#find "SDA" device:
+#lsblk
+#create directory and mount above SDA identified to newly created folder
+#cd /mnt/;sudo mkdir SDB;sudo mount /dev/sdaXXXX /mnt/SDB;sudo chmod 777 /mnt/SDB -Rf;
+
 
 
 
@@ -224,6 +304,8 @@ drawOptionsMenu(){
 	echo "${blue} 5 ${green} |${resetColor} GPIO Python Libs"
 	echo "${blue} 6 ${green} |${resetColor} OLED Screen Python Libs"
 	echo "${blue} 7 ${green} |${resetColor} Cloud9 IDE"
+	echo "${blue} 8 ${green} |${resetColor} Add new port to firewall"
+	echo "${blue} 9 ${green} |${resetColor} Mount external USB & automount it"
 	echo "";
 	echo "${blue} q ${green} |${red} Quit${resetColor}"
 	
