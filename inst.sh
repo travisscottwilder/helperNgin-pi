@@ -5,7 +5,7 @@
 #		LINUX:		sed -i -e 's/\r$//' scriptname.sh
 #
 
-STARTTIME=$(date +%s)
+STARTTIME=$(date +%s);
 
 red=$'\e[01;31m'
 green=$'\e[01;32m'
