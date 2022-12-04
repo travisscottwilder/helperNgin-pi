@@ -265,7 +265,7 @@ installC9() {
 #
 #
 drawIntroScreen(){
-	clear
+	#clear
 	echo "";
 	echo "";
 	echo "${green}";
