@@ -84,7 +84,8 @@ installNodeJS() {
 
 	
 	sudo apt remove node -y;sudo apt remove nodejs -y;sudo apt remove npm -y;
-	cd ~;curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -;
+	#cd ~;curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -;
+	
 	sudo apt-get install -y nodejs;
 	sudo npm install pip3 -y;
 	sudo npm install;sudo npm install rpio --save;
@@ -226,11 +227,18 @@ installC9() {
 	
 	sudo apt-get install -y python2;
 	sudo ufw allow ${c9portToUse};
-	cd ~;
+	
+	cd ~;wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz;
+	cd /usr/local
+
+	tar -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz --strip=1
+
+	export NODE_PATH="/usr/local/lib/node_modules"
+
 	git clone https://github.com/c9/core.git c9sdk;
 	cd c9sdk;
-	scripts/install-sdk.sh;
-	ln -s ~/c9sdk/server.js ~/launchc9.js;
+	sudo scripts/install-sdk.sh;
+	ln -s /usr/local/c9sdk/server.js /home/tdub/launchc9.js;
 	
   
   return;
