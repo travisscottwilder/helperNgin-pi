@@ -223,6 +223,7 @@ installOLEDScreenPython() {
 installC9() {
 	
 	
+	sudo apt-get install -y python2;
 	sudo ufw allow ${c9portToUse};
 	cd ~;
 	git clone https://github.com/c9/core.git c9sdk;
