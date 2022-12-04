@@ -279,7 +279,7 @@ drawIntroScreen(){
 	echo "${green}";
 	echo "------------------------------------------------"
 	echo "------------------------------------------------"
-	echo "-----   ${magenta}DEV OPS WEB SERVER INSTALLER HELPER${green}   -----"
+	echo "-----   ${magenta}Raspberry Pi INSTALLER HELPER${green}   -----"
 	echo "------------------------------------------------"
 	echo "------------------------------------------------${resetColor}"
 	echo ""
