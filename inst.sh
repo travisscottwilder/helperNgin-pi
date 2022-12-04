@@ -38,8 +38,8 @@ freshInstall() {
 	echo "";
 	echo "${blue}--- Fresh Install - updating System --------------------------------------------${resetColor}"
 
-	rootfs-expand;
 	sudo apt-get update -y;
+	sudo apt-get install bc;
 	
 	drawTimeElapsed
 	
@@ -86,13 +86,13 @@ installNodeJS() {
 	sudo apt remove node -y;sudo apt remove nodejs -y;sudo apt remove npm -y;
 	cd /mnt/SDB;curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -;
 	sudo apt-get install -y nodejs npm;sudo apt-get install npm -y;
+	npm install;npm install rpio --save;
 
-	sudo mkdir WebServer;
-	cd /mnt/SDB/WebServer;npm install;npm install rpio --save;
-	
-	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	
+	
+	#sudo mkdir WebServer;
+	#cd /mnt/SDB/WebServer;npm install;npm install rpio --save;
 	
 	#FIX YARN:
 	#sudo apt remove cmdtest
@@ -101,7 +101,6 @@ installNodeJS() {
 	#echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
 	#sudo apt-get update
 	#sudo apt-get install yarn -y
-	
 }
 
 
@@ -403,13 +402,13 @@ drawTimeElapsed(){
 	secondsLasped="$(($(date +%s) - ${STARTTIME}))";
 	
 	if [[ -z ${secondsLasped} || ${secondsLasped} -lt 60 ]] ;then
-        min=0 ; secs="${secondsLasped}"
-    else
-        time_mins=$(echo "scale=2; ${secondsLasped}/60" | bc)
-        min=$(echo ${time_mins} | cut -d'.' -f1)
-        secs="0.$(echo ${time_mins} | cut -d'.' -f2)"
-        secs=$(echo ${secs}*60|bc|awk '{print int($secondsLasped+0.5)}')
-    fi
+            min=0 ; secs="${secondsLasped}"
+        else
+            time_mins=$(echo "scale=2; ${secondsLasped}/60" | bc)
+            min=$(echo ${time_mins} | cut -d'.' -f1)
+            secs="0.$(echo ${time_mins} | cut -d'.' -f2)"
+            secs=$(echo ${secs}*60|bc|awk '{print int($secondsLasped+0.5)}')
+        fi
     
 	echo "${blue}------------------------------------------------${resetColor}"
 	echo "${red}------------------------------------------------${resetColor}"
