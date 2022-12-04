@@ -473,25 +473,22 @@ if [ "$exe_twoFresh" = true ]; then
 	freshInstall
 fi
 
-if [ "$exe_threePHP" = true ]; then
-	installReposApachePhp
+if [ "$exe_threeInstallNode" = true ]; then
+	installNodeJS
 fi
 
 
-if [ "$exe_sevenSSHUSER" = true ]; then
-	#new ssh user
-	creationSSHUser
+if [ "$exe_fourArgo" = true ]; then
+	installARGOFanScript
 fi
 
-if [ "$exe_eightC9" = true ]; then
-	#install c9 ide
-	createInstallC9
+if [ "$exe_fiveGPIOpython" = true ]; then
+	installGPIOPythonLibs
 fi
 
 
-if [ "$exe_fiveMYSQL" = true ]; then
-	#install mysql + security
-	installMySQL
+if [ "$exe_sixoLED" = true ]; then
+	installOLEDScreenPython
 fi
 
 if [ "$exe_sixMYSQLUSER" = true ]; then
@@ -499,8 +496,8 @@ if [ "$exe_sixMYSQLUSER" = true ]; then
 	installMysqlUser
 fi
 
-if [ "$exe_fourVHOST" = true ]; then
-	createAllVhostDomains
+if [ "$exe_sevenC9" = true ]; then
+	installC9
 fi
 
 
