@@ -86,7 +86,8 @@ installNodeJS() {
 	sudo apt remove node -y;sudo apt remove nodejs -y;sudo apt remove npm -y;
 	cd ~;curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -;
 	sudo apt-get install -y nodejs;
-	npm install;npm install rpio --save;
+	sudo npm install pip3 -y;
+	sudo npm install;sudo npm install rpio --save;
 
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	
