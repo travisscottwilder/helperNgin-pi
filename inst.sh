@@ -85,7 +85,7 @@ installNodeJS() {
 	
 	sudo apt remove node -y;sudo apt remove nodejs -y;sudo apt remove npm -y;
 	cd ~;curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -;
-	sudo apt-get install -y nodejs npm;sudo apt-get install npm -y;
+	sudo apt-get install -y nodejs;
 	npm install;npm install rpio --save;
 
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
@@ -221,6 +221,14 @@ installOLEDScreenPython() {
 #
 #
 installC9() {
+	
+	
+	sudo ufw allow 9191;
+	cd ~;
+	git clone git://github.com/c9/core.git c9sdk;
+	cd c9sdk;
+	scripts/install-sdk.sh;
+	ln -s ~/c9sdk/server.js ~/launchc9.js;
 	
   
   return;
