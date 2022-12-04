@@ -84,7 +84,7 @@ installNodeJS() {
 
 	
 	sudo apt remove node -y;sudo apt remove nodejs -y;sudo apt remove npm -y;
-	cd /mnt/SDB;curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -;
+	cd ~;curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -;
 	sudo apt-get install -y nodejs npm;sudo apt-get install npm -y;
 	npm install;npm install rpio --save;
 
