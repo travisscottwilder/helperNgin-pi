@@ -164,6 +164,8 @@ installGPIOPythonLibs() {
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	
+	drawTimeElapsed
+	
 	#ACCESS GPIO PINS
 	#ACCESS GPIO PINS
 	#ACCESS GPIO PINS
@@ -177,7 +179,7 @@ installGPIOPythonLibs() {
 	#lsmod | grep spi_
 	
 	
-	drawTimeElapsed
+	
 	
 	
 	#NODE EXAMPLE
@@ -410,11 +412,11 @@ drawOptionsMenu(){
 		case $yn in
 			[1]* )  
 				exe_twoFresh=true;
-        exe_threeInstallNode=true;
-        exe_fourArgo=true;
-        exe_fiveGPIOpython=true;
-        exe_sixoLED=true;
-        exe_sevenC9=true;
+				exe_threeInstallNode=true;
+				exe_fourArgo=true;
+				exe_fiveGPIOpython=true;
+				exe_sixoLED=true;
+				exe_sevenC9=true;
 				exe_actionDone="1) Full Install";
 				break;;
 			[2]* ) 
@@ -564,12 +566,8 @@ echo "";
 
 if [ "$exe_sixoLED" = true ]; then
 	while true; do
-		read -p "${yellow}--- What mode of the OLED install would you like to do?? [all/a/b/c] --------------------------------------------${resetColor}" yn
+		read -p "${yellow}--- What mode of the OLED install would you like to do?? [a/b/c] --------------------------------------------${resetColor}" yn
 		case $yn in
-			[allALL]* )  exe_nodeA=true;
-				exe_nodeB=true;
-				exe_nodeC=true;
-				break;;
 			[aA]* )  exe_nodeA=true;
 				break;;
 			[bB]* ) exe_nodeB=true;
