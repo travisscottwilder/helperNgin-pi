@@ -92,6 +92,13 @@ installNodeJS() {
 	#sudo npm install pip3 -y;
 	#sudo npm install;sudo npm install rpio --save;
 
+
+
+	sudo apt-get install python3-pip;
+	sudo pip3 install --upgrade setuptools;
+	sudo apt-get install -y nodejs;
+
+
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	
 	
@@ -207,8 +214,14 @@ installOLEDScreenPython() {
 	echo "${blue}--- Install OLED Screen Python Scripts & Libs --------------------------------------------${resetColor}"
 
 
+	cd ~;
+	sudo pip3 nstall --upgrade adafruit-python-shell
+	#wget TODO
 	
 	drawTimeElapsed
+	
+	
+	
 	
 	drawTimeElapsed
 	
