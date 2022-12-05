@@ -408,17 +408,9 @@ drawOptionsMenu(){
 	
 	
 	while true; do
-		read -p "${yellow}--- Select an option to continue [1-9] --------------------------------------------${resetColor}" yn
+		read -p "${yellow}--- Select an option to continue [2-9] --------------------------------------------${resetColor}" yn
 		case $yn in
-			[1]* )  
-				exe_twoFresh=true;
-				exe_threeInstallNode=true;
-				exe_fourArgo=true;
-				exe_fiveGPIOpython=true;
-				exe_sixoLED=true;
-				exe_sevenC9=true;
-				exe_actionDone="1) Full Install";
-				break;;
+
 			[2]* ) 
 				exe_twoFresh=true;
 				exe_actionDone="2) Cleaned up & misc Utils";
