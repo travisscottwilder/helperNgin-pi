@@ -97,6 +97,7 @@ installNodeJS() {
 	sudo apt-get install -y python3-pip;
 	sudo pip3 install --upgrade setuptools;
 	sudo apt-get install -y nodejs;
+	sudo apt-get install -y npm;
 
 
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
@@ -241,6 +242,7 @@ installC9() {
 	
 	
 	sudo apt-get install -y python2;
+	sudo npm install -g --save optimist
 	sudo ufw allow ${c9portToUse};
 	
 	#cd ~;wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz;
@@ -249,7 +251,9 @@ installC9() {
 	#tar -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz --strip=1
 
 	#export NODE_PATH="/usr/local/lib/node_modules"
-
+	
+	
+	
 	git clone https://github.com/c9/core.git c9sdk;
 	cd c9sdk;
 	sudo scripts/install-sdk.sh;
