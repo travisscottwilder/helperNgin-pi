@@ -68,6 +68,8 @@ freshInstall() {
 	
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	
+	sudo shutdown -h now;
 }
 
 
@@ -257,6 +259,7 @@ installC9() {
 	sudo scripts/install-sdk.sh;
 	ln -s /usr/local/c9sdk/server.js /home/tdub/launchc9.js;
 	
+	echo "sudo /home/tdub/launchc9.js -w / -l 0.0.0.0 -p 9191 -a :;"
   
   return;
   
