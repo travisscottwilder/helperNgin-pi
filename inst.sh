@@ -229,9 +229,9 @@ installOLEDScreenPythonThree() {
 	sudo apt-get install python3-pil;
 	
 	git clone https://github.com/mklements/OLED_Stats.git;
+	
+	#wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py;
 
-	cd OLED_Stats;
-	python3 /home/tdub/OLED_Stats/monitor.py;
 	
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
