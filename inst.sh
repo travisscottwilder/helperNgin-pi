@@ -391,16 +391,16 @@ drawOptionsMenu(){
 	echo "-----    ${blue}Available Options${green}    -----"
 	echo "------------------------------------------------"
 	echo ""
-	echo "${blue} 1 ${green} |${resetColor} Full Install"
 	echo ""
-	echo "${blue} 2 ${green} |${resetColor} Fresh Install Cleanup & misc Utils"
-	echo "${blue} 3 ${green} |${resetColor} Install NodeJS & Utils"
-	echo "${blue} 4 ${green} |${resetColor} Install Argo Case Fan Script"
-	echo "${blue} 5 ${green} |${resetColor} GPIO Python Libs"
-	echo "${blue} 6 ${green} |${resetColor} OLED Screen Python Libs"
-	echo "${blue} 7 ${green} |${resetColor} Cloud9 IDE"
-	echo "${blue} 8 ${green} |${resetColor} Add new port to firewall"
-	echo "${blue} 9 ${green} |${resetColor} Mount external USB & automount it"
+	echo "${blue} 1 ${green} |${resetColor} Fresh Install Cleanup & misc Utils"
+	echo "${blue} 2 ${green} |${resetColor} Install NodeJS & Utils"
+	echo "${blue} 3 ${green} |${resetColor} Install Argo Case Fan Script"
+
+	echo "${blue} 4 ${green} |${resetColor} OLED Screen Python Libs"
+	echo "${blue} 5 ${green} |${resetColor} Cloud9 IDE"
+	
+	#echo "${blue} 6 ${green} |${resetColor} Add new port to firewall"
+	#echo "${blue} 7 ${green} |${resetColor} Mount external USB & automount it"
 	echo "";
 	echo "${blue} q ${green} |${red} Quit${resetColor}"
 	
@@ -408,30 +408,27 @@ drawOptionsMenu(){
 	
 	
 	while true; do
-		read -p "${yellow}--- Select an option to continue [2-9] --------------------------------------------${resetColor}" yn
+		read -p "${yellow}--- Select an option to continue [1-7] --------------------------------------------${resetColor}" yn
 		case $yn in
 
-			[2]* ) 
+			[1]* ) 
 				exe_twoFresh=true;
 				exe_actionDone="2) Cleaned up & misc Utils";
 				break;;
-			[3]* ) 
+			[2]* ) 
 				exe_threeInstallNode=true;
 				exe_actionDone="3) Installed NodeJS";
 				break;;
-			[4]* ) 
+			[3]* ) 
 				exe_fourArgo=true;
 				exe_actionDone="4) Installed ARGO metal case fan script";
 				break;;
-			[5]* ) 
-				exe_fiveGPIOpython=true;
-				exe_actionDone="5) Installed GPIO Python Library";
-				break;;
-			[6]* ) 
+
+			[4]* ) 
 				exe_sixoLED=true;
 				exe_actionDone="6) Installed OLED";
 				break;;
-			[7]* ) 
+			[5]* ) 
 				exe_sevenC9=true;
 				exe_actionDone="7) Created C9 IDE";
 				break;;
