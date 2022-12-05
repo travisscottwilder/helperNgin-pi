@@ -267,7 +267,6 @@ installC9() {
 	cd c9sdk;
 	sudo scripts/install-sdk.sh;
 
-	forever start /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass
 	
 	echo "sudo su;crontab -e;";
 	echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass < /dev/null &";
