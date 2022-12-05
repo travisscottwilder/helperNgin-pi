@@ -73,8 +73,8 @@ freshInstall() {
 	
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
-	
-	sudo shutdown -h now;
+	echo "rebooting";
+	sudo reboot now;
 }
 
 
@@ -184,6 +184,7 @@ installOLEDScreenPythonOne() {
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
+	echo "reboot";
 	sudo reboot
 }
 
@@ -209,6 +210,7 @@ installOLEDScreenPythonTwo() {
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
+	echo "rebooting";
 	sudo reboot;
 }
 
