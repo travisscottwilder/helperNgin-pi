@@ -299,14 +299,15 @@ installC9() {
 	
 	
 	sudo apt-get install -y python2;
-	sudo npm install -g --save optimist
+	sudo npm install -g --save optimist;
+	sudo npm install forever -g;
 	sudo ufw allow ${c9portToUse};
 	
 	cd ~;wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz;
-	cd /usr/local
+	cd /usr/local;
 
-	tar -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz --strip=1
-	export NODE_PATH="/usr/local/lib/node_modules"
+	tar -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz --strip=1;
+	export NODE_PATH="/usr/local/lib/node_modules";
 	
 	
 	
