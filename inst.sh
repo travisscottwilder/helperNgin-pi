@@ -91,14 +91,7 @@ installNodeJS() {
 	echo "";
 	echo "${blue}--- Install NodeJS --------------------------------------------${resetColor}"
 
-	
-	#sudo apt remove node -y;sudo apt remove nodejs -y;sudo apt remove npm -y;
-	#cd ~;curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -;
-	
-	
-	#sudo npm install pip3 -y;
-	#sudo npm install;sudo npm install rpio --save;
-
+	sudo npm install -g rpio --save;
 
 	sudo apt-get install -y nodejs;
 	sudo apt-get install -y python3-pip;
@@ -158,52 +151,15 @@ installGPIOPythonLibs() {
 	echo "";
 	echo "${blue}--- Install GPIO Python Libs --------------------------------------------${resetColor}"
 
-	sudo npm install rpio --save;
-	sudo npm install rpio;
+	sudo npm install -g rpio --save;
+	sudo npm install -g rpio;
 	drawTimeElapsed
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	
 	drawTimeElapsed
-	
-	#ACCESS GPIO PINS
-	#ACCESS GPIO PINS
-	#ACCESS GPIO PINS
 
-	#enable i2c and SPI interfaces
-	#sudo raspi-config
-	#	-> Interface Options -> enable I2C and SPI
 
-	#confirm interfaces on are on -> will return something like "XXX_bcm24323"
-	#lsmod | grep i2c_
-	#lsmod | grep spi_
-	
-	
-	
-	
-	
-	#NODE EXAMPLE
-	#git clone https://github.com/tutRPi/Raspberry-Pi-Simple-Web-GPIO-GUI;cd Raspberry-Pi-Simple-Web-GPIO-GUI;npm install;sudo npm start;
-	#	-> then go to the node project in the web browser 
-	#		-> WEBSITE.com/Raspberry-Pi-Simple-Web-GPIO-GUI
-
-	#npm install rpio --save;
-	#npm install rpio;
-	#https://github.com/jperkin/node-rpio/blob/master/examples/blink.js
-	
-	
-	#import the GPIO and time package
-	#import RPi.GPIO as GPIO
-	#import time
-	#GPIO.setmode(GPIO.BOARD)
-	#GPIO.setup(7, GPIO.OUT)
-	# loop through 50 times, on/off for 1 second
-	#for i in range(50):
-	#	GPIO.output(7,True)
-	#	time.sleep(1)
-	#	GPIO.output(7,False)
-	#	time.sleep(1)
-	#GPIO.cleanup()	
 	
 }
 
@@ -295,7 +251,6 @@ installC9() {
 	
 	sudo apt-get install -y python2;
 	sudo npm install -g --save optimist;
-	sudo npm install forever -g;
 	sudo ufw allow ${c9portToUse};
 	
 	cd ~;wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz;
