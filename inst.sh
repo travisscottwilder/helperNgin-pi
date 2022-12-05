@@ -267,24 +267,19 @@ installOLEDScreenPythonThree() {
 	echo "${blue}--- Install OLED Screen Python Scripts & Libs THREE [C] --------------------------------------------${resetColor}"
 
 
-	cd ~;
+	cd /home/tdub;
 	sudo apt-get install python3-pil;
 	
 	git clone https://github.com/mklements/OLED_Stats.git;
-	
+
 	cd OLED_Stats;
-	cp PixelOperator.ttf ~/PixelOperator.ttf
-	cp stats.py ~/stats.py
-	
-	cp psutilstats.py ~/psutilstats.py
-	cp lineawesome-webfont.ttf ~/lineawesome-webfont.ttf
-	cp monitor.py ~/monitor.py
-	
-	python3 /home/tdub/monitor.py;
+	python3 /home/tdub/OLED_Stats/monitor.py;
 	
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 
+	echo "crontab -e;"
+	echo "@reboot python3 /home/tdub/OLED_Stats/monitor.py &";
 }
 
 
