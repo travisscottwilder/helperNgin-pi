@@ -88,15 +88,14 @@ installNodeJS() {
 	#sudo apt remove node -y;sudo apt remove nodejs -y;sudo apt remove npm -y;
 	#cd ~;curl -sL https://deb.nodesource.com/setup_16.x | sudo -E bash -;
 	
-	#sudo apt-get install -y nodejs;
+	
 	#sudo npm install pip3 -y;
 	#sudo npm install;sudo npm install rpio --save;
 
 
-
+	sudo apt-get install -y nodejs;
 	sudo apt-get install -y python3-pip;
 	sudo pip3 install --upgrade setuptools;
-	sudo apt-get install -y nodejs;
 	sudo apt-get install -y npm;
 
 
@@ -245,12 +244,11 @@ installC9() {
 	sudo npm install -g --save optimist
 	sudo ufw allow ${c9portToUse};
 	
-	#cd ~;wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz;
+	cd ~;wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz;
 	cd /usr/local
 
-	#tar -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz --strip=1
-
-	#export NODE_PATH="/usr/local/lib/node_modules"
+	tar -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz --strip=1
+	export NODE_PATH="/usr/local/lib/node_modules"
 	
 	
 	
