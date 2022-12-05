@@ -278,7 +278,7 @@ installOLEDScreenPythonThree() {
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 
-	echo "crontab -e;"
+	echo "crontab -e AS YOUR DEFAULT USER"
 	echo "@reboot python3 /home/tdub/OLED_Stats/monitor.py &";
 }
 
@@ -309,37 +309,12 @@ installC9() {
 	git clone https://github.com/c9/core.git c9sdk;
 	cd c9sdk;
 	sudo scripts/install-sdk.sh;
-	#ln -s /usr/local/c9sdk/server.js /home/tdub/launchc9.js;
-	
+
 	forever start /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass
 	
-	#echo "sudo /home/tdub/launchc9.js -w / -l 0.0.0.0 -p 9191 -a :;"
-  	
-  return;
-  
-	#sudo yum update -y;
-	#sudo yum -y install epel-release npm;
-	#drawTimeElapsed
-	#sudo yum -y groupinstall 'Development Tools';
-	#sudo yum -y install make nodejs git gcc glibc-static ncurses-devel;
-	#drawTimeElapsed
-	
-	#cd /home/$userToUse;
-	
-	
-	#npm install forever -g;
-	#drawTimeElapsed
-	#npm i forever -g;
-	
-	#chmod 777 /var/www -R;
+	echo "sudo su;crontab -e;";
+	echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass < /dev/null &";
 
-	#su -c 'git clone https://github.com/c9/core.git c9sdk;cd c9sdk; pwd;scripts/install-sdk.sh;' $userToUse
-	#drawTimeElapsed
-	#su -c "forever start /home/$userToUse/c9sdk/server.js -w /var/www -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass;" $userToUse
-
-	# node start /home/USER/c9sdk/server.js -w /var/www -l 0.0.0.0 -p 9191 -a username:passwordhere;
-	#-> forever stop /home/USER/c9sdk/server.js;
-	
 }
 
 
