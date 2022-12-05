@@ -246,8 +246,8 @@ installOLEDScreenPythonTwo() {
 	wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py;
 	sudo python3 raspi-blinka.py
 	
-	sudo pip3 install -adafruit-circuitpython-ssd1306
-	sudo pip3 install -psutil
+	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306
+	sudo pip3 install --upgrade psutil
 	
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
