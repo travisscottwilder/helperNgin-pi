@@ -16,6 +16,9 @@ resetColor=$'\e[0m'
 
 exe_twoFresh=false;
 exe_threeInstallNode=false;
+exe_nodeA=false;
+exe_nodeB=false;
+exe_nodeC=false;
 exe_fourArgo=false;
 exe_fiveGPIOpython=false;
 exe_sixoLED=false;
@@ -211,24 +214,75 @@ installGPIOPythonLibs() {
 #
 #
 #
-installOLEDScreenPython() {
+installOLEDScreenPythonOne() {
 	echo "";
-	echo "${blue}--- Install OLED Screen Python Scripts & Libs --------------------------------------------${resetColor}"
+	echo "${blue}--- Install OLED Screen Python Scripts & Libs ONE [A]--------------------------------------------${resetColor}"
 
 
 	cd ~;
+	sudo apt-get install -y python3-pip;
+	
 	sudo pip3 nstall --upgrade adafruit-python-shell
-	#wget TODO
-	
-	drawTimeElapsed
-	
-	
-	
-	
-	drawTimeElapsed
 	
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	
+	sudo reboot
+}
+
+#
+#
+#
+#
+#
+#
+installOLEDScreenPythonTwo() {
+	echo "";
+	echo "${blue}--- Install OLED Screen Python Scripts & Libs TWO [B]--------------------------------------------${resetColor}"
+
+
+	cd ~;
+	wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blanka.py;
+	sudo python3 raspi-blinka.py
+	
+	sudo pip3 install -y adafruit-circuitpython-ssd1306
+	sudo pip3 install -y psutil
+	
+	
+	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	
+	sudo reboot;
+}
+
+#
+#
+#
+#
+#
+#
+installOLEDScreenPythonThree() {
+	echo "";
+	echo "${blue}--- Install OLED Screen Python Scripts & Libs THREE [C] --------------------------------------------${resetColor}"
+
+
+	cd ~;
+	sudo apt-get install python3-pil;
+	
+	git clone https://github.com/mklements/OLED_Stats.git;
+	
+	cd OLED_Stats;
+	cp PixelOperator.ttf ~/PixelOperator.ttf
+	cp stats.py ~/stats.py
+	
+	cp psutilstats.py ~/psutilstats.py
+	cp lineawesome-webfont.ttf ~/lineawesome-webfont.ttf
+	cp monitor.py ~/monitor.py
+	
+	python3 /home/tdub/monitor.py;
+	
+	
+	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+
 }
 
 
@@ -506,6 +560,34 @@ echo "";
 echo "";
 
 
+if [ "$exe_sixoLED" = true ]; then
+
+	while true; do
+		read -p "${yellow}--- What mode of the OLED install would you like to do?? [all/a/b/c] --------------------------------------------${resetColor}" yn
+		case $yn in
+			[allALL]* )  exe_nodeA=true;
+				exe_nodeB=true;
+				exe_nodeC=true;
+				break;;
+			[aA]* )  exe_nodeA=true;
+				break;;
+			[bB]* ) exe_nodeB=true;
+				break;;
+			[cC]* ) exe_nodeC=true;
+				break;;
+			* ) echo "Please answer [y/n].";;
+		esac
+	done
+fi
+
+
+
+
+
+
+
+
+
 
 if [ "$exe_twoFresh" = true ]; then
 	freshInstall
@@ -526,7 +608,15 @@ fi
 
 
 if [ "$exe_sixoLED" = true ]; then
-	installOLEDScreenPython
+	if [ "$exe_nodeA" = true ]; then
+		installOLEDScreenPythonOne
+	fi
+	if [ "$exe_nodeB" = true ]; then
+		installOLEDScreenPythonTwo
+	fi
+	if [ "$exe_nodeC" = true ]; then
+		installOLEDScreenPythonThree
+	fi
 fi
 
 if [ "$exe_sixMYSQLUSER" = true ]; then
