@@ -311,6 +311,9 @@ drawIntroScreen(){
 drawOptionsMenu(){
 	drawIntroScreen
 	
+	echo "";
+	
+	echo "${red} NOTE - This helper was created to be used on Raspberry pi OS lite 32bit. ${resetColor}"	
 	echo "${green}";
 	
 	echo "------------------------------------------------"
@@ -448,21 +451,6 @@ drawTimeElapsed(){
 
 
 drawIntroScreen;
-
-
-
-echo "${red} NOTE - This helper was created to be used on Raspberry pi OS lite 32bit. ${resetColor}"
-echo "";
-
-while true; do
-	read -p "${yellow}--- Would you like to continue? [y/n] --------------------------------------------${resetColor}" yn
-	case $yn in
-		[Yy]* )  
-			break;;
-		[Nn]* ) exit;;
-		* ) echo "Please answer [y/n].";;
-	esac
-done
 
 
 
