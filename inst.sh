@@ -26,6 +26,8 @@ exe_sevenC9=false;
 
 exe_actionDone="NA";
 
+c9userPass="";
+userToUse="";
 c9portToUse=9191;
 
 
@@ -156,9 +158,11 @@ installGPIOPythonLibs() {
 	echo "";
 	echo "${blue}--- Install GPIO Python Libs --------------------------------------------${resetColor}"
 
-	
+	sudo npm install rpio --save;
+	sudo npm install rpio;
 	drawTimeElapsed
 	
+	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	
 	#ACCESS GPIO PINS
 	#ACCESS GPIO PINS
@@ -186,10 +190,6 @@ installGPIOPythonLibs() {
 	#https://github.com/jperkin/node-rpio/blob/master/examples/blink.js
 	
 	
-	
-	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
-	
-	
 	#import the GPIO and time package
 	#import RPi.GPIO as GPIO
 	#import time
@@ -202,7 +202,6 @@ installGPIOPythonLibs() {
 	#	GPIO.output(7,False)
 	#	time.sleep(1)
 	#GPIO.cleanup()	
-	
 	
 }
 
@@ -221,11 +220,11 @@ installOLEDScreenPythonOne() {
 
 	cd ~;
 	sudo apt-get install -y python3-pip;
-	
-	sudo pip3 nstall --upgrade adafruit-python-shell
+	sudo pip3 install --upgrade adafruit-python-shell
 	
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	drawIntroScreen
 	
 	sudo reboot
 }
@@ -250,6 +249,7 @@ installOLEDScreenPythonTwo() {
 	
 	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	drawIntroScreen
 	
 	sudo reboot;
 }
@@ -311,10 +311,12 @@ installC9() {
 	git clone https://github.com/c9/core.git c9sdk;
 	cd c9sdk;
 	sudo scripts/install-sdk.sh;
-	ln -s /usr/local/c9sdk/server.js /home/tdub/launchc9.js;
+	#ln -s /usr/local/c9sdk/server.js /home/tdub/launchc9.js;
 	
-	echo "sudo /home/tdub/launchc9.js -w / -l 0.0.0.0 -p 9191 -a :;"
-  
+	forever start /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass
+	
+	#echo "sudo /home/tdub/launchc9.js -w / -l 0.0.0.0 -p 9191 -a :;"
+  	
   return;
   
 	#sudo yum update -y;
@@ -561,7 +563,6 @@ echo "";
 
 
 if [ "$exe_sixoLED" = true ]; then
-
 	while true; do
 		read -p "${yellow}--- What mode of the OLED install would you like to do?? [all/a/b/c] --------------------------------------------${resetColor}" yn
 		case $yn in
@@ -581,6 +582,18 @@ if [ "$exe_sixoLED" = true ]; then
 fi
 
 
+if [ "$exe_sevenC9" = true ]; then
+	echo "";
+	echo "";
+	echo "${yellow}--- Enter in the name of the user to create for C9 --------------------------------------------${resetColor}"
+	echo "";
+	read userToUse
+	
+	echo "";
+	echo "";
+	echo "${yellow}--- Enter in the password for ${red}C9${yellow} user [$userToUse] about to be created in order to access IDE --------------------------------------------${resetColor}"
+	read c9userPass
+fi
 
 
 
