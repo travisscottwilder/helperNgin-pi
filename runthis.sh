@@ -358,6 +358,7 @@ drawIntroScreen(){
 #
 # adds this script to the cronjob for root user
 addSelfToCron(){
+	log "adding self to cron";
 	{ crontab -l -u root; echo '@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a tdub:tdubc9 < /dev/null &'; } | crontab -u root -
 }
 
@@ -451,7 +452,7 @@ drawOptionsMenu(){
 			"16") 
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Python Libs";
-				#TODO TO REBOOT CRON
+				addSelfToCron
 				break;;
 			
 			
@@ -464,20 +465,20 @@ drawOptionsMenu(){
 				exe_15=true;
 				exe_16=true;
 				exe_actionDone="Install All";
-				#TODO TO REBOOT CRON
+				addSelfToCron
 				break;;
 			"2") 
 				exe_12=true;
 				exe_13=true;
 				exe_actionDone="Install Web Tools [NodeJS,Cloud9 IDE]";
-				#TODO TO REBOOT CRON
+				addSelfToCron
 				break;;
 			"3") 
 				exe_14=true;
 				exe_15=true;
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]";
-				#TODO TO REBOOT CRON
+				addSelfToCron
 				break;;
 			
 			
