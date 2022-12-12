@@ -280,7 +280,7 @@ installOLEDScreenPythonTwo() {
 #
 #
 installC9() {
-	log "${blue}--- Install OLED Screen Python Scripts & Libs TWO [B]--------------------------------------------${resetColor}"
+	log "${blue}--- Install Cloud 9 web IDE --------------------------------------------${resetColor}"
 	
 	sudo apt-get install -y python2 | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo npm install -g --save optimist | tee -a "$SCRIPTPATH"/logs/runthis.log;
@@ -292,9 +292,8 @@ installC9() {
 
 	tar -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz --strip=1 | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	export NODE_PATH="/usr/local/lib/node_modules";
-	
-	
-	cd ~;
+
+
 	git clone https://github.com/c9/core.git c9sdk | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	cd c9sdk;
 	sudo scripts/install-sdk.sh | tee -a "$SCRIPTPATH"/logs/runthis.log;
@@ -637,46 +636,53 @@ fi
 
 
 if [ "$exe_11" = true ]; then
-	freshInstallWithUtils
+	save "xprogressx=1.0";
+	freshInstallWithUtils;
+	save "xprogressx=11.done";
 fi
 
 
 if [ "$exe_12" = true ]; then
-	installNodeJS
+	save "xprogressx=12.0";
+	installNodeJS;
+	save "xprogressx=12.done";
 fi
 
 
 
 if [ "$exe_13" = true ]; then
-	installC9
+	save "xprogressx=13.0";
+	installC9;
+	save "xprogressx=13.done";
 fi
 
 
 if [ "$exe_14" = true ]; then
-	installARGOFanScript
+	save "xprogressx=1.0";
+	installARGOFanScript;
 fi
 
 
 if [ "$exe_15" = true ]; then
 	if [ "$exe_nodeA" = true ]; then
-		installOLEDScreenPythonOne
+		installOLEDScreenPythonOne;
 	fi
 	if [ "$exe_nodeB" = true ]; then
-		installOLEDScreenPythonTwo
+		installOLEDScreenPythonTwo;
 	fi
 	if [ "$exe_nodeC" = true ]; then
-		installOLEDScreenPythonThree
+		installOLEDScreenPythonThree;
 	fi
 fi
 
 
 if [ "$exe_16" = true ]; then
-	installGPIOPythonLibs
+	installGPIOPythonLibs;
 fi
 
 
 
 
-drawSummary
-
+drawSummary;
+save "Done";log "Done";
 save $log_marker; #end markers
