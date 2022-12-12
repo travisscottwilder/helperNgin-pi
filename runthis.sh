@@ -591,6 +591,12 @@ loadConfig() {
 		fi
 	done
 
+
+	#if we have a sub level of done then we need to increase our highest level by 1 in order to "move it along"
+	if [[ highestSubLvlCompleted == 'done' ]; then
+		highestLevelCompleted=$((highestLevelCompleted+1));
+	fi
+
 }
 
 
@@ -662,7 +668,7 @@ log "";
 log "";
 
 
-if (( $highestLevelCompleted < 11 )); then
+if (( $highestLevelCompleted < 11 || highestLevelCompleted == 0)); then
 	if [ "$exe_11" = true ]; then
 		save "xprogressx=11.0;";
 		freshInstallWithUtils;
@@ -671,7 +677,7 @@ if (( $highestLevelCompleted < 11 )); then
 fi
 
 
-if (( $highestLevelCompleted < 12 )); then
+if (( $highestLevelCompleted < 12 || highestLevelCompleted == 0)); then
 	if [ "$exe_12" = true ]; then
 		save "xprogressx=12.0;";
 		installNodeJS;
@@ -680,7 +686,7 @@ if (( $highestLevelCompleted < 12 )); then
 fi
 
 
-if (( $highestLevelCompleted < 13 )); then
+if (( $highestLevelCompleted < 13 || highestLevelCompleted == 0)); then
 	if [ "$exe_13" = true ]; then
 		save "xprogressx=13.0;";
 		installC9;
@@ -689,7 +695,7 @@ if (( $highestLevelCompleted < 13 )); then
 fi
 
 
-if (( $highestLevelCompleted < 14 )); then
+if (( $highestLevelCompleted < 14 || highestLevelCompleted == 0)); then
 	if [ "$exe_14" = true ]; then
 		save "xprogressx=14.0";
 		installARGOFanScript;
@@ -698,7 +704,7 @@ if (( $highestLevelCompleted < 14 )); then
 fi
 
 
-if (( $highestLevelCompleted < 15 )); then
+if (( $highestLevelCompleted < 15 || highestLevelCompleted == 0)); then
 	if [ "$exe_15" = true ]; then
 
 		if (( $highestSubLvlCompleted < 15 )); then
@@ -712,7 +718,7 @@ if (( $highestLevelCompleted < 15 )); then
 fi
 
 
-if (( $highestLevelCompleted < 16 )); then
+if (( $highestLevelCompleted < 16 || highestLevelCompleted == 0)); then
 	if [ "$exe_16" = true ]; then
 		save "xprogressx=16.0";
 		installGPIOPythonLibs;
