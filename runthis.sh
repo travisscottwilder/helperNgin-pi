@@ -43,7 +43,7 @@ userToUse="";
 askForOptions=true;
 
 c9portToUse=9191;
-log_marker="xxxxxxxxxx";
+log_marker="xxxxxBREAKxxxxx"; #NOTE also hard coded in a couple commands below
 
 
 
@@ -543,12 +543,12 @@ drawTimeElapsed(){
 #	NOTE THE MARKER IS HARD CODED IDK HOW TO USE A VARIABLE
 #
 loadConfig() {
-	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxxxxxx/{flag = 1};' | tac);
+	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxBREAKxxxxx/{flag = 1};' | tac);
 
 
 	for line in ${CONTENT//;/ }
 	do
-		if [ "$line" != "xxxxxxxxxx" ]; then
+		if [ "$line" != "xxxxxBREAKxxxxx" ]; then
 
 			IFS='=' read -r -a configVar <<< "$line"
 
