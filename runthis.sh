@@ -367,7 +367,7 @@ drawOptionsMenu(){
 	log ""
 	log ""
 	log "${resetColor}-------------------";
-	log "------ Multi Install ----------------------";
+	log "------ Multi Install -------------------";
 	log "-------------------";
 	log ""
 	log "${blue} 1 ${green} |${resetColor} Install All"
@@ -377,7 +377,7 @@ drawOptionsMenu(){
 	log ""
 	log ""
 	log "${resetColor}-------------------";
-	log "------ Individual Install ----------------------";
+	log "------ Individual Install -------------------";
 	log "-------------------";
 	log ""
 	log "${blue} 11 ${green} |${resetColor} System Update & Install Utils [nano,bc,ufw firewall,fail2ban auto ban,git]"
@@ -390,7 +390,7 @@ drawOptionsMenu(){
 	log "${blue} 16 ${green} |${resetColor} Install Pi GPIO Python Libs"
 	log "";
 	log "${resetColor}-------------------";
-	log "------ OTHER ----------------------";
+	log "------ OTHER -------------------";
 	log "-------------------";
 	log "";
 	log "${blue} 16 ${green} |${resetColor} Add new port to firewall"
@@ -398,15 +398,9 @@ drawOptionsMenu(){
 	
 	log "";
 	log "${resetColor}-------------------";
-	log "------ ${blue} q ${green} |${red} Quit${resetColor} ------------------";
+	log "------ ${blue} q ${green} |${red} Quit${resetColor} ---------------";
 	log "-------------------";
-	log "";
-
-
-#	log "${blue} X ${green} |${resetColor}"
-#	log "${blue} X ${green} |${resetColor}"
-#	log "${blue} X ${green} |${resetColor}"
-	
+	log "";	
 	
 	
 	
