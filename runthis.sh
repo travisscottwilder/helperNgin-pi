@@ -129,7 +129,7 @@ freshInstallWithUtils() {
 	log "rebooting";
 	log "rebooting";
 	log "rebooting";
-	save "xprogressx=11.done";
+	save "xprogressx=11.done;";
 	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
 
@@ -237,7 +237,7 @@ installOLEDScreenPythonOne() {
 	
 	log "rebooting";
 	log "rebooting";
-	save "xprogressx=15.3";
+	save "xprogressx=15.3;";
 	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
 
@@ -271,7 +271,7 @@ installOLEDScreenPythonTwo() {
 	log "rebooting";
 	log "rebooting";
 	log "rebooting";
-	save "xprogressx=15.6";
+	save "xprogressx=15.6;";
 	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
 
@@ -668,27 +668,27 @@ log "";
 
 if (( $highestLevelCompleted < 11 )); then
 	if [ "$exe_11" = true ]; then
-		save "xprogressx=11.0";
+		save "xprogressx=11.0;";
 		freshInstallWithUtils;
-		save "xprogressx=11.done";
+		save "xprogressx=11.done;";
 	fi
 fi
 
 
 if (( $highestLevelCompleted < 12 )); then
 	if [ "$exe_12" = true ]; then
-		save "xprogressx=12.0";
+		save "xprogressx=12.0;";
 		installNodeJS;
-		save "xprogressx=12.done";
+		save "xprogressx=12.done;";
 	fi
 fi
 
 
 if (( $highestLevelCompleted < 13 )); then
 	if [ "$exe_13" = true ]; then
-		save "xprogressx=13.0";
+		save "xprogressx=13.0;";
 		installC9;
-		save "xprogressx=13.done";
+		save "xprogressx=13.done;";
 	fi
 fi
 
@@ -710,7 +710,7 @@ if (( $highestLevelCompleted < 15 )); then
 		if (( $highestSubLvlCompleted < 15 )); then
 			installOLEDScreenPythonTwo
 		else
-			save "xprogressx=15.done";
+			save "xprogressx=15.done;";
 		fi
 	fi
 fi
@@ -720,7 +720,7 @@ if (( $highestLevelCompleted < 16 )); then
 	if [ "$exe_16" = true ]; then
 		save "xprogressx=16.0";
 		installGPIOPythonLibs;
-		save "xprogressx=16.done";
+		save "xprogressx=16.done;";
 	fi
 fi
 
