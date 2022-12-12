@@ -591,12 +591,11 @@ loadConfig() {
 
 				lastLvl=$lvl;
 			else
-
-				log "setting ${configVar[0]}"
+				#log "setting ${configVar[0]}"
 
 				case ${configVar[0]} in
 					"exe_11") exe_11="${configVar[1]}" ;;
-					"exe_12") exe_12="${configVar[1]}";log "tdub testing yes?"; ;;
+					"exe_12") exe_12="${configVar[1]}" ;;
 					"exe_13") exe_13="${configVar[1]}" ;;
 					"exe_14") exe_14="${configVar[1]}" ;;
 					"exe_15") exe_15="${configVar[1]}" ;;
@@ -612,7 +611,7 @@ loadConfig() {
 		fi
 	done
 
-	log "config loading -> highest sub level: $highestSubLvlCompleted"
+	#log "config loading -> highest sub level: $highestSubLvlCompleted"
 
 	#If your sub level is not done then we failed the install and need to try again, lets subtract one to the highest complete to force it to run again
 	if [ $highestSubLvlCompleted != 'done' ]; then
@@ -640,7 +639,7 @@ loadConfig() {
 #check if there is progress to load
 loadConfig;
 
-log "highest level about to use is: $highestLevelCompleted"
+#log "highest level about to use is: $highestLevelCompleted"
 
 if (( $highestLevelCompleted == 0 )); then
 	save $log_marker; #start marker >> reset the progress if we are selecting a new one
@@ -682,7 +681,7 @@ if (( $highestLevelCompleted == 0 )); then
 	fi
 
 else
-	log "loaded from config resuming progress with current progress of: $highestLevelCompleted";
+	log "loaded from config resuming progress with current progress already done of: $highestLevelCompleted";
 fi
 
 
