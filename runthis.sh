@@ -535,13 +535,18 @@ drawTimeElapsed(){
 
 
 
-getConfig() {
+loadConfig() {
 
 	CONTENT=$(sed -n -e "/$log_marker/,$p")
 
 	echo "saved params $CONTENT";
 
-	return false;
+
+	#export IFS=";"
+	#sentence="one;two;three"
+	#for word in $sentence; do
+	#	echo "$word"
+	#done
 }
 
 
@@ -561,10 +566,7 @@ getConfig() {
 
 
 #check if there is progress to load
-
-if [ getConfig = true ]; then
-	echo "yes has config dudeg";
-fi
+loadConfig;
 
 
 
@@ -581,12 +583,12 @@ drawIntroScreen;
 drawOptionsMenu;
 
 #save settings picked
-save "exe_11=$exe_11";
-save "exe_12=$exe_12";
-save "exe_13=$exe_13";
-save "exe_14=$exe_14";
-save "exe_15=$exe_15";
-save "exe_16=$exe_16";
+save "exe_11=$exe_11;";
+save "exe_12=$exe_12;";
+save "exe_13=$exe_13;";
+save "exe_14=$exe_14;";
+save "exe_15=$exe_15;";
+save "exe_16=$exe_16;";
 
 
 
