@@ -612,9 +612,9 @@ loadConfig() {
 
 	log "config loading -> highest sub level: $highestSubLvlCompleted"
 
-	#if we have a sub level of done then we need to increase our highest level by 1 in order to "move it along"
-	if [ $highestSubLvlCompleted == 'done' ]; then
-		highestLevelCompleted=$((highestLevelCompleted+1));
+	#If your sub level is not done then we failed the install and need to try again, lets subtract one to the highest complete to force it to run again
+	if [ $highestSubLvlCompleted != 'done' ]; then
+		highestLevelCompleted=$((highestLevelCompleted-1));
 	fi
 
 }
