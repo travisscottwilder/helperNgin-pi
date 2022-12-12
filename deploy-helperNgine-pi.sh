@@ -14,7 +14,7 @@ sudo apt-get install git -y;
 
 
 #clone the actual repository that has all the files
-git clone git@github.com:travisscottwilder/helperNgin-pi.git;
+git clone https://github.com/travisscottwilder/helperNgin-pi.git
 
 
 #delete itself to clean things up
