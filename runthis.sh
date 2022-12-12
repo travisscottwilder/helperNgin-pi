@@ -409,7 +409,7 @@ drawOptionsMenu(){
 	
 	while true; do
 		read -p "${yellow}--- Select an option to continue --------------------------------------------${resetColor}" yn
-		userSelectedOption=yn;
+		userSelectedOption=$yn;
 		case $yn in
 			"11") 
 				exe_11=true;
@@ -609,7 +609,7 @@ loadConfig() {
 #
 # DEBUG
 #
-# sudo rm runthis.sh;sudo curl https://raw.githubusercontent.com/travisscottwilder/pi-installer/main/runthis.sh > runthis.sh;sudo chmod +x runthis.sh;sudo ./runthis.sh
+# cd ~;sudo chmod 777 helperNgin-pi;sudo chown tdub:tdub;cd helperNgin-pi;sudo rm runthis.sh;sudo curl https://raw.githubusercontent.com/travisscottwilder/pi-installer/main/runthis.sh > runthis.sh;sudo chmod +x runthis.sh;sudo ./runthis.sh
 #
 ###########################################
 ########################################################################
