@@ -56,9 +56,9 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 
 
 #
-#	echos to the user and logs inside logs/runme.log
+#	echos to the user and logs inside logs/runthis.log
 #
-log(){ echo $1 | tee -a "$SCRIPTPATH"/logs/runme.log; }
+log(){ echo $1 | tee -a "$SCRIPTPATH"/logs/runthis.log; }
 
 #
 # saves progress into logs/progress.log
@@ -77,45 +77,45 @@ freshInstallWithUtils() {
 	log "${blue}--- Fresh Install - updating System & Utils --------------------------------------------${resetColor}"
 
 
-	sudo apt-get update -y | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get update -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	drawTimeElapsed
 	
-	sudo apt-get upgrade -y | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get upgrade -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	drawTimeElapsed
 	
-	sudo apt-get clean | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo apt full-upgrade -y | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo apt-get clean | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get clean | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo apt full-upgrade -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo apt-get clean | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	
 	
 	#install nano
-	sudo apt-get install nano | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get install nano | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	
 	#install bc common tools
-	sudo apt-get install bc | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get install bc | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	drawTimeElapsed
 	
 	#INSTALL FIREWALL AND ALLOW OUR EXPECTED PORTS
-	sudo apt install ufw -y | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo ufw allow 22 | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo ufw allow 80 | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo ufw allow 443 | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo ufw enable | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt install ufw -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo ufw allow 22 | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo ufw allow 80 | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo ufw allow 443 | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo ufw enable | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	drawTimeElapsed
 	
 	#install brute force auto ban software
-	sudo apt install fail2ban -y | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo service fail2ban start | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt install fail2ban -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo service fail2ban start | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	
 	#install git
-	sudo apt-get install git -y | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get install git -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
@@ -123,7 +123,7 @@ freshInstallWithUtils() {
 	log "rebooting";
 	log "rebooting";
 	log "rebooting";
-	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
 
 
@@ -140,14 +140,14 @@ installNodeJS() {
 	log "";
 	log "${blue}--- Install NodeJS --------------------------------------------${resetColor}"
 
-	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
-	sudo apt-get install -y nodejs | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo apt-get install -y python3-pip | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo pip3 install --upgrade setuptools | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo apt-get install -y npm | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get install -y nodejs | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo apt-get install -y python3-pip | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo pip3 install --upgrade setuptools | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo apt-get install -y npm | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
-	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawTimeElapsed
@@ -176,7 +176,7 @@ installARGOFanScript() {
 	drawTimeElapsed
 	
 	curl https://download.argon40.com/argon1.sh | bash 
-	argonone-config | tee -a "$SCRIPTPATH"/logs/runme.log
+	argonone-config | tee -a "$SCRIPTPATH"/logs/runthis.log
 	
 	drawTimeElapsed
 
@@ -196,8 +196,8 @@ installGPIOPythonLibs() {
 	log "";
 	log "${blue}--- Install GPIO Python Libs --------------------------------------------${resetColor}"
 
-	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo npm install -g rpio | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo npm install -g rpio | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	drawTimeElapsed
 	
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
@@ -222,15 +222,15 @@ installOLEDScreenPythonOne() {
 
 
 	cd ~;
-	sudo apt-get install -y python3-pip | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo pip3 install --upgrade adafruit-python-shell | tee -a "$SCRIPTPATH"/logs/runme.log
+	sudo apt-get install -y python3-pip | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo pip3 install --upgrade adafruit-python-shell | tee -a "$SCRIPTPATH"/logs/runthis.log
 	
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
 	log "rebooting";
 	log "rebooting";
-	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
 
 #
@@ -246,12 +246,12 @@ installOLEDScreenPythonTwo() {
 
 	cd ~;
 	wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py;
-	sudo python3 raspi-blinka.py | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo python3 raspi-blinka.py | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
-	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306 | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo pip3 install --upgrade psutil | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306 | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo pip3 install --upgrade psutil | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
-	sudo apt-get install python3-pil | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get install python3-pil | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
@@ -263,7 +263,7 @@ installOLEDScreenPythonTwo() {
 	log "rebooting";
 	log "rebooting";
 	log "rebooting";
-	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
 
 
@@ -277,22 +277,22 @@ installOLEDScreenPythonTwo() {
 installC9() {
 	log "${blue}--- Install OLED Screen Python Scripts & Libs TWO [B]--------------------------------------------${resetColor}"
 	
-	sudo apt-get install -y python2 | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo npm install -g --save optimist | tee -a "$SCRIPTPATH"/logs/runme.log;
-	sudo ufw allow ${c9portToUse} | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get install -y python2 | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo npm install -g --save optimist | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo ufw allow ${c9portToUse} | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	cd ~;
-	wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz | tee -a "$SCRIPTPATH"/logs/runme.log;
+	wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	cd /usr/local;
 
-	tar -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz --strip=1 | tee -a "$SCRIPTPATH"/logs/runme.log;
+	tar -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz --strip=1 | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	export NODE_PATH="/usr/local/lib/node_modules";
 	
 	
 	cd ~;
-	git clone https://github.com/c9/core.git c9sdk | tee -a "$SCRIPTPATH"/logs/runme.log;
+	git clone https://github.com/c9/core.git c9sdk | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	cd c9sdk;
-	sudo scripts/install-sdk.sh | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo scripts/install-sdk.sh | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
 	
 	
