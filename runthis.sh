@@ -355,6 +355,18 @@ drawIntroScreen(){
 
 
 
+#
+# adds this script to the cronjob for root user
+addSelfToCron(){
+	{ crontab -l -u root; echo '@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a tdub:tdubc9 < /dev/null &'; } | crontab -u root -
+}
+
+#
+# removes this script from the cronjob of the root user
+removeSelfFromCron(){
+
+}
+
 
 
 #
