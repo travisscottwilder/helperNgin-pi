@@ -430,7 +430,7 @@ drawOptionsMenu(){
 				break;;
 			[5]* ) 
 				exe_sevenC9=true;
-				exe_actionDone=";
+				exe_actionDone="";
 				break;;
 			[qQquit]* ) exit;;
 			
