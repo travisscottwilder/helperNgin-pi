@@ -544,11 +544,18 @@ loadConfig() {
 	echo "saved params $CONTENT";
 	echo "";
 
-	#export IFS="Y-Yy"
+	#export IFS="yYYy"
 	#for line in $CONTENT; do
 	#	echo "";
 	#	echo "the line is: $line";
 	#	echo "";
+	#done
+
+	#variable=abc,def,ghij
+	#for line in ${CONTENT//yYYy/ }
+	#do
+		# call your procedure/other scripts here below
+	#	echo "the line is: $line"
 	#done
 
 
@@ -584,12 +591,12 @@ drawOptionsMenu;
 
 
 #save settings picked
-save "exe_11=$exe_11;Y-Yy";
-save "exe_12=$exe_12;Y-Yy";
-save "exe_13=$exe_13;Y-Yy";
-save "exe_14=$exe_14;Y-Yy";
-save "exe_15=$exe_15;Y-Yy";
-save "exe_16=$exe_16;;Y-Yy";
+save "exe_11=$exe_11;yYYy";
+save "exe_12=$exe_12;yYYy";
+save "exe_13=$exe_13;yYYy";
+save "exe_14=$exe_14;yYYy";
+save "exe_15=$exe_15;yYYy";
+save "exe_16=$exe_16;;yYYy";
 
 
 
