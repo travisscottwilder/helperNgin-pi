@@ -727,10 +727,10 @@ fi
 
 if (( $highestLevelCompleted < 15 || highestLevelCompleted == 0)); then
 	if [ "$exe_15" = true ]; then
-
-		if (( $highestSubLvlCompleted < 15 )); then
+		save "xprogressx=15.0";
+		if (( $highestSubLvlCompleted < 3 )); then
 			installOLEDScreenPythonOne
-		elif (( $highestSubLvlCompleted < 15 )); then
+		elif (( $highestSubLvlCompleted < 6 )); then
 			installOLEDScreenPythonTwo
 		else
 			save "xprogressx=15.done;";
