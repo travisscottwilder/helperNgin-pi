@@ -359,11 +359,12 @@ drawIntroScreen(){
 # adds this script to the cronjob for root user
 addSelfToCron(){
 	log "adding self to cron";
-	#{ crontab -l -u root; echo '@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a tdub:tdubc9 < /dev/null &'; } | crontab -u root -
+
+	#{ crontab -l -u root; echo '@reboot node /usr/local/c9sdk/server.jss -w / -l 0.0.0.0 -p 9191 -a tdub:tdubc9 < /dev/null &'; } | crontab -u root -
 
 
 	crontab "$SCRIPTPATH/lib/scriptcron"
-	echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a tdub:tdubc9 < /dev/null &" >> "$SCRIPTPATH/lib/scriptcron"
+	echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a tdub:tdubc9 < /dev/null &" > "$SCRIPTPATH/lib/scriptcron"
 
 
 }
@@ -373,7 +374,7 @@ addSelfToCron(){
 removeSelfFromCron(){
 	log "remove self from cron";
 
-	echo "" >> "$SCRIPTPATH/lib/scriptcron"
+	echo "" > "$SCRIPTPATH/lib/scriptcron"
 }
 
 
