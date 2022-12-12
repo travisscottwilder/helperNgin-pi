@@ -537,7 +537,7 @@ drawTimeElapsed(){
 
 loadConfig() {
 
-	CONTENT=$(sed -n -e "/$log_marker/,$p")
+	CONTENT=$(sed -n -e "/$log_marker/,$p $SCRIPTPATH/logs/progress.log");
 
 	echo "saved params $CONTENT";
 
@@ -547,7 +547,7 @@ loadConfig() {
 		echo "the line is: $line";
 	done
 
-	
+
 }
 
 
