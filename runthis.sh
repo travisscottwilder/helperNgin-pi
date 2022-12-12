@@ -54,7 +54,8 @@ SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in, thus /home/user/bin
 SCRIPTPATH=$(dirname "$SCRIPT")
 
-highestLevelCompleted = 0;
+highestLevelCompleted 	= 0;
+highestSubLvlCompleted 	= 0;
 
 
 
@@ -236,6 +237,7 @@ installOLEDScreenPythonOne() {
 	
 	log "rebooting";
 	log "rebooting";
+	save "xprogressx=15.3";
 	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
 
@@ -269,6 +271,7 @@ installOLEDScreenPythonTwo() {
 	log "rebooting";
 	log "rebooting";
 	log "rebooting";
+	save "xprogressx=15.6";
 	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
 
@@ -542,7 +545,6 @@ drawTimeElapsed(){
 loadConfig() {
 	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxBREAKxxxxx/{flag = 1};' | tac);
 
-	highestLevelCompleted = 0;
 
 	for line in ${CONTENT//;/ }
 	do
@@ -558,6 +560,12 @@ loadConfig() {
 				if [ "$lvl" > highestLevelCompleted ]; then
 					highestLevelCompleted = $lvl;
 				fi
+
+				if [ "$subLvl" > highestSubLvlCompleted ]; then
+					highestSubLvlCompleted = $subLvl;
+				fi
+				
+
 			else
 				echo "this is a general variable ${configVar[0]} with value ${configVar[1]}"
 
@@ -658,35 +666,16 @@ log "";
 
 
 
-if [ "$exe_six" = true ]; then
-	while true; do
-		read -p "${yellow}--- What mode of the OLED install would you like to do? [a/b/c] --------------------------------------------${resetColor}" yn
-		case $yn in
-			[aA]* )  exe_nodeA=true;
-				break;;
-			[bB]* ) exe_nodeB=true;
-				break;;
-			[cC]* ) exe_nodeC=true;
-				break;;
-			* ) log "Please answer [y/n].";;
-		esac
-	done
-fi
-
-
-
-
-
-if [ "$highestLevelCompleted" < 1 ]; then
+if [ "$highestLevelCompleted" < 11 ]; then
 	if [ "$exe_11" = true ]; then
-		save "xprogressx=1.0";
+		save "xprogressx=11.0";
 		freshInstallWithUtils;
 		save "xprogressx=11.done";
 	fi
 fi
 
 
-if [ "$highestLevelCompleted" < 2 ]; then
+if [ "$highestLevelCompleted" < 12 ]; then
 	if [ "$exe_12" = true ]; then
 		save "xprogressx=12.0";
 		installNodeJS;
@@ -695,7 +684,7 @@ if [ "$highestLevelCompleted" < 2 ]; then
 fi
 
 
-if [ "$highestLevelCompleted" < 3 ]; then
+if [ "$highestLevelCompleted" < 13 ]; then
 	if [ "$exe_13" = true ]; then
 		save "xprogressx=13.0";
 		installC9;
@@ -704,27 +693,35 @@ if [ "$highestLevelCompleted" < 3 ]; then
 fi
 
 
-if [ "$exe_14" = true ]; then
-	save "xprogressx=1.0";
-	installARGOFanScript;
-fi
-
-
-if [ "$exe_15" = true ]; then
-	if [ "$exe_nodeA" = true ]; then
-		installOLEDScreenPythonOne;
-	fi
-	if [ "$exe_nodeB" = true ]; then
-		installOLEDScreenPythonTwo;
-	fi
-	if [ "$exe_nodeC" = true ]; then
-		installOLEDScreenPythonThree;
+if [ "$highestLevelCompleted" < 14 ]; then
+	if [ "$exe_14" = true ]; then
+		save "xprogressx=14.0";
+		installARGOFanScript;
+		save "xprogressx=14.done";
 	fi
 fi
 
 
-if [ "$exe_16" = true ]; then
-	installGPIOPythonLibs;
+if [ "$highestLevelCompleted" < 15 ]; then
+	if [ "$exe_15" = true ]; then
+
+		if [ "$highestSubLvlCompleted" < 3 ]; then
+			installOLEDScreenPythonOne
+		else if [ "$highestSubLvlCompleted" < 6 ]; then
+			installOLEDScreenPythonTwo
+		else
+			save "xprogressx=15.done";
+		fi
+	fi
+fi
+
+
+if [ "$highestLevelCompleted" < 16 ]; then
+	if [ "$exe_16" = true ]; then
+		save "xprogressx=16.0";
+		installGPIOPythonLibs;
+		save "xprogressx=16.done";
+	fi
 fi
 
 
