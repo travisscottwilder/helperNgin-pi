@@ -258,6 +258,8 @@ installOLEDScreenPythonTwo() {
 	wget https://raw.githubusercontent.com/travisscottwilder/helperNgin-pi/main/lib/raspi-blinka.py;
 	sudo python3 raspi-blinka.py | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
+	sudo rm raspi-blinka.py;
+
 	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306 | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo pip3 install --upgrade psutil | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
