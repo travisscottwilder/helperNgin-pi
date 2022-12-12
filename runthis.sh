@@ -563,11 +563,13 @@ loadConfig() {
 				lvl=${progressSplit[0]}
 				subLvl=${progressSplit[1]}
 
-				if (( "$lvl" > highestLevelCompleted )); then
+				log "CHECKING LVL: $lvl | sublvl: $subLvl | highest $highestLevelCompleted | highestSub: $highestSubLvlCompleted";
+
+				if (( $lvl > highestLevelCompleted )); then
 					highestLevelCompleted=$lvl;
 				fi
 
-				if (( "$subLvl" > highestSubLvlCompleted )); then
+				if (( $subLvl > highestSubLvlCompleted )); then
 					highestSubLvlCompleted=$subLvl;
 				fi
 				
