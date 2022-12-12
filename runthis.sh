@@ -537,7 +537,11 @@ drawTimeElapsed(){
 
 loadConfig() {
 
-	CONTENT=$(sed -n -e "/$/,$p $SCRIPTPATH/logs/progress.log");
+	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /$log_marker/{flag = 1};' | tac);
+
+
+
+
 
 	echo "saved params $CONTENT";
 
@@ -584,12 +588,12 @@ drawIntroScreen;
 drawOptionsMenu;
 
 #save settings picked
-save "exe_11=$exe_11;";
-save "exe_12=$exe_12;";
-save "exe_13=$exe_13;";
-save "exe_14=$exe_14;";
-save "exe_15=$exe_15;";
-save "exe_16=$exe_16;";
+save "exe_11=$exe_11;;";
+save "exe_12=$exe_12;;";
+save "exe_13=$exe_13;;";
+save "exe_14=$exe_14;;";
+save "exe_15=$exe_15;;";
+save "exe_16=$exe_16;;";
 
 
 
