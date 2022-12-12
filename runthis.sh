@@ -185,7 +185,6 @@ installARGOFanScript() {
 	drawTimeElapsed
 	
 	curl https://download.argon40.com/argon1.sh | bash 
-	argonone-config | tee -a "$SCRIPTPATH"/logs/runthis.log
 	
 	drawTimeElapsed
 
