@@ -553,6 +553,9 @@ loadConfig() {
 			IFS='=' read -r -a configVar <<< "$line"
 
 			echo "variable ${configVar[0]} with value ${configVar[1]}"
+
+			#todo check for progress first
+			askForOptions=false;
 		fi
 	done
 
@@ -592,6 +595,8 @@ if [ "$askForOptions" == true ]; then
 	save "exe_14=$exe_14;";
 	save "exe_15=$exe_15;";
 	save "exe_16=$exe_16;";
+else
+	echo "loaded from config";
 fi
 
 
