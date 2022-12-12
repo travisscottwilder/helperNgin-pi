@@ -406,19 +406,19 @@ drawOptionsMenu(){
 			"11") 
 				exe_11=true;
 				exe_actionDone="System Update & Install Utils [nano,bc,ufw firewall,fail2ban auto ban,git]";
-				break;
+				break;;
 			"12") 
 				exe_12=true;
 				exe_actionDone="Install NodeJS & Utils";
-				break;
+				break;;
 			"13") 
 				exe_13=true;
 				exe_actionDone="Cloud9 IDE";
-				break;
+				break;;
 			"14") 
 				exe_14=true;
 				exe_actionDone="Install Argo Case Fan Script";
-				break;
+				break;;
 			"15") 
 				exe_15=true;
 				exe_actionDone="Install OLED Screen Python Libs";
@@ -426,7 +426,7 @@ drawOptionsMenu(){
 			"16") 
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Python Libs";
-				break;
+				break;;
 			
 			
 			
@@ -438,18 +438,18 @@ drawOptionsMenu(){
 				exe_15=true;
 				exe_16=true;
 				exe_actionDone="Install All";
-				break;
+				break;;
 			"2") 
 				exe_12=true;
 				exe_13=true;
 				exe_actionDone="Install Web Tools [NodeJS,Cloud9 IDE";
-				break;
+				break;;
 			"3") 
 				exe_14=true;
 				exe_15=true;
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]";
-				break;
+				break;;
 			
 			
 			[qQquit]* ) exit;;
