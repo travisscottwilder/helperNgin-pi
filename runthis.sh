@@ -551,6 +551,8 @@ drawTimeElapsed(){
 loadConfig() {
 	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxBREAKxxxxx/{flag = 1};' | tac);
 
+	lastLvl = 0;
+
 	for line in ${CONTENT//;/ }
 	do
 
@@ -562,15 +564,29 @@ loadConfig() {
 				lvl=${progressSplit[0]}
 				subLvl=${progressSplit[1]}
 
+
+				#calculate our sub level which might need resettings if it was previously set as done, or might need setting as done
+				if (( $lvl > $lastLvl )); then
+					subLvl=0;
+				else
+					if [ "$subLvl" == 'done' ]; then
+						highestSubLvlCompleted=$subLvl;
+					else
+						if (( $subLvl > highestSubLvlCompleted )); then
+							highestSubLvlCompleted=$subLvl;
+						fi
+					fi
+				fi
+
+
 				if (( $lvl > highestLevelCompleted )); then
 					highestLevelCompleted=$lvl;
 				fi
 
-				if (( $subLvl > highestSubLvlCompleted )); then
-					highestSubLvlCompleted=$subLvl;
-				fi
 				
-
+				
+				
+				lastLvl=$lvl;
 			else
 
 				case ${configVar[0]} in
@@ -730,5 +746,7 @@ fi
 
 
 drawSummary;
-save "Done >> end of file";log "Done >> end of file";
-save "$log_marker"; #end markers
+
+save "Done >> end of file";
+log "Done >> end of file";
+save "$log_marker";
