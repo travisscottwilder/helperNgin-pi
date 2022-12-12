@@ -13,8 +13,8 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 
 
 #small upgrade of the system
-#sudo apt-get update -y;
-#sudo apt-get install git -y;
+sudo apt-get update -y;
+sudo apt-get install git -y;
 
 
 #clone the actual repository that has all the files
