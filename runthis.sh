@@ -593,7 +593,7 @@ loadConfig() {
 
 
 	#if we have a sub level of done then we need to increase our highest level by 1 in order to "move it along"
-	if [[ highestSubLvlCompleted == 'done' ]; then
+	if [ highestSubLvlCompleted == 'done' ]; then
 		highestLevelCompleted=$((highestLevelCompleted+1));
 	fi
 
