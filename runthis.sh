@@ -42,6 +42,7 @@ c9userPass="";
 userToUse="";
 c9portToUse=9191;
 
+log_marker="----====^====----";
 
 # Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f "$0")
@@ -355,49 +356,41 @@ drawOptionsMenu(){
 	log ""
 	log ""
 	log ""
-	
+	log "-------------------";
+	log "------ Multi Install ----------------------";
+	log "-------------------";
+	log ""
 	log "${blue} 1 ${green} |${resetColor} Install All"
-	log ""
-	log ""
-	
 	log "${blue} 2 ${green} |${resetColor} Install Web Tools [NodeJS,Cloud9 IDE]"
-	log ""
-	log ""
-	
 	log "${blue} 3 ${green} |${resetColor} Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]"
 	log ""
 	log ""
 	log ""
-	
-
+	log "-------------------";
+	log "------ Individual Install ----------------------";
+	log "-------------------";
+	log ""
 	log "${blue} 11 ${green} |${resetColor} System Update & Install Utils [nano,bc,ufw firewall,fail2ban auto ban,git]"
-	
 	log "";
 	log "${blue} 12 ${green} |${resetColor} Install NodeJS & Utils"
 	log "${blue} 13 ${green} |${resetColor} Cloud9 IDE"
-	
 	log "";
 	log "${blue} 14 ${green} |${resetColor} Install Argo Case Fan Script"
 	log "${blue} 15 ${green} |${resetColor} Install OLED Screen Python Libs"
 	log "${blue} 16 ${green} |${resetColor} Install Pi GPIO Python Libs"
-	
-	
 	log "";
 	log "-------------------";
 	log "------ OTHER ----------------------";
 	log "-------------------";
 	log "";
-	log "";
 	log "${blue} 16 ${green} |${resetColor} Add new port to firewall"
 	log "${blue} 17 ${green} |${resetColor} Mount external USB & automount it"
 	
 	log "";
-	log "";
 	log "-------------------";
-	log "----------------------------";
+	log "------ ${blue} q ${green} |${red} Quit${resetColor} ------------------";
 	log "-------------------";
 	log "";
-	log "${blue} q ${green} |${red} Quit${resetColor}"
 
 
 #	log "${blue} X ${green} |${resetColor}"
@@ -412,26 +405,54 @@ drawOptionsMenu(){
 		case $yn in
 
 			[1]* ) 
-				exe_twoFresh=true;
-				exe_actionDone="";
+				exe_11=true;
+				exe_12=true;
+				exe_13=true;
+				exe_14=true;
+				exe_15=true;
+				exe_16=true;
+				exe_actionDone="Install All";
 				break;;
 			[2]* ) 
-				exe_threeInstallNode=true;
-				exe_actionDone="";
+				exe_12=true;
+				exe_13=true;
+				exe_actionDone="Install Web Tools [NodeJS,Cloud9 IDE";
 				break;;
 			[3]* ) 
-				exe_fourArgo=true;
-				exe_actionDone="";
+				exe_14=true;
+				exe_15=true;
+				exe_16=true;
+				exe_actionDone="Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]";
 				break;;
 
-			[4]* ) 
-				exe_sixoLED=true;
-				exe_actionDone="";
+
+			[11]* ) 
+				exe_11=true;
+				exe_actionDone="System Update & Install Utils [nano,bc,ufw firewall,fail2ban auto ban,git]";
 				break;;
-			[5]* ) 
-				exe_sevenC9=true;
-				exe_actionDone="";
+			[12]* ) 
+				exe_12=true;
+				exe_actionDone="Install NodeJS & Utils";
 				break;;
+			[13]* ) 
+				exe_13=true;
+				exe_actionDone="Cloud9 IDE";
+				break;;
+			[14]* ) 
+				exe_14=true;
+				exe_actionDone="Install Argo Case Fan Script";
+				break;;
+			[15]* ) 
+				exe_15=true;
+				exe_actionDone="Install OLED Screen Python Libs";
+				break;;
+			[16]* ) 
+				exe_16=true;
+				exe_actionDone="Install Pi GPIO Python Libs";
+				break;;
+
+
+
 			[qQquit]* ) exit;;
 			
 			
@@ -510,6 +531,18 @@ drawTimeElapsed(){
 
 
 
+config_read_file() {
+    (grep -E "^${2}=" -m 1 "${1}" 2>/dev/null || echo "VAR=__UNDEFINED__") | head -n 1 | cut -d '=' -f 2-;
+}
+
+config_get() {
+
+	CONTENT=$(sed -n -e "/$log_marker/,$p")
+
+	echo "saved params $CONTENT";
+}
+
+
 
 
 ###########################################
@@ -523,8 +556,19 @@ drawTimeElapsed(){
 
 #check if there is progress to load
 
+config_get
 
-save "----===="; #start marker
+
+save $log_marker; #start marker
+
+
+save "exe_11="$(string "$exe_11");
+save "exe_12="$(string "$exe_12");
+save "exe_13="$(string "$exe_13");
+save "exe_14="$(string "$exe_14");
+save "exe_15="$(string "$exe_15");
+save "exe_16="$(string "$exe_16");
+
 
 
 
@@ -532,6 +576,9 @@ save "----===="; #start marker
 
 drawIntroScreen;
 drawOptionsMenu;
+
+#save settings picked
+
 
 log "";
 log "";
@@ -565,6 +612,9 @@ if [ "$exe_seven" = true ]; then
 	log "${yellow}--- Enter in the password for ${red}C9${yellow} user [$userToUse] about to be created in order to access IDE --------------------------------------------${resetColor}"
 	read c9userPass
 fi
+
+
+
 
 
 
@@ -612,4 +662,4 @@ fi
 
 drawSummary
 
-save "====----"; #end markers
+save $log_marker; #end markers
