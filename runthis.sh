@@ -619,7 +619,9 @@ loadConfig() {
 
 	#If your sub level is not done then we failed the install and need to try again, lets subtract one to the highest complete to force it to run again
 	if [ $highestSubLvlCompleted != 'done' ]; then
-		highestLevelCompleted=$((highestLevelCompleted-1));
+		if (( $highestLevelCompleted > 0)); then
+			highestLevelCompleted=$((highestLevelCompleted-1));
+		fi
 	fi
 
 }
