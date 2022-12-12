@@ -403,34 +403,34 @@ drawOptionsMenu(){
 	while true; do
 		read -p "${yellow}--- Select an option to continue --------------------------------------------${resetColor}" yn
 		case $yn in
-			11) 
+			"11") 
 				exe_11=true;
 				exe_actionDone="System Update & Install Utils [nano,bc,ufw firewall,fail2ban auto ban,git]";
 				break;
-			12) 
+			"12") 
 				exe_12=true;
 				exe_actionDone="Install NodeJS & Utils";
 				break;
-			13) 
+			"13") 
 				exe_13=true;
 				exe_actionDone="Cloud9 IDE";
 				break;
-			14) 
+			"14") 
 				exe_14=true;
 				exe_actionDone="Install Argo Case Fan Script";
 				break;
-			15) 
+			"15") 
 				exe_15=true;
 				exe_actionDone="Install OLED Screen Python Libs";
 				break;;
-			16) 
+			"16") 
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Python Libs";
 				break;
 			
 			
 			
-			1) 
+			"1") 
 				exe_11=true;
 				exe_12=true;
 				exe_13=true;
@@ -439,12 +439,12 @@ drawOptionsMenu(){
 				exe_16=true;
 				exe_actionDone="Install All";
 				break;
-			2) 
+			"2") 
 				exe_12=true;
 				exe_13=true;
 				exe_actionDone="Install Web Tools [NodeJS,Cloud9 IDE";
 				break;
-			3) 
+			"3") 
 				exe_14=true;
 				exe_15=true;
 				exe_16=true;
