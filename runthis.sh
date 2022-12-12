@@ -575,6 +575,9 @@ loadConfig() {
 				if (( $lvl > $lastLvl )); then
 					subLvl=0;
 				else
+					
+					log "CHECKING $subLvl and $highestSubLvlCompleted"
+					
 					if [ "$subLvl" == 'done' ]; then
 						highestSubLvlCompleted=$subLvl;
 					else
@@ -606,6 +609,7 @@ loadConfig() {
 		fi
 	done
 
+	log "config loading -> highest sub level: $highestSubLvlCompleted"
 
 	#if we have a sub level of done then we need to increase our highest level by 1 in order to "move it along"
 	if [ highestSubLvlCompleted == 'done' ]; then
