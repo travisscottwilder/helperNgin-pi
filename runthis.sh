@@ -664,9 +664,9 @@ log "";
 log "";
 
 
+#if (( a > b )); then
 
-
-if [ "$highestLevelCompleted" < 11 ]; then
+if (( $highestLevelCompleted < 11 )); then
 	if [ "$exe_11" = true ]; then
 		save "xprogressx=11.0";
 		freshInstallWithUtils;
@@ -675,7 +675,7 @@ if [ "$highestLevelCompleted" < 11 ]; then
 fi
 
 
-if [ "$highestLevelCompleted" < 12 ]; then
+if (( $highestLevelCompleted < 12 )); then
 	if [ "$exe_12" = true ]; then
 		save "xprogressx=12.0";
 		installNodeJS;
@@ -684,7 +684,7 @@ if [ "$highestLevelCompleted" < 12 ]; then
 fi
 
 
-if [ "$highestLevelCompleted" < 13 ]; then
+if (( $highestLevelCompleted < 13 )); then
 	if [ "$exe_13" = true ]; then
 		save "xprogressx=13.0";
 		installC9;
@@ -693,7 +693,7 @@ if [ "$highestLevelCompleted" < 13 ]; then
 fi
 
 
-if [ "$highestLevelCompleted" < 14 ]; then
+if (( $highestLevelCompleted < 14 )); then
 	if [ "$exe_14" = true ]; then
 		save "xprogressx=14.0";
 		installARGOFanScript;
@@ -702,12 +702,12 @@ if [ "$highestLevelCompleted" < 14 ]; then
 fi
 
 
-if [ "$highestLevelCompleted" < 15 ]; then
+if (( $highestLevelCompleted < 15 )); then
 	if [ "$exe_15" = true ]; then
 
-		if [ "$highestSubLvlCompleted" < 3 ]; then
+		if (( $highestSubLvlCompleted < 15 )); then
 			installOLEDScreenPythonOne
-		else if [ "$highestSubLvlCompleted" < 6 ]; then
+		if (( $highestSubLvlCompleted < 15 )); then
 			installOLEDScreenPythonTwo
 		else
 			save "xprogressx=15.done";
@@ -716,7 +716,7 @@ if [ "$highestLevelCompleted" < 15 ]; then
 fi
 
 
-if [ "$highestLevelCompleted" < 16 ]; then
+if (( $highestLevelCompleted < 16 )); then
 	if [ "$exe_16" = true ]; then
 		save "xprogressx=16.0";
 		installGPIOPythonLibs;
