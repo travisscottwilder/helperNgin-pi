@@ -365,7 +365,7 @@ addSelfToCron(){
 #
 # removes this script from the cronjob of the root user
 removeSelfFromCron(){
-	echo "remove";
+	echo "remove self from cron";
 }
 
 
