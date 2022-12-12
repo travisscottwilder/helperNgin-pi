@@ -544,7 +544,7 @@ loadConfig() {
 	echo "saved params $CONTENT";
 	echo "";
 
-	export IFS=";"
+	export IFS="Y-Yy"
 	for line in $CONTENT; do
 		echo "";
 		echo "the line is: $line";
