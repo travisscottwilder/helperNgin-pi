@@ -13,17 +13,18 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 
 
 #small upgrade of the system
-sudo apt-get update -y;
-sudo apt-get clean;
-sudo apt-get install git -y;
+#sudo apt-get update -y;
+#sudo apt-get install git -y;
 
-echo "one $SCRIPTPATH";
 
 #clone the actual repository that has all the files
 cd $SCRIPTPATH;
 git clone https://github.com/travisscottwilder/helperNgin-pi.git
 
-echo "two";
+
+#remove itself
+sudo rm "$SCRIPT";
+
 
 #cd into that folder and run the actual pi helper
 cd helperNgin-pi;
