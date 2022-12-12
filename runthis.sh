@@ -559,7 +559,7 @@ getConfig() {
 #check if there is progress to load
 
 if [ getConfig = true ]; then
-	echo "yes has config dude";
+	echo "yes has config dudeg";
 fi
 
 
