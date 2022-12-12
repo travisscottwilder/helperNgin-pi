@@ -584,12 +584,12 @@ drawOptionsMenu;
 
 
 #save settings picked
-save "exe_11=$exe_11;"';';
-save "exe_12=$exe_12;\\;";
-save "exe_13=$exe_13;"";\";
-save "exe_14=$exe_14;";
-save "exe_15=$exe_15;";
-save "exe_16=$exe_16;";
+save "exe_11=$exe_11;Y-Yy";
+save "exe_12=$exe_12;Y-Yy";
+save "exe_13=$exe_13;Y-Yy";
+save "exe_14=$exe_14;Y-Yy";
+save "exe_15=$exe_15;Y-Yy";
+save "exe_16=$exe_16;Y-Yy";
 
 
 
