@@ -575,6 +575,7 @@ loadConfig() {
 				#calculate our sub level which might need resettings if it was previously set as done, or might need setting as done
 				if (( $lvl > $lastLvl )); then
 					subLvl=0;
+					highestSubLvlCompleted=0;
 				else
 					
 					#log "CHECKING $subLvl and $highestSubLvlCompleted"
@@ -611,7 +612,7 @@ loadConfig() {
 		fi
 	done
 
-	#log "config loading -> highest sub level: $highestSubLvlCompleted || $highestLevelCompleted"
+	log "config loading -> highest sub level: $highestSubLvlCompleted || $highestLevelCompleted"
 
 	#If your sub level is not done then we failed the install and need to try again, lets subtract one to the highest complete to force it to run again
 	if [ $highestSubLvlCompleted != 'done' ]; then
