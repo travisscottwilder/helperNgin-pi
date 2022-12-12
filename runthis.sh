@@ -39,9 +39,9 @@ c9portToUse=9191;
 #
 #
 #
-freshInstall() {
+freshInstallWithUtils() {
 	echo "";
-	echo "${blue}--- Fresh Install - updating System &  --------------------------------------------${resetColor}"
+	echo "${blue}--- Fresh Install - updating System & Utils --------------------------------------------${resetColor}"
 
 
 	sudo apt-get update -y;
@@ -55,7 +55,6 @@ freshInstall() {
 	sudo apt-get clean;
 	sudo apt full-upgrade -y;
 	sudo apt-get clean;
-	
 	
 	
 	
@@ -84,8 +83,10 @@ freshInstall() {
 	sudo apt-get install git -y;
 	
 
-
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	drawTimeElapsed
+	echo "rebooting";
+	echo "rebooting";
 	echo "rebooting";
 	sudo reboot now;
 }
@@ -111,12 +112,8 @@ installNodeJS() {
 	sudo pip3 install --upgrade setuptools;
 	sudo apt-get install -y npm;
 
-
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
-	
-	
-	#sudo mkdir WebServer;
-	#cd /mnt/SDB/WebServer;npm install;npm install rpio --save;
+	drawTimeElapsed
 	
 	#FIX YARN:
 	#sudo apt remove cmdtest
@@ -139,17 +136,15 @@ installARGOFanScript() {
 	echo "";
 	echo "${blue}--- Install ARGO Case Fan Script --------------------------------------------${resetColor}"
 
-	
-	
 	drawTimeElapsed
 	
 	curl https://download.argon40.com/argon1.sh | bash 
 	argonone-config
 	
 	drawTimeElapsed
-	
-	
+
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	drawTimeElapsed
 }
 
 
@@ -193,12 +188,12 @@ installOLEDScreenPythonOne() {
 	sudo apt-get install -y python3-pip;
 	sudo pip3 install --upgrade adafruit-python-shell
 	
-	
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
-	echo "reboot";
-	sudo reboot
+	echo "rebooting";
+	echo "rebooting";
+	sudo reboot now;
 }
 
 #
@@ -219,38 +214,19 @@ installOLEDScreenPythonTwo() {
 	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306
 	sudo pip3 install --upgrade psutil
 	
-	
+	sudo apt-get install python3-pil;
+
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
+	echo "add an OLED script on boot: [NOTE- crontab is user specific, do you need root? [USE YOUR DEFAULT USER]]";
+	echo "crontab -e"
+	echo "@reboot python3 PATH_TO_SCRIPT/monitor.py &";
+	
 	echo "rebooting";
-	sudo reboot;
-}
-
-#
-#
-#
-#
-#
-#
-installOLEDScreenPythonThree() {
-	echo "";
-	echo "${blue}--- Install OLED Screen Python Scripts & Libs THREE [C] --------------------------------------------${resetColor}"
-
-
-	cd /home/tdub;
-	sudo apt-get install python3-pil;
-	
-	git clone https://github.com/mklements/OLED_Stats.git;
-	
-	#wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py;
-
-	
-	
-	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
-
-	echo "crontab -e AS YOUR DEFAULT USER"
-	echo "@reboot python3 /home/tdub/OLED_Stats/monitor.py &";
+	echo "rebooting";
+	echo "rebooting";
+	sudo reboot now;
 }
 
 
@@ -262,7 +238,7 @@ installOLEDScreenPythonThree() {
 #
 #
 installC9() {
-	
+	echo "${blue}--- Install OLED Screen Python Scripts & Libs TWO [B]--------------------------------------------${resetColor}"
 	
 	sudo apt-get install -y python2;
 	sudo npm install -g --save optimist;
@@ -275,14 +251,25 @@ installC9() {
 	export NODE_PATH="/usr/local/lib/node_modules";
 	
 	
-	
+	cd ~;
 	git clone https://github.com/c9/core.git c9sdk;
 	cd c9sdk;
 	sudo scripts/install-sdk.sh;
 
 	
+	
+	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	drawIntroScreen
+	
+	echo "";
+	echo "";
+	echo "add C9 to start on boot: [NOTE- crontab is user specific, do you need root? [USE ROOT]]";
+	echo "";
+	
 	echo "sudo su;crontab -e;";
 	echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass < /dev/null &";
+	echo "";
+	echo "";
 
 }
 
@@ -335,23 +322,61 @@ drawOptionsMenu(){
 	echo "------------------------------------------------"
 	echo ""
 	echo ""
-	echo "${blue} 1 ${green} |${resetColor} Fresh Install Cleanup & misc Utils"
-	echo "${blue} 2 ${green} |${resetColor} Install NodeJS & Utils"
-	echo "${blue} 3 ${green} |${resetColor} Install Argo Case Fan Script"
-
-	echo "${blue} 4 ${green} |${resetColor} OLED Screen Python Libs"
-	echo "${blue} 5 ${green} |${resetColor} Cloud9 IDE"
+	echo ""
 	
-	#echo "${blue} 6 ${green} |${resetColor} Add new port to firewall"
-	#echo "${blue} 7 ${green} |${resetColor} Mount external USB & automount it"
+	echo "${blue} 1 ${green} |${resetColor} Install All"
+	echo ""
+	echo ""
+	
+	echo "${blue} 2 ${green} |${resetColor} Install Web Tools [NodeJS,Cloud9 IDE]"
+	echo ""
+	echo ""
+	
+	echo "${blue} 3 ${green} |${resetColor} Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]"
+	echo ""
+	echo ""
+	echo ""
+	
+
+	echo "${blue} 11 ${green} |${resetColor} System Update & Install Utils [nano,bc,ufw firewall,fail2ban auto ban,git]"
+	
+	echo "";
+	echo "${blue} 12 ${green} |${resetColor} Install NodeJS & Utils"
+	echo "${blue} 13 ${green} |${resetColor} Cloud9 IDE"
+	
+	echo "";
+	echo "${blue} 14 ${green} |${resetColor} Install Argo Case Fan Script"
+	echo "${blue} 15 ${green} |${resetColor} Install OLED Screen Python Libs"
+	echo "${blue} 16 ${green} |${resetColor} Install Pi GPIO Python Libs"
+	
+	
+	echo "";
+	echo "-------------------";
+	echo "------ OTHER ----------------------";
+	echo "-------------------";
+	echo "";
+	echo "";
+	echo "${blue} 16 ${green} |${resetColor} Add new port to firewall"
+	echo "${blue} 17 ${green} |${resetColor} Mount external USB & automount it"
+	
+	echo "";
+	echo "";
+	echo "-------------------";
+	echo "----------------------------";
+	echo "-------------------";
 	echo "";
 	echo "${blue} q ${green} |${red} Quit${resetColor}"
+
+
+#	echo "${blue} X ${green} |${resetColor}"
+#	echo "${blue} X ${green} |${resetColor}"
+#	echo "${blue} X ${green} |${resetColor}"
 	
 	
 	
 	
 	while true; do
-		read -p "${yellow}--- Select an option to continue [1-7] --------------------------------------------${resetColor}" yn
+		read -p "${yellow}--- Select an option to continue --------------------------------------------${resetColor}" yn
 		case $yn in
 
 			[1]* ) 
@@ -424,7 +449,11 @@ drawSummary() {
 
 
 
-
+#
+#
+#
+#
+#
 drawTimeElapsed(){
 	
 	secondsLasped="$(($(date +%s) - ${STARTTIME}))";
@@ -466,16 +495,7 @@ drawTimeElapsed(){
 
 drawIntroScreen;
 
-
-
-
-
-
 drawOptionsMenu;
-
-
-
-
 
 echo "";
 echo "";
@@ -518,8 +538,9 @@ fi
 
 
 if [ "$exe_twoFresh" = true ]; then
-	freshInstall
+	freshInstallWithUtils
 fi
+
 
 if [ "$exe_threeInstallNode" = true ]; then
 	installNodeJS
@@ -529,6 +550,7 @@ fi
 if [ "$exe_fourArgo" = true ]; then
 	installARGOFanScript
 fi
+
 
 if [ "$exe_fiveGPIOpython" = true ]; then
 	installGPIOPythonLibs
@@ -547,10 +569,7 @@ if [ "$exe_sixoLED" = true ]; then
 	fi
 fi
 
-if [ "$exe_sixMYSQLUSER" = true ]; then
-	#install mysql user
-	installMysqlUser
-fi
+
 
 if [ "$exe_sevenC9" = true ]; then
 	installC9
