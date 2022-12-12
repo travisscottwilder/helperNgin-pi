@@ -537,7 +537,7 @@ drawTimeElapsed(){
 
 loadConfig() {
 
-	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /$log_marker/{flag = 1};' | tac);
+	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxxxxxx/{flag = 1};' | tac);
 
 
 
@@ -548,7 +548,7 @@ loadConfig() {
 
 	export IFS=";"
 	for line in $CONTENT; do
-		echo "the line is: $line";
+		#echo "the line is: $line";
 	done
 
 
