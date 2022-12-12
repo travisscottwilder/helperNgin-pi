@@ -591,13 +591,10 @@ loadConfig() {
 					[exe_15]* ) exe_15="${configVar[1]}" ;;
 					[exe_16]* ) exe_16="${configVar[1]}" ;;
 
-
 					[userSelectedOption]* ) userSelectedOption="${configVar[1]}" ;;
 					[userToUse]* ) userToUse="${configVar[1]}" ;;
 					[c9userPass]* ) c9userPass="${configVar[1]}" ;;
 
-					
-					
 					* ) log "did not find ${configVar[0]}" ;;
 				esac
 			fi
