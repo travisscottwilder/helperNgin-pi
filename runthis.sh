@@ -554,11 +554,13 @@ loadConfig() {
 
 	for line in ${CONTENT//;/ }
 	do
+		log "THIS line is: $line";
 		if [ "$line" != "xxxxxBREAKxxxxx" ]; then
 			IFS='=' read -r -a configVar <<< "$line"
 			
+			log "**checking if for ${configVar[0]}";
+
 			if [ "${configVar[0]}" == "xprogressx" ]; then
-				
 				IFS='.' read -r -a progressSplit <<< "${configVar[1]}"
 				lvl=${progressSplit[0]}
 				subLvl=${progressSplit[1]}
@@ -627,6 +629,7 @@ loadConfig() {
 #check if there is progress to load
 loadConfig;
 
+log "highest level about to use is: $highestLevelCompleted"
 
 if (( $highestLevelCompleted == 0 )); then
 	save $log_marker; #start marker >> reset the progress if we are selecting a new one
