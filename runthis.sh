@@ -254,7 +254,8 @@ installOLEDScreenPythonTwo() {
 
 
 	cd ~;
-	wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py;
+	#wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py;
+	wget https://raw.githubusercontent.com/travisscottwilder/helperNgin-pi/main/lib/raspi-blinka.py;
 	sudo python3 raspi-blinka.py | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306 | tee -a "$SCRIPTPATH"/logs/runthis.log;
@@ -727,8 +728,8 @@ fi
 
 if (( $highestLevelCompleted < 15 || highestLevelCompleted == 0)); then
 	if [ "$exe_15" = true ]; then
-		save "xprogressx=15.0";
 		if (( $highestSubLvlCompleted < 3 )); then
+			save "xprogressx=15.0;";
 			installOLEDScreenPythonOne
 		elif (( $highestSubLvlCompleted < 6 )); then
 			installOLEDScreenPythonTwo
