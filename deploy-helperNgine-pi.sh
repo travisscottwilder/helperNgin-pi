@@ -12,11 +12,12 @@ sudo apt-get update -y;
 sudo apt-get clean;
 sudo apt-get install git -y;
 
+echo "one";
 
 #clone the actual repository that has all the files
 git clone https://github.com/travisscottwilder/helperNgin-pi.git
 
-
+echo "two";
 
 #cd into that folder and run the actual pi helper
 cd helperNgin-pi;
