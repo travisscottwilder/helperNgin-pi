@@ -551,25 +551,16 @@ drawTimeElapsed(){
 loadConfig() {
 	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxBREAKxxxxx/{flag = 1};' | tac);
 
-	log "";
-	log "FULL CONTENT MAN: $CONTENT"
-	log "";
-
 	for line in ${CONTENT//;/ }
 	do
-		log "THIS line is: $line";
 
 		if [ "$line" != "xxxxxBREAKxxxxx" ]; then
 			IFS='=' read -r -a configVar <<< "$line"
-			
-			log "**checking if for ${configVar[0]}";
 
 			if [ "${configVar[0]}" == "xprogressx" ]; then
 				IFS='.' read -r -a progressSplit <<< "${configVar[1]}"
 				lvl=${progressSplit[0]}
 				subLvl=${progressSplit[1]}
-
-				log "CHECKING LVL: $lvl | sublvl: $subLvl | highest $highestLevelCompleted | highestSub: $highestSubLvlCompleted";
 
 				if (( $lvl > highestLevelCompleted )); then
 					highestLevelCompleted=$lvl;
@@ -581,7 +572,6 @@ loadConfig() {
 				
 
 			else
-				echo "this is a general variable ${configVar[0]} with value ${configVar[1]}"
 
 				case ${configVar[0]} in
 					[exe_11]* ) exe_11="${configVar[1]}" ;;
@@ -664,7 +654,7 @@ if (( $highestLevelCompleted == 0 )); then
 	fi
 
 else
-	echo "loaded from config resuming progress";
+	log "loaded from config resuming progress with current progress of: $highestLevelCompleted";
 fi
 
 
@@ -735,4 +725,4 @@ fi
 
 drawSummary;
 save "Done >> end of file";log "Done >> end of file";
-save $log_marker; #end markers
+save "$log_marker"; #end markers
