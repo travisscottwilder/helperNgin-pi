@@ -540,16 +540,9 @@ drawTimeElapsed(){
 loadConfig() {
 	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxxxxxx/{flag = 1};' | tac);
 
-
 	echo "saved params $CONTENT";
 	echo "";
 
-	#export IFS="yYYy"
-	#for line in $CONTENT; do
-	#	echo "";
-	#	echo "the line is: $line";
-	#	echo "";
-	#done
 
 	for line in ${CONTENT//;/ }
 	do
