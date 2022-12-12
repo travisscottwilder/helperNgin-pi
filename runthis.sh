@@ -546,7 +546,11 @@ getConfig() {
 
 
 
-
+#
+# DEBUG
+#
+# sudo rm runthis.sh;sudo curl https://raw.githubusercontent.com/travisscottwilder/pi-installer/main/runthis.sh > runthis.sh;sudo chmod +x runthis.sh;sudo ./runthis.sh
+#
 ###########################################
 ########################################################################
 ########################################################################
