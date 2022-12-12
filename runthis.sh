@@ -537,7 +537,7 @@ config_get() {
 
 	#CONTENT=$(sed -n -e "/$log_marker/,$p")
 
-	#echo "saved params $CONTENT";
+	echo "saved params $CONTENT";
 }
 
 
