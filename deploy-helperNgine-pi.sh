@@ -17,9 +17,6 @@ sudo apt-get install git -y;
 git clone https://github.com/travisscottwilder/helperNgin-pi.git
 
 
-#delete itself to clean things up
-sudo rm deploy-helperNgin-pi.sh;
-
 
 #cd into that folder and run the actual pi helper
 cd helperNgin-pi;
