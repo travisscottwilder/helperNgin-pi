@@ -77,43 +77,45 @@ freshInstallWithUtils() {
 	log "${blue}--- Fresh Install - updating System & Utils --------------------------------------------${resetColor}"
 
 
-	sudo apt-get update -y;
+	sudo apt-get update -y | tee -a "$SCRIPTPATH"/logs/runme.log;
 	
 	drawTimeElapsed
 	
-	sudo apt-get upgrade -y;
+	sudo apt-get upgrade -y | tee -a "$SCRIPTPATH"/logs/runme.log;
 	
 	drawTimeElapsed
 	
-	sudo apt-get clean;
-	sudo apt full-upgrade -y;
-	sudo apt-get clean;
+	sudo apt-get clean | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt full-upgrade -y | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get clean | tee -a "$SCRIPTPATH"/logs/runme.log;
 	
 	
 	
 	#install nano
-	sudo apt-get install nano;
+	sudo apt-get install nano | tee -a "$SCRIPTPATH"/logs/runme.log;
 	
 	
 	#install bc common tools
-	sudo apt-get install bc;
+	sudo apt-get install bc | tee -a "$SCRIPTPATH"/logs/runme.log;
 	
 	drawTimeElapsed
 	
 	#INSTALL FIREWALL AND ALLOW OUR EXPECTED PORTS
-	sudo apt install ufw -y;
-	sudo ufw allow 22; sudo ufw allow 80;sudo ufw allow 443;.,,,
-	sudo ufw enable;
+	sudo apt install ufw -y | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo ufw allow 22 | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo ufw allow 80 | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo ufw allow 443 | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo ufw enable | tee -a "$SCRIPTPATH"/logs/runme.log;
 	
 	drawTimeElapsed
 	
 	#install brute force auto ban software
-	sudo apt install fail2ban -y;
-	sudo service fail2ban start;
+	sudo apt install fail2ban -y | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo service fail2ban start | tee -a "$SCRIPTPATH"/logs/runme.log;
 	
 	
 	#install git
-	sudo apt-get install git -y;
+	sudo apt-get install git -y | tee -a "$SCRIPTPATH"/logs/runme.log;
 	
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
@@ -138,12 +140,14 @@ installNodeJS() {
 	log "";
 	log "${blue}--- Install NodeJS --------------------------------------------${resetColor}"
 
-	sudo npm install -g rpio --save;
+	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runme.log;
 
-	sudo apt-get install -y nodejs;
-	sudo apt-get install -y python3-pip;
-	sudo pip3 install --upgrade setuptools;
-	sudo apt-get install -y npm;
+	sudo apt-get install -y nodejs | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get install -y python3-pip | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo pip3 install --upgrade setuptools | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo apt-get install -y npm | tee -a "$SCRIPTPATH"/logs/runme.log;
+
+	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runme.log;
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawTimeElapsed
@@ -558,12 +562,7 @@ config_get() {
 
 
 save $log_marker; #start marker
-save "exe_11=$exe_11";
-save "exe_12=$exe_12";
-save "exe_13=$exe_13";
-save "exe_14=$exe_14";
-save "exe_15=$exe_15";
-save "exe_16=$exe_16";
+
 
 
 
@@ -574,6 +573,13 @@ drawIntroScreen;
 drawOptionsMenu;
 
 #save settings picked
+save "exe_11=$exe_11";
+save "exe_12=$exe_12";
+save "exe_13=$exe_13";
+save "exe_14=$exe_14";
+save "exe_15=$exe_15";
+save "exe_16=$exe_16";
+
 
 
 log "";
