@@ -534,17 +534,14 @@ drawTimeElapsed(){
 
 
 
-
+#
+#	NOTE THE MARKER IS HARD CODED IDK HOW TO USE A VARIABLE
+#
 loadConfig() {
-
 	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxxxxxx/{flag = 1};' | tac);
 
 
-
-
-
 	echo "saved params $CONTENT";
-
 	echo "";
 
 	export IFS=";"
