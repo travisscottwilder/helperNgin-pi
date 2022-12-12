@@ -19,7 +19,7 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 
 #clone the actual repository that has all the files
 cd $SCRIPTPATH;
-git clone https://github.com/travisscottwilder/helperNgin-pi.git
+git clone https://github.com/travisscottwilder/helperNgin-pi.git;
 
 
 #remove itself
