@@ -361,7 +361,7 @@ drawOptionsMenu(){
 	log ""
 	log ""
 	log ""
-	log "-------------------";
+	log "${resetColor}-------------------";
 	log "------ Multi Install ----------------------";
 	log "-------------------";
 	log ""
@@ -371,7 +371,7 @@ drawOptionsMenu(){
 	log ""
 	log ""
 	log ""
-	log "-------------------";
+	log "${resetColor}-------------------";
 	log "------ Individual Install ----------------------";
 	log "-------------------";
 	log ""
@@ -384,7 +384,7 @@ drawOptionsMenu(){
 	log "${blue} 15 ${green} |${resetColor} Install OLED Screen Python Libs"
 	log "${blue} 16 ${green} |${resetColor} Install Pi GPIO Python Libs"
 	log "";
-	log "-------------------";
+	log "${resetColor}-------------------";
 	log "------ OTHER ----------------------";
 	log "-------------------";
 	log "";
@@ -392,7 +392,7 @@ drawOptionsMenu(){
 	log "${blue} 17 ${green} |${resetColor} Mount external USB & automount it"
 	
 	log "";
-	log "-------------------";
+	log "${resetColor}-------------------";
 	log "------ ${blue} q ${green} |${red} Quit${resetColor} ------------------";
 	log "-------------------";
 	log "";
