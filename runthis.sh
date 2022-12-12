@@ -594,7 +594,7 @@ loadConfig() {
 					
 					* ) log "did not find ${configVar[0]}";;
 				esac
-			if
+			fi
 		fi
 	done
 
