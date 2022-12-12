@@ -403,35 +403,34 @@ drawOptionsMenu(){
 	while true; do
 		read -p "${yellow}--- Select an option to continue --------------------------------------------${resetColor}" yn
 		case $yn in
-
-			[11]* ) 
+			11) 
 				exe_11=true;
 				exe_actionDone="System Update & Install Utils [nano,bc,ufw firewall,fail2ban auto ban,git]";
-				break;;
-			[12]* ) 
+				break;
+			12) 
 				exe_12=true;
 				exe_actionDone="Install NodeJS & Utils";
-				break;;
-			[13]* ) 
+				break;
+			13) 
 				exe_13=true;
 				exe_actionDone="Cloud9 IDE";
-				break;;
-			[14]* ) 
+				break;
+			14) 
 				exe_14=true;
 				exe_actionDone="Install Argo Case Fan Script";
-				break;;
-			[15]* ) 
+				break;
+			15) 
 				exe_15=true;
 				exe_actionDone="Install OLED Screen Python Libs";
 				break;;
-			[16]* ) 
+			16) 
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Python Libs";
-				break;;
-
-
+				break;
 			
-			[1]* ) 
+			
+			
+			1) 
 				exe_11=true;
 				exe_12=true;
 				exe_13=true;
@@ -439,24 +438,22 @@ drawOptionsMenu(){
 				exe_15=true;
 				exe_16=true;
 				exe_actionDone="Install All";
-				break;;
-			[2]* ) 
+				break;
+			2) 
 				exe_12=true;
 				exe_13=true;
 				exe_actionDone="Install Web Tools [NodeJS,Cloud9 IDE";
-				break;;
-			[3]* ) 
+				break;
+			3) 
 				exe_14=true;
 				exe_15=true;
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]";
-				break;;
-
-
-
+				break;
+			
+			
 			[qQquit]* ) exit;;
-			
-			
+
 			* ) log "Please answer a number [1-7].";;
 		esac
 	done
@@ -538,9 +535,9 @@ config_read_file() {
 
 config_get() {
 
-	CONTENT=$(sed -n -e "/$log_marker/,$p")
+	#CONTENT=$(sed -n -e "/$log_marker/,$p")
 
-	echo "saved params $CONTENT";
+	#echo "saved params $CONTENT";
 }
 
 
@@ -557,12 +554,10 @@ config_get() {
 
 #check if there is progress to load
 
-config_get
+#config_get
 
 
 save $log_marker; #start marker
-
-
 save "exe_11=$exe_11";
 save "exe_12=$exe_12";
 save "exe_13=$exe_13";
