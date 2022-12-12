@@ -85,6 +85,9 @@ freshInstallWithUtils() {
 
 	sudo apt-get update -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
+	#install bc common tools
+	sudo apt-get install bc | tee -a "$SCRIPTPATH"/logs/runthis.log;
+
 	drawTimeElapsed
 	
 	sudo apt-get upgrade -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
@@ -101,8 +104,7 @@ freshInstallWithUtils() {
 	sudo apt-get install nano | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	
-	#install bc common tools
-	sudo apt-get install bc | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	
 	
 	drawTimeElapsed
 	
@@ -434,6 +436,7 @@ drawOptionsMenu(){
 			"16") 
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Python Libs";
+				#TODO TO REBOOT CRON
 				break;;
 			
 			
@@ -446,17 +449,20 @@ drawOptionsMenu(){
 				exe_15=true;
 				exe_16=true;
 				exe_actionDone="Install All";
+				#TODO TO REBOOT CRON
 				break;;
 			"2") 
 				exe_12=true;
 				exe_13=true;
 				exe_actionDone="Install Web Tools [NodeJS,Cloud9 IDE]";
+				#TODO TO REBOOT CRON
 				break;;
 			"3") 
 				exe_14=true;
 				exe_15=true;
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]";
+				#TODO TO REBOOT CRON
 				break;;
 			
 			
@@ -598,10 +604,6 @@ loadConfig() {
 		fi
 	done
 
-
-	#ok now that we have loaded all are info into memory and vars, let's see if we need to unset some of these values in order to force "the next things to fire"
-	#for example if we choose to install everything and we've already installed item 1, we need it to skip item 1
-
 }
 
 
@@ -627,7 +629,16 @@ save $log_marker; #start marker
 
 
 
-if [ "$highestLevelCompleted" == 0 ]; then
+if (( $highestLevelCompleted == 0 )); then
+	#remove from CRON just incase
+	#TODO
+
+	#if this was ran from a cron then do nothing
+	#TODO
+
+
+
+	#start main script
 	drawOptionsMenu;
 
 	#save settings picked
