@@ -41,10 +41,10 @@ c9portToUse=9191;
 #
 freshInstall() {
 	echo "";
-	echo "${blue}--- Fresh Install - updating System --------------------------------------------${resetColor}"
+	echo "${blue}--- Fresh Install - updating System &  --------------------------------------------${resetColor}"
+
 
 	sudo apt-get update -y;
-	sudo apt-get install bc;
 	
 	drawTimeElapsed
 	
@@ -56,11 +56,21 @@ freshInstall() {
 	sudo apt full-upgrade -y;
 	sudo apt-get clean;
 	
+	
+	
+	
+	#install nano
+	sudo apt-get install nano;
+	
+	
+	#install bc common tools
+	sudo apt-get install bc;
+	
 	drawTimeElapsed
 	
 	#INSTALL FIREWALL AND ALLOW OUR EXPECTED PORTS
 	sudo apt install ufw -y;
-	sudo ufw allow 22; sudo ufw allow 80;sudo ufw allow 443;
+	sudo ufw allow 22; sudo ufw allow 80;sudo ufw allow 443;.,,,
 	sudo ufw enable;
 	
 	drawTimeElapsed
@@ -69,9 +79,12 @@ freshInstall() {
 	sudo apt install fail2ban -y;
 	sudo service fail2ban start;
 	
+	
+	#install git
 	sudo apt-get install git -y;
 	
-	
+
+
 	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	echo "rebooting";
 	sudo reboot now;

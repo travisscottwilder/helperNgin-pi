@@ -1,15 +1,33 @@
-# pi-installer
+# helperNgin-pi
 
 
 
 *move id_rsa into .ssh folder of user (/root/ or /home/pi/)
+
 *to init for github:
 	ssh-add ~/.ssh/id_rsa
 
 
 
 
+
+
+
+
+
+
 cd ~;curl https://raw.githubusercontent.com/travisscottwilder/pi-installer/main/inst.sh > deploy-helperNgine-pi.sh;sudo chmod +x deploy-helperNgine-pi.sh;sudo ./deploy-helperNgine-pi.sh;sudo rm deploy-helperNgine-pi.sh;
+
+
+
+
+
+
+
+
+
+
+------
 
 
 
