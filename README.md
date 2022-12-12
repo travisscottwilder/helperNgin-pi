@@ -1,12 +1,12 @@
 # helperNgin-pi
 
-use this on a fresh install to add to a fresh install then use `sudo ./~/helperNgin-pi/runme.sh` to run
-
-
+use this on a fresh install
+	
 	cd ~;curl https://raw.githubusercontent.com/travisscottwilder/pi-installer/main/deploy-helperNgine-pi.sh > deploy-helperNgine-pi.sh;sudo chmod +x deploy-helperNgine-pi.sh;sudo ./deploy-helperNgine-pi.sh;sudo rm deploy-helperNgine-pi.sh;
 
+.
 
-
+Then after that use `sudo ./~/helperNgin-pi/runme.sh` to run
 
 .
 
