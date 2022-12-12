@@ -565,6 +565,12 @@ loadConfig() {
 				subLvl=${progressSplit[1]}
 
 
+				#see if our highest level compelted has changed
+				if (( $lvl > highestLevelCompleted )); then
+					highestLevelCompleted=$lvl;
+				fi
+
+
 				#calculate our sub level which might need resettings if it was previously set as done, or might need setting as done
 				if (( $lvl > $lastLvl )); then
 					subLvl=0;
@@ -579,13 +585,6 @@ loadConfig() {
 				fi
 
 
-				if (( $lvl > highestLevelCompleted )); then
-					highestLevelCompleted=$lvl;
-				fi
-
-				
-				
-				
 				lastLvl=$lvl;
 			else
 
