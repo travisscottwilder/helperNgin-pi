@@ -551,12 +551,11 @@ loadConfig() {
 	#	echo "";
 	#done
 
-	#variable=abc,def,ghij
-	#for line in ${CONTENT//yYYy/ }
-	#do
+	for line in ${CONTENT//;/ }
+	do
 		# call your procedure/other scripts here below
-	#	echo "the line is: $line"
-	#done
+		echo "the line is: $line"
+	done
 
 
 }
@@ -591,12 +590,12 @@ drawOptionsMenu;
 
 
 #save settings picked
-save "exe_11=$exe_11;yYYy";
-save "exe_12=$exe_12;yYYy";
-save "exe_13=$exe_13;yYYy";
-save "exe_14=$exe_14;yYYy";
-save "exe_15=$exe_15;yYYy";
-save "exe_16=$exe_16;;yYYy";
+save "exe_11=$exe_11;";
+save "exe_12=$exe_12;";
+save "exe_13=$exe_13;";
+save "exe_14=$exe_14;";
+save "exe_15=$exe_15;";
+save "exe_16=$exe_16;";
 
 
 
