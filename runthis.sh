@@ -44,8 +44,8 @@ askForOptions=true;
 
 c9portToUse=9191;
 log_marker="xxxxxBREAKxxxxx"; #NOTE also hard coded in a couple commands below
-
-
+lastProgress='NA';
+userSelectedOption=false;
 
 
 
@@ -54,7 +54,7 @@ SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in, thus /home/user/bin
 SCRIPTPATH=$(dirname "$SCRIPT")
 
-
+highestLevelCompleted = 0;
 
 
 
@@ -128,6 +128,7 @@ freshInstallWithUtils() {
 	log "rebooting";
 	log "rebooting";
 	log "rebooting";
+	save "xprogressx=11.done";
 	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
 
@@ -405,6 +406,7 @@ drawOptionsMenu(){
 	
 	while true; do
 		read -p "${yellow}--- Select an option to continue --------------------------------------------${resetColor}" yn
+		userSelectedOption=yn;
 		case $yn in
 			"11") 
 				exe_11=true;
@@ -461,6 +463,8 @@ drawOptionsMenu(){
 		esac
 	done
 	
+
+	save "userSelectedOption=$userSelectedOption;";
 }
 
 
@@ -538,22 +542,57 @@ drawTimeElapsed(){
 loadConfig() {
 	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxBREAKxxxxx/{flag = 1};' | tac);
 
+	highestLevelCompleted = 0;
 
 	for line in ${CONTENT//;/ }
 	do
 		if [ "$line" != "xxxxxBREAKxxxxx" ]; then
 			IFS='=' read -r -a configVar <<< "$line"
-			echo "variable ${configVar[0]} with value ${configVar[1]}"
+			
+			if [ "${configVar[0]}" == "xprogressx" ]; then
+				
+				IFS='.' read -r -a progressSplit <<< "${configVar[1]}"
+				lvl 	= ${progressSplit[0]}
+				subLvl	= ${progressSplit[1]}
 
-			#if ${configVar[1]} is empty then maybe we have a progress check rather than a variable set
-				#explode on . >> if last number is NOT done then check the first number and set that as go
+				if [ "$lvl" > highestLevelCompleted ]; then
+					highestLevelCompleted = $lvl;
+				fi
+			else
+				echo "this is a general variable ${configVar[0]} with value ${configVar[1]}"
+
+				case ${configVar[0]} in
+					[exe_11]* ) exe_11="${configVar[1]}";
+						break;;
+					[exe_12]* ) exe_12="${configVar[1]}";
+						break;;
+					[exe_13]* ) exe_13="${configVar[1]}";
+						break;;
+					[exe_14]* ) exe_14="${configVar[1]}";
+						break;;
+					[exe_15]* ) exe_15="${configVar[1]}";
+						break;;
+					[exe_16]* ) exe_16="${configVar[1]}";
+						break;;
 
 
-			#todo check for progress first
-			askForOptions=false;
+					[userSelectedOption]* ) userSelectedOption="${configVar[1]}";
+						break;;
+					[userToUse]* ) userToUse="${configVar[1]}";
+						break;;
+					[c9userPass]* ) c9userPass="${configVar[1]}";
+						break;;
+					
+					
+					* ) log "did not find ${configVar[0]}";;
+				esac
+			if
 		fi
 	done
 
+
+	#ok now that we have loaded all are info into memory and vars, let's see if we need to unset some of these values in order to force "the next things to fire"
+	#for example if we choose to install everything and we've already installed item 1, we need it to skip item 1
 
 }
 
@@ -580,7 +619,7 @@ save $log_marker; #start marker
 
 
 
-if [ "$askForOptions" == true ]; then
+if [ "$highestLevelCompleted" == 0 ]; then
 	drawOptionsMenu;
 
 	#save settings picked
@@ -590,14 +629,33 @@ if [ "$askForOptions" == true ]; then
 	save "exe_14=$exe_14;";
 	save "exe_15=$exe_15;";
 	save "exe_16=$exe_16;";
+
+
+	if [ "$exe_13" = true ]; then
+		log "";
+		log "";
+		log "${yellow}--- Enter in the name of the user to create for C9 --------------------------------------------${resetColor}"
+		log "";
+		read userToUse
+		
+		log "";
+		log "";
+		log "${yellow}--- Enter in the password for ${red}C9${yellow} user [$userToUse] about to be created in order to access IDE --------------------------------------------${resetColor}"
+		read c9userPass
+
+		save "userToUse=$userToUse;";
+		save "c9userPass=$c9userPass;";
+	fi
+
 else
-	echo "loaded from config";
+	echo "loaded from config resuming progress";
 fi
 
 
+log "";
+log "";
 
-log "";
-log "";
+
 
 
 if [ "$exe_six" = true ]; then
@@ -616,44 +674,33 @@ if [ "$exe_six" = true ]; then
 fi
 
 
-if [ "$exe_13" = true ]; then
-	log "";
-	log "";
-	log "${yellow}--- Enter in the name of the user to create for C9 --------------------------------------------${resetColor}"
-	log "";
-	read userToUse
-	
-	log "";
-	log "";
-	log "${yellow}--- Enter in the password for ${red}C9${yellow} user [$userToUse] about to be created in order to access IDE --------------------------------------------${resetColor}"
-	read c9userPass
+
+
+
+if [ "$highestLevelCompleted" < 1 ]; then
+	if [ "$exe_11" = true ]; then
+		save "xprogressx=1.0";
+		freshInstallWithUtils;
+		save "xprogressx=11.done";
+	fi
 fi
 
 
-
-
-
-
-
-if [ "$exe_11" = true ]; then
-	save "xprogressx=1.0";
-	freshInstallWithUtils;
-	save "xprogressx=11.done";
+if [ "$highestLevelCompleted" < 2 ]; then
+	if [ "$exe_12" = true ]; then
+		save "xprogressx=12.0";
+		installNodeJS;
+		save "xprogressx=12.done";
+	fi
 fi
 
 
-if [ "$exe_12" = true ]; then
-	save "xprogressx=12.0";
-	installNodeJS;
-	save "xprogressx=12.done";
-fi
-
-
-
-if [ "$exe_13" = true ]; then
-	save "xprogressx=13.0";
-	installC9;
-	save "xprogressx=13.done";
+if [ "$highestLevelCompleted" < 3 ]; then
+	if [ "$exe_13" = true ]; then
+		save "xprogressx=13.0";
+		installC9;
+		save "xprogressx=13.done";
+	fi
 fi
 
 
