@@ -627,11 +627,10 @@ loadConfig() {
 #check if there is progress to load
 loadConfig;
 
-save $log_marker; #start marker
-
-
 
 if (( $highestLevelCompleted == 0 )); then
+	save $log_marker; #start marker
+
 	#remove from CRON just incase
 	#TODO
 
