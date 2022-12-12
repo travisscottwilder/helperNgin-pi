@@ -545,14 +545,15 @@ drawTimeElapsed(){
 loadConfig() {
 	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxxxxxx/{flag = 1};' | tac);
 
-	echo "saved params $CONTENT";
-	echo "";
-
 
 	for line in ${CONTENT//;/ }
 	do
-		# call your procedure/other scripts here below
-		echo "the line is: $line"
+		if [ "$line" != "xxxxxxxxxx"]; then
+
+			IFS=', ' read -r -a configVar <<< "$line"
+
+			echo "variable ${configVar[0]} with value ${configVar[1]}"
+		fi
 	done
 
 
