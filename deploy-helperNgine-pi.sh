@@ -14,15 +14,14 @@ sudo apt-get install git -y;
 
 
 #clone the actual repository that has all the files
-cd ~;
 git clone git@github.com:travisscottwilder/helperNgin-pi.git;
 
 
 #delete itself to clean things up
-sudo rm ~/deploy-helperNgin-pi.sh;
+sudo rm deploy-helperNgin-pi.sh;
 
 
 #cd into that folder and run the actual pi helper
-cd ~/helperNgin-pi;
+cd helperNgin-pi;
 sudo chmod +x runthis.sh;sudo ./runthis.sh;
 
