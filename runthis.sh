@@ -398,7 +398,7 @@ drawOptionsMenu(){
 	
 	log "";
 	log "${resetColor}-------------------";
-	log "------ ${blue} q ${green} |${red} Quit${resetColor} ---------------";
+	log "${blue} q ${green} |${red} Quit${resetColor} ---------------";
 	log "-------------------";
 	log "";	
 	
