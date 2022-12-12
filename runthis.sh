@@ -551,7 +551,7 @@ loadConfig() {
 	for line in $CONTENT; do
 		echo "";
 		echo "the line is: $line";
-		echo " ";
+		echo "";
 	done
 
 
