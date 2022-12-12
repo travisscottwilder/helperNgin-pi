@@ -700,7 +700,6 @@ fi
 
 
 if (( $highestLevelCompleted < 12 || highestLevelCompleted == 0)); then
-	log "trying to run node but let see what $exe_12 is"
 	if [ "$exe_12" = true ]; then
 		save "xprogressx=12.0;";
 		installNodeJS;
