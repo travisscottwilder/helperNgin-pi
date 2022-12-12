@@ -564,7 +564,7 @@ loadConfig() {
 				lvl=${progressSplit[0]}
 				subLvl=${progressSplit[1]}
 
-				log "CHECKING CONFIG TDUb -> $lastLvl | $lvl | $subLvl |=| $highestLevelCompleted | $highestSubLvlCompleted";
+				#log "CHECKING CONFIG TDUb -> $lastLvl | $lvl | $subLvl |=| $highestLevelCompleted | $highestSubLvlCompleted";
 
 				#see if our highest level compelted has changed
 				if (( $lvl > highestLevelCompleted )); then
@@ -577,7 +577,7 @@ loadConfig() {
 					subLvl=0;
 				else
 					
-					log "CHECKING $subLvl and $highestSubLvlCompleted"
+					#log "CHECKING $subLvl and $highestSubLvlCompleted"
 					
 					if [ "$subLvl" == 'done' ]; then
 						highestSubLvlCompleted=$subLvl;
@@ -592,9 +592,11 @@ loadConfig() {
 				lastLvl=$lvl;
 			else
 
+				log "setting ${configVar[0]}"
+
 				case ${configVar[0]} in
 					[exe_11]* ) exe_11="${configVar[1]}" ;;
-					[exe_12]* ) exe_12="${configVar[1]}" ;;
+					[exe_12]* ) exe_12="${configVar[1]}";log "tdub testing yes?"; ;;
 					[exe_13]* ) exe_13="${configVar[1]}" ;;
 					[exe_14]* ) exe_14="${configVar[1]}" ;;
 					[exe_15]* ) exe_15="${configVar[1]}" ;;
@@ -698,6 +700,7 @@ fi
 
 
 if (( $highestLevelCompleted < 12 || highestLevelCompleted == 0)); then
+	log "trying to run node but let see what $exe_12 is"
 	if [ "$exe_12" = true ]; then
 		save "xprogressx=12.0;";
 		installNodeJS;
