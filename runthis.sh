@@ -551,7 +551,7 @@ drawTimeElapsed(){
 loadConfig() {
 	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxBREAKxxxxx/{flag = 1};' | tac);
 
-	lastLvl = 0;
+	lastLvl=0;
 
 	for line in ${CONTENT//;/ }
 	do
