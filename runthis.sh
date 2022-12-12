@@ -551,10 +551,14 @@ drawTimeElapsed(){
 loadConfig() {
 	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxBREAKxxxxx/{flag = 1};' | tac);
 
+	log "";
+	log "FULL CONTENT MAN: $CONTENT"
+	log "";
 
 	for line in ${CONTENT//;/ }
 	do
 		log "THIS line is: $line";
+
 		if [ "$line" != "xxxxxBREAKxxxxx" ]; then
 			IFS='=' read -r -a configVar <<< "$line"
 			
