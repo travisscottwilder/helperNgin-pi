@@ -542,11 +542,12 @@ loadConfig() {
 	echo "saved params $CONTENT";
 
 
-	#export IFS=";"
-	#sentence="one;two;three"
-	#for word in $sentence; do
-	#	echo "$word"
-	#done
+	export IFS=";"
+	for line in $CONTENT; do
+		echo "the line is: $line";
+	done
+
+	
 }
 
 
