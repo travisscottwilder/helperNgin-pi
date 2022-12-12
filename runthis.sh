@@ -40,9 +40,14 @@ exe_actionDone="NA";
 
 c9userPass="";
 userToUse="";
-c9portToUse=9191;
+askForOptions=true;
 
+c9portToUse=9191;
 log_marker="xxxxxxxxxx";
+
+
+
+
 
 # Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f "$0")
@@ -447,7 +452,7 @@ drawOptionsMenu(){
 			"2") 
 				exe_12=true;
 				exe_13=true;
-				exe_actionDone="Install Web Tools [NodeJS,Cloud9 IDE";
+				exe_actionDone="Install Web Tools [NodeJS,Cloud9 IDE]";
 				break;;
 			"3") 
 				exe_14=true;
@@ -572,23 +577,21 @@ loadConfig() {
 #check if there is progress to load
 loadConfig;
 
-
-
-
 save $log_marker; #start marker
 
 
 
-drawOptionsMenu;
+if [ "$askForOptions" == true ]; then
+	drawOptionsMenu;
 
-
-#save settings picked
-save "exe_11=$exe_11;";
-save "exe_12=$exe_12;";
-save "exe_13=$exe_13;";
-save "exe_14=$exe_14;";
-save "exe_15=$exe_15;";
-save "exe_16=$exe_16;";
+	#save settings picked
+	save "exe_11=$exe_11;";
+	save "exe_12=$exe_12;";
+	save "exe_13=$exe_13;";
+	save "exe_14=$exe_14;";
+	save "exe_15=$exe_15;";
+	save "exe_16=$exe_16;";
+fi
 
 
 
@@ -612,7 +615,7 @@ if [ "$exe_six" = true ]; then
 fi
 
 
-if [ "$exe_seven" = true ]; then
+if [ "$exe_13" = true ]; then
 	log "";
 	log "";
 	log "${yellow}--- Enter in the name of the user to create for C9 --------------------------------------------${resetColor}"
