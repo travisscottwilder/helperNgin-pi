@@ -6,7 +6,7 @@ use this on a fresh install
 
 .
 
-Then after that use `sudo ./~/helperNgin-pi/runthis.sh` to run
+Then after that use `sudo ~/helperNgin-pi/runthis.sh` to run
 
 .
 
