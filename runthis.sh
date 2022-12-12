@@ -544,12 +544,12 @@ loadConfig() {
 	echo "saved params $CONTENT";
 	echo "";
 
-	export IFS="Y-Yy"
-	for line in $CONTENT; do
-		echo "";
-		echo "the line is: $line";
-		echo "";
-	done
+	#export IFS="Y-Yy"
+	#for line in $CONTENT; do
+	#	echo "";
+	#	echo "the line is: $line";
+	#	echo "";
+	#done
 
 
 }
@@ -589,7 +589,7 @@ save "exe_12=$exe_12;Y-Yy";
 save "exe_13=$exe_13;Y-Yy";
 save "exe_14=$exe_14;Y-Yy";
 save "exe_15=$exe_15;Y-Yy";
-save "exe_16=$exe_16;Y-Yy";
+save "exe_16=$exe_16;;Y-Yy";
 
 
 
