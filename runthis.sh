@@ -629,7 +629,7 @@ loadConfig;
 
 
 if (( $highestLevelCompleted == 0 )); then
-	save $log_marker; #start marker
+	save $log_marker; #start marker >> reset the progress if we are selecting a new one
 
 	#remove from CRON just incase
 	#TODO
@@ -675,8 +675,6 @@ fi
 log "";
 log "";
 
-
-#if (( a > b )); then
 
 if (( $highestLevelCompleted < 11 )); then
 	if [ "$exe_11" = true ]; then
@@ -740,5 +738,5 @@ fi
 
 
 drawSummary;
-save "Done";log "Done";
+save "Done >> end of file";log "Done >> end of file";
 save $log_marker; #end markers
