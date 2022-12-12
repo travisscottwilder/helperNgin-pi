@@ -42,7 +42,7 @@ c9userPass="";
 userToUse="";
 c9portToUse=9191;
 
-log_marker="----====^====----";
+log_marker="xxxxxxxxxx";
 
 # Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f "$0")
@@ -537,7 +537,7 @@ drawTimeElapsed(){
 
 loadConfig() {
 
-	CONTENT=$(sed -n -e "/$log_marker/,$p $SCRIPTPATH/logs/progress.log");
+	CONTENT=$(sed -n -e "/$/,$p $SCRIPTPATH/logs/progress.log");
 
 	echo "saved params $CONTENT";
 
