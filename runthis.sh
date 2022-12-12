@@ -549,7 +549,9 @@ loadConfig() {
 
 	export IFS=";"
 	for line in $CONTENT; do
-		#echo "the line is: $line";
+		echo "";
+		echo "the line is: $line";
+		echo "";
 	done
 
 
