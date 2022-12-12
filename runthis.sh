@@ -724,7 +724,7 @@ if (( $highestLevelCompleted < 15 || highestLevelCompleted == 0)); then
 
 		if (( $highestSubLvlCompleted < 15 )); then
 			installOLEDScreenPythonOne
-		if (( $highestSubLvlCompleted < 15 )); then
+		else if (( $highestSubLvlCompleted < 15 )); then
 			installOLEDScreenPythonTwo
 		else
 			save "xprogressx=15.done;";
