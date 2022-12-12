@@ -1,9 +1,16 @@
 #!/bin/bash 
 #
-#	if you get special character error:
-#		NOTEPAD++: 	Edit --> EOL Conversion --> UNIX/OSX Format
-#		LINUX:		sed -i -e 's/\r$//' scriptname.sh
 #
+# The primary purpose of this middle man script is because git does not come installed by default, so this script:
+#
+#   installs updates
+#   installs git
+#   clones this full repo into same dir this script is saved to
+#   makes runthis.sh executable and then runs it
+#
+#
+
+
 
 # Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f "$0")
