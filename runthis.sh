@@ -54,8 +54,8 @@ SCRIPT=$(readlink -f "$0")
 # Absolute path this script is in, thus /home/user/bin
 SCRIPTPATH=$(dirname "$SCRIPT")
 
-highestLevelCompleted 	= 0;
-highestSubLvlCompleted 	= 0;
+highestLevelCompleted=0;
+highestSubLvlCompleted=0;
 
 
 
@@ -554,15 +554,15 @@ loadConfig() {
 			if [ "${configVar[0]}" == "xprogressx" ]; then
 				
 				IFS='.' read -r -a progressSplit <<< "${configVar[1]}"
-				lvl 	= ${progressSplit[0]}
-				subLvl	= ${progressSplit[1]}
+				lvl=${progressSplit[0]}
+				subLvl=${progressSplit[1]}
 
 				if [ "$lvl" > highestLevelCompleted ]; then
-					highestLevelCompleted = $lvl;
+					highestLevelCompleted=$lvl;
 				fi
 
 				if [ "$subLvl" > highestSubLvlCompleted ]; then
-					highestSubLvlCompleted = $subLvl;
+					highestSubLvlCompleted=$subLvl;
 				fi
 				
 
