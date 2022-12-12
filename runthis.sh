@@ -550,7 +550,7 @@ loadConfig() {
 	do
 		if [ "$line" != "xxxxxxxxxx" ]; then
 
-			IFS=', ' read -r -a configVar <<< "$line"
+			IFS='=' read -r -a configVar <<< "$line"
 
 			echo "variable ${configVar[0]} with value ${configVar[1]}"
 		fi
