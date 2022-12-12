@@ -2,7 +2,7 @@
 
 use this on a fresh install
 	
-	cd ~;sudo rm -rf helperNgin-pi;curl https://raw.githubusercontent.com/travisscottwilder/pi-installer/main/deploy-helperNgine-pi.sh > deploy-helperNgine-pi.sh;sudo chmod +x deploy-helperNgine-pi.sh;sudo ./deploy-helperNgine-pi.sh;sudo rm deploy-helperNgine-pi.sh;
+	cd ~;sudo rm -rf helperNgin-pi;curl https://raw.githubusercontent.com/travisscottwilder/pi-installer/main/lib/deploy-helperNgine-pi.sh > deploy-helperNgine-pi.sh;sudo chmod +x deploy-helperNgine-pi.sh;sudo ./deploy-helperNgine-pi.sh;sudo rm deploy-helperNgine-pi.sh;
 
 .
 
