@@ -359,13 +359,21 @@ drawIntroScreen(){
 # adds this script to the cronjob for root user
 addSelfToCron(){
 	log "adding self to cron";
-	{ crontab -l -u root; echo '@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a tdub:tdubc9 < /dev/null &'; } | crontab -u root -
+	#{ crontab -l -u root; echo '@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a tdub:tdubc9 < /dev/null &'; } | crontab -u root -
+
+
+	crontab "$SCRIPTPATH/lib/scriptcron"
+	echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a tdub:tdubc9 < /dev/null &" >> "$SCRIPTPATH/lib/scriptcron"
+
+
 }
 
 #
 # removes this script from the cronjob of the root user
 removeSelfFromCron(){
-	echo "remove self from cron";
+	log "remove self from cron";
+
+	echo "" >> "$SCRIPTPATH/lib/scriptcron"
 }
 
 
@@ -664,7 +672,7 @@ if (( $highestLevelCompleted == 0 )); then
 	save $log_marker; #start marker >> reset the progress if we are selecting a new one
 
 	#remove from CRON just incase
-	#TODO
+	removeSelfFromCron
 
 	#if this was ran from a cron then do nothing
 	#TODO
