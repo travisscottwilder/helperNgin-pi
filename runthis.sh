@@ -564,6 +564,7 @@ loadConfig() {
 				lvl=${progressSplit[0]}
 				subLvl=${progressSplit[1]}
 
+				log "CHECKING CONFIG TDUb -> $lastLvl | $lvl | $subLvl |=| $highestLevelCompleted | $highestSubLvlCompleted";
 
 				#see if our highest level compelted has changed
 				if (( $lvl > highestLevelCompleted )); then
