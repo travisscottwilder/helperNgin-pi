@@ -123,7 +123,7 @@ freshInstallWithUtils() {
 	log "rebooting";
 	log "rebooting";
 	log "rebooting";
-	sudo reboot now;
+	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runme.log;
 }
 
 
@@ -176,7 +176,7 @@ installARGOFanScript() {
 	drawTimeElapsed
 	
 	curl https://download.argon40.com/argon1.sh | bash 
-	argonone-config
+	argonone-config | tee -a "$SCRIPTPATH"/logs/runme.log
 	
 	drawTimeElapsed
 
@@ -196,8 +196,8 @@ installGPIOPythonLibs() {
 	log "";
 	log "${blue}--- Install GPIO Python Libs --------------------------------------------${resetColor}"
 
-	sudo npm install -g rpio --save;
-	sudo npm install -g rpio;
+	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo npm install -g rpio | tee -a "$SCRIPTPATH"/logs/runme.log;
 	drawTimeElapsed
 	
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
@@ -222,15 +222,15 @@ installOLEDScreenPythonOne() {
 
 
 	cd ~;
-	sudo apt-get install -y python3-pip;
-	sudo pip3 install --upgrade adafruit-python-shell
+	sudo apt-get install -y python3-pip | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo pip3 install --upgrade adafruit-python-shell | tee -a "$SCRIPTPATH"/logs/runme.log
 	
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
 	log "rebooting";
 	log "rebooting";
-	sudo reboot now;
+	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runme.log;
 }
 
 #
@@ -246,24 +246,24 @@ installOLEDScreenPythonTwo() {
 
 	cd ~;
 	wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py;
-	sudo python3 raspi-blinka.py
+	sudo python3 raspi-blinka.py | tee -a "$SCRIPTPATH"/logs/runme.log;
 	
-	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306
-	sudo pip3 install --upgrade psutil
+	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306 | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo pip3 install --upgrade psutil | tee -a "$SCRIPTPATH"/logs/runme.log;
 	
-	sudo apt-get install python3-pil;
+	sudo apt-get install python3-pil | tee -a "$SCRIPTPATH"/logs/runme.log;
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
 	log "add an OLED script on boot: [NOTE- crontab is user specific, do you need root? [USE YOUR DEFAULT USER]]";
-	log "crontab -e"
+	log "crontab -e";
 	log "@reboot python3 PATH_TO_SCRIPT/monitor.py &";
 	
 	log "rebooting";
 	log "rebooting";
 	log "rebooting";
-	sudo reboot now;
+	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runme.log;
 }
 
 
@@ -277,21 +277,22 @@ installOLEDScreenPythonTwo() {
 installC9() {
 	log "${blue}--- Install OLED Screen Python Scripts & Libs TWO [B]--------------------------------------------${resetColor}"
 	
-	sudo apt-get install -y python2;
-	sudo npm install -g --save optimist;
-	sudo ufw allow ${c9portToUse};
+	sudo apt-get install -y python2 | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo npm install -g --save optimist | tee -a "$SCRIPTPATH"/logs/runme.log;
+	sudo ufw allow ${c9portToUse} | tee -a "$SCRIPTPATH"/logs/runme.log;
 	
-	cd ~;wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz;
+	cd ~;
+	wget http://nodejs.org/dist/v0.10.28/node-v0.10.28-linux-arm-pi.tar.gz | tee -a "$SCRIPTPATH"/logs/runme.log;
 	cd /usr/local;
 
-	tar -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz --strip=1;
+	tar -xzf ~/node-v0.10.28-linux-arm-pi.tar.gz --strip=1 | tee -a "$SCRIPTPATH"/logs/runme.log;
 	export NODE_PATH="/usr/local/lib/node_modules";
 	
 	
 	cd ~;
-	git clone https://github.com/c9/core.git c9sdk;
+	git clone https://github.com/c9/core.git c9sdk | tee -a "$SCRIPTPATH"/logs/runme.log;
 	cd c9sdk;
-	sudo scripts/install-sdk.sh;
+	sudo scripts/install-sdk.sh | tee -a "$SCRIPTPATH"/logs/runme.log;
 
 	
 	
@@ -533,15 +534,14 @@ drawTimeElapsed(){
 
 
 
-config_read_file() {
-    (grep -E "^${2}=" -m 1 "${1}" 2>/dev/null || echo "VAR=__UNDEFINED__") | head -n 1 | cut -d '=' -f 2-;
-}
 
-config_get() {
+getConfig() {
 
-	#CONTENT=$(sed -n -e "/$log_marker/,$p")
+	CONTENT=$(sed -n -e "/$log_marker/,$p")
 
 	echo "saved params $CONTENT";
+
+	return false;
 }
 
 
@@ -558,7 +558,11 @@ config_get() {
 
 #check if there is progress to load
 
-#config_get
+if [ getConfig = true ]; then
+	echo "yes has config dude";
+fi
+
+
 
 
 save $log_marker; #start marker
