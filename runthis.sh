@@ -14,15 +14,27 @@ blue=$'\e[01;34m'
 magenta=$'\e[01;35m'
 resetColor=$'\e[0m'
 
-exe_twoFresh=false;
-exe_threeInstallNode=false;
+exe_two=false;
+exe_three=false;
+
 exe_nodeA=false;
 exe_nodeB=false;
 exe_nodeC=false;
-exe_fourArgo=false;
-exe_fiveGPIOpython=false;
-exe_sixoLED=false;
-exe_sevenC9=false;
+
+exe_four=false;
+exe_five=false;
+exe_sixo=false;
+exe_seven=false;
+
+exe_11=false;
+exe_12=false;
+exe_13=false;
+exe_14=false;
+exe_15=false;
+exe_16=false;
+exe_17=false;
+exe_18=false;
+exe_19=false;
 
 exe_actionDone="NA";
 
@@ -31,6 +43,26 @@ userToUse="";
 c9portToUse=9191;
 
 
+# Absolute path to this script, e.g. /home/user/bin/foo.sh
+SCRIPT=$(readlink -f "$0")
+# Absolute path this script is in, thus /home/user/bin
+SCRIPTPATH=$(dirname "$SCRIPT")
+
+
+
+
+
+
+
+#
+#	echos to the user and logs inside logs/runme.log
+#
+log(){ echo $1 | tee -a "$SCRIPTPATH"/logs/runme.log; }
+
+#
+# saves progress into logs/progress.log
+#
+save(){ echo $1 >> "$SCRIPTPATH"/logs/progress.log; }
 
 
 #
@@ -40,8 +72,8 @@ c9portToUse=9191;
 #
 #
 freshInstallWithUtils() {
-	echo "";
-	echo "${blue}--- Fresh Install - updating System & Utils --------------------------------------------${resetColor}"
+	log "";
+	log "${blue}--- Fresh Install - updating System & Utils --------------------------------------------${resetColor}"
 
 
 	sudo apt-get update -y;
@@ -83,11 +115,11 @@ freshInstallWithUtils() {
 	sudo apt-get install git -y;
 	
 
-	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawTimeElapsed
-	echo "rebooting";
-	echo "rebooting";
-	echo "rebooting";
+	log "rebooting";
+	log "rebooting";
+	log "rebooting";
 	sudo reboot now;
 }
 
@@ -102,8 +134,8 @@ freshInstallWithUtils() {
 #
 #
 installNodeJS() {
-	echo "";
-	echo "${blue}--- Install NodeJS --------------------------------------------${resetColor}"
+	log "";
+	log "${blue}--- Install NodeJS --------------------------------------------${resetColor}"
 
 	sudo npm install -g rpio --save;
 
@@ -112,7 +144,7 @@ installNodeJS() {
 	sudo pip3 install --upgrade setuptools;
 	sudo apt-get install -y npm;
 
-	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawTimeElapsed
 	
 	#FIX YARN:
@@ -133,8 +165,8 @@ installNodeJS() {
 #
 #
 installARGOFanScript() {
-	echo "";
-	echo "${blue}--- Install ARGO Case Fan Script --------------------------------------------${resetColor}"
+	log "";
+	log "${blue}--- Install ARGO Case Fan Script --------------------------------------------${resetColor}"
 
 	drawTimeElapsed
 	
@@ -143,7 +175,7 @@ installARGOFanScript() {
 	
 	drawTimeElapsed
 
-	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawTimeElapsed
 }
 
@@ -156,14 +188,14 @@ installARGOFanScript() {
 #
 #
 installGPIOPythonLibs() {
-	echo "";
-	echo "${blue}--- Install GPIO Python Libs --------------------------------------------${resetColor}"
+	log "";
+	log "${blue}--- Install GPIO Python Libs --------------------------------------------${resetColor}"
 
 	sudo npm install -g rpio --save;
 	sudo npm install -g rpio;
 	drawTimeElapsed
 	
-	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	
 	drawTimeElapsed
 
@@ -180,19 +212,19 @@ installGPIOPythonLibs() {
 #
 #
 installOLEDScreenPythonOne() {
-	echo "";
-	echo "${blue}--- Install OLED Screen Python Scripts & Libs ONE [A]--------------------------------------------${resetColor}"
+	log "";
+	log "${blue}--- Install OLED Screen Python Scripts & Libs ONE [A]--------------------------------------------${resetColor}"
 
 
 	cd ~;
 	sudo apt-get install -y python3-pip;
 	sudo pip3 install --upgrade adafruit-python-shell
 	
-	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
-	echo "rebooting";
-	echo "rebooting";
+	log "rebooting";
+	log "rebooting";
 	sudo reboot now;
 }
 
@@ -203,8 +235,8 @@ installOLEDScreenPythonOne() {
 #
 #
 installOLEDScreenPythonTwo() {
-	echo "";
-	echo "${blue}--- Install OLED Screen Python Scripts & Libs TWO [B]--------------------------------------------${resetColor}"
+	log "";
+	log "${blue}--- Install OLED Screen Python Scripts & Libs TWO [B]--------------------------------------------${resetColor}"
 
 
 	cd ~;
@@ -216,16 +248,16 @@ installOLEDScreenPythonTwo() {
 	
 	sudo apt-get install python3-pil;
 
-	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
-	echo "add an OLED script on boot: [NOTE- crontab is user specific, do you need root? [USE YOUR DEFAULT USER]]";
-	echo "crontab -e"
-	echo "@reboot python3 PATH_TO_SCRIPT/monitor.py &";
+	log "add an OLED script on boot: [NOTE- crontab is user specific, do you need root? [USE YOUR DEFAULT USER]]";
+	log "crontab -e"
+	log "@reboot python3 PATH_TO_SCRIPT/monitor.py &";
 	
-	echo "rebooting";
-	echo "rebooting";
-	echo "rebooting";
+	log "rebooting";
+	log "rebooting";
+	log "rebooting";
 	sudo reboot now;
 }
 
@@ -238,7 +270,7 @@ installOLEDScreenPythonTwo() {
 #
 #
 installC9() {
-	echo "${blue}--- Install OLED Screen Python Scripts & Libs TWO [B]--------------------------------------------${resetColor}"
+	log "${blue}--- Install OLED Screen Python Scripts & Libs TWO [B]--------------------------------------------${resetColor}"
 	
 	sudo apt-get install -y python2;
 	sudo npm install -g --save optimist;
@@ -258,18 +290,18 @@ installC9() {
 
 	
 	
-	echo "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
-	echo "";
-	echo "";
-	echo "add C9 to start on boot: [NOTE- crontab is user specific, do you need root? [USE ROOT]]";
-	echo "";
+	log "";
+	log "";
+	log "add C9 to start on boot: [NOTE- crontab is user specific, do you need root? [USE ROOT]]";
+	log "";
 	
-	echo "sudo su;crontab -e;";
-	echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass < /dev/null &";
-	echo "";
-	echo "";
+	log "sudo su;crontab -e;";
+	log "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass < /dev/null &";
+	log "";
+	log "";
 
 }
 
@@ -289,16 +321,16 @@ installC9() {
 #
 drawIntroScreen(){
 	#clear
-	echo "";
-	echo "";
-	echo "${green}";
-	echo "------------------------------------------------"
-	echo "------------------------------------------------"
-	echo "-----   ${magenta}Raspberry Pi INSTALLER HELPER${green}   -----"
-	echo "------------------------------------------------"
-	echo "------------------------------------------------${resetColor}"
-	echo ""
-	echo ""
+	log "";
+	log "";
+	log "${green}";
+	log "------------------------------------------------"
+	log "------------------------------------------------"
+	log "-----   ${magenta}Raspberry Pi INSTALLER HELPER${green}   -----"
+	log "------------------------------------------------"
+	log "------------------------------------------------${resetColor}"
+	log ""
+	log ""
 }
 
 
@@ -312,65 +344,65 @@ drawIntroScreen(){
 drawOptionsMenu(){
 	drawIntroScreen
 	
-	echo "";
+	log "";
 	
-	echo "${red} NOTE - This helper was created to be used on Raspberry pi OS lite 32bit. ${resetColor}"	
-	echo "${green}";
+	log "${red} NOTE - This helper was created to be used on Raspberry pi OS lite 32bit. ${resetColor}"	
+	log "${green}";
 	
-	echo "------------------------------------------------"
-	echo "-----    ${blue}Available Options${green}    -----"
-	echo "------------------------------------------------"
-	echo ""
-	echo ""
-	echo ""
+	log "------------------------------------------------"
+	log "-----    ${blue}Available Options${green}    -----"
+	log "------------------------------------------------"
+	log ""
+	log ""
+	log ""
 	
-	echo "${blue} 1 ${green} |${resetColor} Install All"
-	echo ""
-	echo ""
+	log "${blue} 1 ${green} |${resetColor} Install All"
+	log ""
+	log ""
 	
-	echo "${blue} 2 ${green} |${resetColor} Install Web Tools [NodeJS,Cloud9 IDE]"
-	echo ""
-	echo ""
+	log "${blue} 2 ${green} |${resetColor} Install Web Tools [NodeJS,Cloud9 IDE]"
+	log ""
+	log ""
 	
-	echo "${blue} 3 ${green} |${resetColor} Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]"
-	echo ""
-	echo ""
-	echo ""
+	log "${blue} 3 ${green} |${resetColor} Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]"
+	log ""
+	log ""
+	log ""
 	
 
-	echo "${blue} 11 ${green} |${resetColor} System Update & Install Utils [nano,bc,ufw firewall,fail2ban auto ban,git]"
+	log "${blue} 11 ${green} |${resetColor} System Update & Install Utils [nano,bc,ufw firewall,fail2ban auto ban,git]"
 	
-	echo "";
-	echo "${blue} 12 ${green} |${resetColor} Install NodeJS & Utils"
-	echo "${blue} 13 ${green} |${resetColor} Cloud9 IDE"
+	log "";
+	log "${blue} 12 ${green} |${resetColor} Install NodeJS & Utils"
+	log "${blue} 13 ${green} |${resetColor} Cloud9 IDE"
 	
-	echo "";
-	echo "${blue} 14 ${green} |${resetColor} Install Argo Case Fan Script"
-	echo "${blue} 15 ${green} |${resetColor} Install OLED Screen Python Libs"
-	echo "${blue} 16 ${green} |${resetColor} Install Pi GPIO Python Libs"
+	log "";
+	log "${blue} 14 ${green} |${resetColor} Install Argo Case Fan Script"
+	log "${blue} 15 ${green} |${resetColor} Install OLED Screen Python Libs"
+	log "${blue} 16 ${green} |${resetColor} Install Pi GPIO Python Libs"
 	
 	
-	echo "";
-	echo "-------------------";
-	echo "------ OTHER ----------------------";
-	echo "-------------------";
-	echo "";
-	echo "";
-	echo "${blue} 16 ${green} |${resetColor} Add new port to firewall"
-	echo "${blue} 17 ${green} |${resetColor} Mount external USB & automount it"
+	log "";
+	log "-------------------";
+	log "------ OTHER ----------------------";
+	log "-------------------";
+	log "";
+	log "";
+	log "${blue} 16 ${green} |${resetColor} Add new port to firewall"
+	log "${blue} 17 ${green} |${resetColor} Mount external USB & automount it"
 	
-	echo "";
-	echo "";
-	echo "-------------------";
-	echo "----------------------------";
-	echo "-------------------";
-	echo "";
-	echo "${blue} q ${green} |${red} Quit${resetColor}"
+	log "";
+	log "";
+	log "-------------------";
+	log "----------------------------";
+	log "-------------------";
+	log "";
+	log "${blue} q ${green} |${red} Quit${resetColor}"
 
 
-#	echo "${blue} X ${green} |${resetColor}"
-#	echo "${blue} X ${green} |${resetColor}"
-#	echo "${blue} X ${green} |${resetColor}"
+#	log "${blue} X ${green} |${resetColor}"
+#	log "${blue} X ${green} |${resetColor}"
+#	log "${blue} X ${green} |${resetColor}"
 	
 	
 	
@@ -381,29 +413,29 @@ drawOptionsMenu(){
 
 			[1]* ) 
 				exe_twoFresh=true;
-				exe_actionDone="2) Cleaned up & misc Utils";
+				exe_actionDone="";
 				break;;
 			[2]* ) 
 				exe_threeInstallNode=true;
-				exe_actionDone="3) Installed NodeJS";
+				exe_actionDone="";
 				break;;
 			[3]* ) 
 				exe_fourArgo=true;
-				exe_actionDone="4) Installed ARGO metal case fan script";
+				exe_actionDone="";
 				break;;
 
 			[4]* ) 
 				exe_sixoLED=true;
-				exe_actionDone="6) Installed OLED";
+				exe_actionDone="";
 				break;;
 			[5]* ) 
 				exe_sevenC9=true;
-				exe_actionDone="7) Created C9 IDE";
+				exe_actionDone=";
 				break;;
 			[qQquit]* ) exit;;
 			
 			
-			* ) echo "Please answer a number [1-7].";;
+			* ) log "Please answer a number [1-7].";;
 		esac
 	done
 	
@@ -421,26 +453,26 @@ drawOptionsMenu(){
 drawSummary() {
 	drawIntroScreen
 
-	echo "${green}------------------------------------------------"
-	echo "------------------------------------------------"
-	echo "-------------       ${red}SUMMARY${green}      -------------"
-	echo "------------------------------------------------"
+	log "${green}------------------------------------------------"
+	log "------------------------------------------------"
+	log "-------------       ${red}SUMMARY${green}      -------------"
+	log "------------------------------------------------"
 	drawTimeElapsed
-	echo "------------------------------------------------${resetColor}"
-	echo ""
-	echo "${blue}";
-	echo "------------------------------------------------"
-	echo "";
-	echo "${red}Action Done             ${blue}|${resetColor} ${exe_actionDone}";
-	echo "";
+	log "------------------------------------------------${resetColor}"
+	log ""
+	log "${blue}";
+	log "------------------------------------------------"
+	log "";
+	log "${red}Action Done             ${blue}|${resetColor} ${exe_actionDone}";
+	log "";
 	
 	
 
 
 	
-	echo "${blue}";
-	echo "------------------------------------------------${resetColor}"
-	echo "";
+	log "${blue}";
+	log "------------------------------------------------${resetColor}"
+	log "";
 }
 
 
@@ -467,11 +499,11 @@ drawTimeElapsed(){
             secs=$(echo ${secs}*60|bc|awk '{print int($secondsLasped+0.5)}')
         fi
     
-	echo "${blue}------------------------------------------------${resetColor}"
-	echo "${red}------------------------------------------------${resetColor}"
-	echo "---------------- Time Lapsed ${min}m & ${secs}s ---------------"
-	echo "${red}------------------------------------------------${resetColor}"
-	echo "${blue}------------------------------------------------${resetColor}"
+	log "${blue}------------------------------------------------${resetColor}"
+	log "${red}------------------------------------------------${resetColor}"
+	log "---------------- Time Lapsed ${min}m & ${secs}s ---------------"
+	log "${red}------------------------------------------------${resetColor}"
+	log "${blue}------------------------------------------------${resetColor}"
 }
 
 
@@ -489,21 +521,25 @@ drawTimeElapsed(){
 ###########################################
 
 
+#check if there is progress to load
+
+
+save "----===="; #start marker
+
 
 
 
 
 drawIntroScreen;
-
 drawOptionsMenu;
 
-echo "";
-echo "";
+log "";
+log "";
 
 
-if [ "$exe_sixoLED" = true ]; then
+if [ "$exe_six" = true ]; then
 	while true; do
-		read -p "${yellow}--- What mode of the OLED install would you like to do?? [a/b/c] --------------------------------------------${resetColor}" yn
+		read -p "${yellow}--- What mode of the OLED install would you like to do? [a/b/c] --------------------------------------------${resetColor}" yn
 		case $yn in
 			[aA]* )  exe_nodeA=true;
 				break;;
@@ -511,53 +547,50 @@ if [ "$exe_sixoLED" = true ]; then
 				break;;
 			[cC]* ) exe_nodeC=true;
 				break;;
-			* ) echo "Please answer [y/n].";;
+			* ) log "Please answer [y/n].";;
 		esac
 	done
 fi
 
 
-if [ "$exe_sevenC9" = true ]; then
-	echo "";
-	echo "";
-	echo "${yellow}--- Enter in the name of the user to create for C9 --------------------------------------------${resetColor}"
-	echo "";
+if [ "$exe_seven" = true ]; then
+	log "";
+	log "";
+	log "${yellow}--- Enter in the name of the user to create for C9 --------------------------------------------${resetColor}"
+	log "";
 	read userToUse
 	
-	echo "";
-	echo "";
-	echo "${yellow}--- Enter in the password for ${red}C9${yellow} user [$userToUse] about to be created in order to access IDE --------------------------------------------${resetColor}"
+	log "";
+	log "";
+	log "${yellow}--- Enter in the password for ${red}C9${yellow} user [$userToUse] about to be created in order to access IDE --------------------------------------------${resetColor}"
 	read c9userPass
 fi
 
 
 
 
-
-
-
-
-if [ "$exe_twoFresh" = true ]; then
+if [ "$exe_11" = true ]; then
 	freshInstallWithUtils
 fi
 
 
-if [ "$exe_threeInstallNode" = true ]; then
+if [ "$exe_12" = true ]; then
 	installNodeJS
 fi
 
 
-if [ "$exe_fourArgo" = true ]; then
+
+if [ "$exe_13" = true ]; then
+	installC9
+fi
+
+
+if [ "$exe_14" = true ]; then
 	installARGOFanScript
 fi
 
 
-if [ "$exe_fiveGPIOpython" = true ]; then
-	installGPIOPythonLibs
-fi
-
-
-if [ "$exe_sixoLED" = true ]; then
+if [ "$exe_15" = true ]; then
 	if [ "$exe_nodeA" = true ]; then
 		installOLEDScreenPythonOne
 	fi
@@ -570,11 +603,13 @@ if [ "$exe_sixoLED" = true ]; then
 fi
 
 
-
-if [ "$exe_sevenC9" = true ]; then
-	installC9
+if [ "$exe_16" = true ]; then
+	installGPIOPythonLibs
 fi
 
 
 
+
 drawSummary
+
+save "====----"; #end markers
