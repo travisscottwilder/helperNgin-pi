@@ -549,10 +549,12 @@ loadConfig() {
 	for line in ${CONTENT//;/ }
 	do
 		if [ "$line" != "xxxxxBREAKxxxxx" ]; then
-
 			IFS='=' read -r -a configVar <<< "$line"
-
 			echo "variable ${configVar[0]} with value ${configVar[1]}"
+
+			#if ${configVar[1]} is empty then maybe we have a progress check rather than a variable set
+				#explode on . >> if last number is NOT done then check the first number and set that as go
+
 
 			#todo check for progress first
 			askForOptions=false;
