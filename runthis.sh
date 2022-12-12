@@ -254,6 +254,7 @@ installOLEDScreenPythonTwo() {
 
 
 	cd ~;
+	sudo rm raspi-blinka.py;
 	#wget https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py;
 	wget https://raw.githubusercontent.com/travisscottwilder/helperNgin-pi/main/lib/raspi-blinka.py;
 	sudo python3 raspi-blinka.py | tee -a "$SCRIPTPATH"/logs/runthis.log;
