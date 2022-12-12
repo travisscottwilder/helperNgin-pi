@@ -548,7 +548,7 @@ loadConfig() {
 
 	for line in ${CONTENT//;/ }
 	do
-		if [ "$line" != "xxxxxxxxxx"]; then
+		if [ "$line" != "xxxxxxxxxx" ]; then
 
 			IFS=', ' read -r -a configVar <<< "$line"
 
