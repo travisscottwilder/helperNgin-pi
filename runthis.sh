@@ -404,28 +404,6 @@ drawOptionsMenu(){
 		read -p "${yellow}--- Select an option to continue --------------------------------------------${resetColor}" yn
 		case $yn in
 
-			[1]* ) 
-				exe_11=true;
-				exe_12=true;
-				exe_13=true;
-				exe_14=true;
-				exe_15=true;
-				exe_16=true;
-				exe_actionDone="Install All";
-				break;;
-			[2]* ) 
-				exe_12=true;
-				exe_13=true;
-				exe_actionDone="Install Web Tools [NodeJS,Cloud9 IDE";
-				break;;
-			[3]* ) 
-				exe_14=true;
-				exe_15=true;
-				exe_16=true;
-				exe_actionDone="Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]";
-				break;;
-
-
 			[11]* ) 
 				exe_11=true;
 				exe_actionDone="System Update & Install Utils [nano,bc,ufw firewall,fail2ban auto ban,git]";
@@ -449,6 +427,29 @@ drawOptionsMenu(){
 			[16]* ) 
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Python Libs";
+				break;;
+
+
+			
+			[1]* ) 
+				exe_11=true;
+				exe_12=true;
+				exe_13=true;
+				exe_14=true;
+				exe_15=true;
+				exe_16=true;
+				exe_actionDone="Install All";
+				break;;
+			[2]* ) 
+				exe_12=true;
+				exe_13=true;
+				exe_actionDone="Install Web Tools [NodeJS,Cloud9 IDE";
+				break;;
+			[3]* ) 
+				exe_14=true;
+				exe_15=true;
+				exe_16=true;
+				exe_actionDone="Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]";
 				break;;
 
 
@@ -562,12 +563,12 @@ config_get
 save $log_marker; #start marker
 
 
-save "exe_11="$(string "$exe_11");
-save "exe_12="$(string "$exe_12");
-save "exe_13="$(string "$exe_13");
-save "exe_14="$(string "$exe_14");
-save "exe_15="$(string "$exe_15");
-save "exe_16="$(string "$exe_16");
+save "exe_11=$exe_11";
+save "exe_12=$exe_12";
+save "exe_13=$exe_13";
+save "exe_14=$exe_14";
+save "exe_15=$exe_15";
+save "exe_16=$exe_16";
 
 
 
