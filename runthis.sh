@@ -664,7 +664,16 @@ if (( $highestLevelCompleted == 0 )); then
 	removeSelfFromCron
 
 	#if this was ran from a cron then do nothing
-	#TODO
+	
+	if [ -t 1 ] ; then 
+		echo "interacive mode";
+	else
+		save $log_marker;
+		#this is being ran in a cron go ahead and exit this
+		exit;;
+	fi
+
+
 
 
 
