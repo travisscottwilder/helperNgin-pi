@@ -307,9 +307,12 @@ installC9() {
 	cd c9sdk;
 	sudo scripts/install-sdk.sh | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
+	#load node server now
+	node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass
+
 	#remove from cron (just incase it is already there, and then add it [so we don't double add])
 	crontab -u root -l | grep -v 'node /usr/local/c9sdk/server.js'  | crontab -u root -
-	(crontab -u root -l ; echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass < /dev/null &") | crontab -u root -
+	(crontab -u root -l ; echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass >> $SCRIPTPATH/logs/c9server.log &") | crontab -u root -
 	
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
@@ -356,7 +359,7 @@ drawIntroScreen(){
 #
 # adds this script to the cronjob for root user
 addSelfToCron(){ 
-	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh >> $SCRIPTPATH/logs/runthis.log") | crontab -u root - 
+	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh") | crontab -u root - 
 }
 
 #
