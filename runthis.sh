@@ -63,6 +63,7 @@ highestSubLvlCompleted=0;
 
 
 function check_online(){ netcat -z -w 5 8.8.8.8 53 && echo 1 || echo 0; }
+function check_onlineTwo(){ netcat -z -w 5 raspbian.raspberrypi.org 80 && echo 1 || echo 0; }
 
 
 
@@ -70,6 +71,9 @@ if [ -t 1 ] ; then
 	log "Live mode";
 else
 	
+	log "Crontab mode";
+
+	sleep 15;
 
 	# Initial check to see if we are online
 	IS_ONLINE=check_online
@@ -82,8 +86,29 @@ else
 	while [ $IS_ONLINE -eq 0 ]; do
 		# We're offline. Sleep for a bit, then check again
 
+		log "No internet from google, lets sleep";
+
 		sleep 10;
 		IS_ONLINE=check_online
+
+		CHECKS=$[ $CHECKS + 1 ]
+		if [ $CHECKS -gt $MAX_CHECKS ]; then
+			break
+		fi
+	done
+
+	# Initial check to see if we are online
+	IS_ONLINE=check_onlineTwo
+	#reset checks
+	CHECKS=0;
+	# Loop while we're not online.
+	while [ $IS_ONLINE -eq 0 ]; do
+		# We're offline. Sleep for a bit, then check again
+
+		log "No internet from raspbian.raspberrypi.org, lets sleep";
+
+		sleep 10;
+		IS_ONLINE=check_onlineTwo;
 
 		CHECKS=$[ $CHECKS + 1 ]
 		if [ $CHECKS -gt $MAX_CHECKS ]; then
