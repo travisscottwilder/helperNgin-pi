@@ -360,24 +360,12 @@ addSelfToCron(){
 
 	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh >> $SCRIPTPATH/logs/runthis.log") | crontab -u root -
 
-
-	#cd /home/hacks && sh notify.sh>>test.log
-
-	#write out current crontab
-	#crontab -l > "$SCRIPTPATH/lib/scriptcron.old"
-	#echo new cron into cron file
-	#echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a tdub:tdubc9 < /dev/null &" >> "$SCRIPTPATH/lib/scriptcron"
-	#install new cron file
-	#crontab "$SCRIPTPATH/lib/scriptcron"
-
 }
 
 #
 # removes this script from the cronjob of the root user
 removeSelfFromCron(){
 	log "remove self from cron";
-
-	#echo "" > "$SCRIPTPATH/lib/scriptcron"
 
 	crontab -u root -l | grep -v 'cd $SCRIPTPATH'  | crontab -u root -
 }
