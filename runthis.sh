@@ -310,6 +310,7 @@ installC9() {
 	#load node server now
 	node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass
 
+
 	#remove from cron (just incase it is already there, and then add it [so we don't double add])
 	crontab -u root -l | grep -v 'node /usr/local/c9sdk/server.js'  | crontab -u root -
 	(crontab -u root -l ; echo "@reboot /usr/local/bin/node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass >> $SCRIPTPATH/logs/c9server.log 2>&1") | crontab -u root -
@@ -359,6 +360,9 @@ drawIntroScreen(){
 #
 # adds this script to the cronjob for root user
 addSelfToCron(){ 
+	#update system to wait for network before booting, since we will need internet before this script can run
+	raspi-config nonint do_boot_wait 0
+
 	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh") | crontab -u root - 
 }
 
@@ -484,7 +488,7 @@ drawOptionsMenu(){
 			
 			[qQquit]* ) exit;;
 
-			* ) log "Please answer a number [1-7].";;
+			* ) log "Please answer a number [1-7]. || Detected input [$yn]";;
 		esac
 	done
 	
