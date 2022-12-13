@@ -692,16 +692,17 @@ loadConfig() {
 				lvl=${progressSplit[0]}
 				subLvl=${progressSplit[1]}
 
-				#log "CHECKING CONFIG TDUb -> $lastLvl | $lvl | $subLvl |=| $highestLevelCompleted | $highestSubLvlCompleted";
+				#debug log
+				log "";log "CHECKING CONFIG TDUb -> $lastLvl | $lvl | $subLvl |=| $highestLevelCompleted | $highestSubLvlCompleted";log "";
 
-				#see if our highest level compelted has changed
+				#see if our highest level completed has changed
 				if (( $lvl > highestLevelCompleted )); then
 					highestLevelCompleted=$lvl;
 				fi
 
 
 				#calculate our sub level which might need resettings if it was previously set as done, or might need setting as done
-				if (( $lvl > $lastLvl )); then
+				if (($lastLvl != 0 && $lvl > $lastLvl)); then
 					subLvl=0;
 					highestSubLvlCompleted=0;
 				else
@@ -822,7 +823,11 @@ if (( $highestLevelCompleted == 0 )); then
 
 else
 	addSelfToCron;
-	log "loaded from config resuming progress with current progress already done of: $highestLevelCompleted";
+	log "";
+	log "--------";
+	log "loaded from config resuming progress with current progress already done of: $highestLevelCompleted | SUBlvl: $highestSubLvlCompleted";
+	log "--------";
+	log "";
 fi
 
 
@@ -882,7 +887,7 @@ fi
 
 if (( $highestLevelCompleted < 16 || highestLevelCompleted == 0)); then
 	if [ "$exe_16" = true ]; then
-		save "xprogressx=16.0";
+		save "xprogressx=16.0;";
 		installGPIOPythonLibs;
 		save "xprogressx=16.done;";
 	fi
