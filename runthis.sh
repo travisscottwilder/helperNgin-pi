@@ -355,11 +355,15 @@ drawIntroScreen(){
 
 #
 # adds this script to the cronjob for root user
-addSelfToCron(){ (crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh >> $SCRIPTPATH/logs/runthis.log") | crontab -u root - }
+addSelfToCron(){ 
+	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh >> $SCRIPTPATH/logs/runthis.log") | crontab -u root - 
+}
 
 #
 # removes this script from the cronjob of the root user
-removeSelfFromCron(){ crontab -u root -l | grep -v "cd $SCRIPTPATH && ./runthis.sh"  | crontab -u root - }
+removeSelfFromCron(){ 
+	crontab -u root -l | grep -v "cd $SCRIPTPATH && ./runthis.sh"  | crontab -u root - 
+}
 
 
 
