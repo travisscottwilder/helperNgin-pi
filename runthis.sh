@@ -379,7 +379,7 @@ removeSelfFromCron(){
 
 	#echo "" > "$SCRIPTPATH/lib/scriptcron"
 
-	crontab -u root -l | grep -v 'perl /usr/local/c9sdk/server.js'  | crontab -u root -
+	crontab -u root -l | grep -v 'node /usr/local/c9sdk/server.js'  | crontab -u root -
 }
 
 
