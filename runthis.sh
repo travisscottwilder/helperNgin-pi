@@ -217,10 +217,13 @@ freshInstallWithUtils() {
 	
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawTimeElapsed
 	log "rebooting";
 	log "rebooting";
 	log "rebooting";
+	log "";
+	
 	save "xprogressx=11.done;";
 	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
@@ -249,7 +252,10 @@ installNodeJS() {
 	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "";
 	drawTimeElapsed
+	log "";
 	
 	#FIX YARN:
 	#sudo apt remove cmdtest
@@ -279,6 +285,7 @@ installARGOFanScript() {
 	drawTimeElapsed
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawTimeElapsed
 }
 
@@ -299,9 +306,10 @@ installGPIOPythonLibs() {
 	drawTimeElapsed
 	
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
-	
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "";
 	drawTimeElapsed
-
+	log "";
 
 	
 }
@@ -328,10 +336,12 @@ installOLEDScreenPythonOne() {
 	sudo pip3 install --upgrade adafruit-python-shell | tee -a "$SCRIPTPATH"/logs/runthis.log
 	
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
 	log "rebooting";
 	log "rebooting";
+	log "";
 	save "xprogressx=15.3;";
 	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
@@ -362,6 +372,7 @@ installOLEDScreenPythonTwo() {
 	sudo apt-get install python3-pil | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
 	log "add an OLED script on boot: [NOTE- crontab is user specific, do you need root? [USE YOUR DEFAULT USER]]";
@@ -371,6 +382,7 @@ installOLEDScreenPythonTwo() {
 	log "rebooting";
 	log "rebooting";
 	log "rebooting";
+	log "";
 	save "xprogressx=15.6;";
 	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
@@ -421,13 +433,10 @@ installC9() {
 	
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
 	log "";
-	log "";
-	log "add C9 to start on boot: [NOTE- crontab is user specific, do you need root? [USE ROOT]]";
-	log "";
-
 }
 
 
