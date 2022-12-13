@@ -82,6 +82,8 @@ freshInstallWithUtils() {
 	log "";
 	log "${blue}--- Fresh Install - updating System & Utils --------------------------------------------${resetColor}"
 
+	#update system to wait for network before booting, since we will need internet before this script can run
+	sudo raspi-config nonint do_boot_wait 0;
 
 	sudo apt-get update -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
@@ -264,6 +266,9 @@ installOLEDScreenPythonTwo() {
 	sudo python3 raspi-blinka.py | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	sudo rm raspi-blinka.py;
+	
+	#update system to wait for network before booting, since we will need internet before this script can run
+	sudo raspi-config nonint do_boot_wait 0;
 
 	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306 | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo pip3 install --upgrade psutil | tee -a "$SCRIPTPATH"/logs/runthis.log;
