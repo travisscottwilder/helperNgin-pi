@@ -697,6 +697,7 @@ if (( $highestLevelCompleted == 0 )); then
 	fi
 
 else
+	addSelfToCron;
 	log "loaded from config resuming progress with current progress already done of: $highestLevelCompleted";
 fi
 
@@ -771,3 +772,4 @@ drawSummary;
 save "Done >> end of file";
 log "Done >> end of file";
 save "$log_marker";
+removeSelfFromCron;
