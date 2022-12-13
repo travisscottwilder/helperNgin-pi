@@ -68,7 +68,7 @@ function check_onlineTwo(){ netcat -z -w 5 raspbian.raspberrypi.org 80 && echo 1
 
 
 if [ -t 1 ] ; then 
-	log "Live mode";
+	log "Live mode 1";
 else
 	
 	log "Crontab mode";
@@ -765,7 +765,7 @@ if (( $highestLevelCompleted == 0 )); then
 	#if this was ran from a cron then do nothing
 	
 	if [ -t 1 ] ; then 
-		log "Live mode";
+		log "Live mode 2";
 	else
 		save $log_marker;
 		#this is being ran in a cron go ahead and exit this
