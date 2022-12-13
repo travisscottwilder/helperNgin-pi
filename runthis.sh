@@ -666,7 +666,7 @@ if (( $highestLevelCompleted == 0 )); then
 	#if this was ran from a cron then do nothing
 	
 	if [ -t 1 ] ; then 
-		echo "interacive mode";
+		log "Live mode";
 	else
 		save $log_marker;
 		#this is being ran in a cron go ahead and exit this
