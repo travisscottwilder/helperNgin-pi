@@ -3,6 +3,8 @@ Adafruit Raspberry Pi Blinka Setup Script
 (C) Adafruit Industries, Creative Commons 3.0 - Attribution Share Alike
 
 Written by Melissa LeBlanc-Williams for Adafruit Industries
+
+Taken from: https://raw.githubusercontent.com/adafruit/Raspberry-Pi-Installer-Scripts/master/raspi-blinka.py
 """
 
 try:
