@@ -66,6 +66,17 @@ function check_online(){ netcat -z -w 5 8.8.8.8 53 && echo 1 || echo 0; }
 function check_onlineTwo(){ netcat -z -w 5 raspbian.raspberrypi.org 80 && echo 1 || echo 0; }
 
 
+#
+#	echos to the user and logs inside logs/runthis.log
+#
+log(){ echo $1 | tee -a "$SCRIPTPATH"/logs/runthis.log; }
+
+#
+# saves progress into logs/progress.log
+#
+save(){ echo $1 >> "$SCRIPTPATH"/logs/progress.log; }
+
+
 
 if [ -t 1 ] ; then 
 	log "Live mode 1";
@@ -73,7 +84,7 @@ else
 	
 	log "Crontab mode";
 
-	sleep 15;
+	sleep 20;
 
 	# Initial check to see if we are online
 	IS_ONLINE=check_online
@@ -147,16 +158,6 @@ fi
 
 
 
-
-#
-#	echos to the user and logs inside logs/runthis.log
-#
-log(){ echo $1 | tee -a "$SCRIPTPATH"/logs/runthis.log; }
-
-#
-# saves progress into logs/progress.log
-#
-save(){ echo $1 >> "$SCRIPTPATH"/logs/progress.log; }
 
 
 #
@@ -399,7 +400,7 @@ installC9() {
 	sudo scripts/install-sdk.sh | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
 	#load node server now
-	node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass
+	nohup node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass
 
 
 	#remove from cron (just incase it is already there, and then add it [so we don't double add])
@@ -453,6 +454,9 @@ drawIntroScreen(){
 addSelfToCron(){ 
 	#update system to wait for network before booting, since we will need internet before this script can run
 	sudo raspi-config nonint do_boot_wait 0;
+
+	#to attempt to avoid double adding we will remove before we add
+	removeSelfFromCron;
 
 	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh") | crontab -u root - 
 }
