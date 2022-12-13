@@ -358,7 +358,7 @@ drawIntroScreen(){
 addSelfToCron(){
 	log "adding self to cron";
 
-	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && runthis.sh >> $SCRIPTPATH/logs/runthis.log") | crontab -u root -
+	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh >> $SCRIPTPATH/logs/runthis.log") | crontab -u root -
 
 
 	#cd /home/hacks && sh notify.sh>>test.log
@@ -379,7 +379,7 @@ removeSelfFromCron(){
 
 	#echo "" > "$SCRIPTPATH/lib/scriptcron"
 
-	crontab -u root -l | grep -v 'cd $SCRIPTPATH && runthis.sh'  | crontab -u root -
+	crontab -u root -l | grep -v 'cd $SCRIPTPATH && ./runthis.sh'  | crontab -u root -
 }
 
 
