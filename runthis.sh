@@ -408,9 +408,9 @@ installC9() {
 	log "";
 
 	#load node server now
-	node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass > stdout.txt 2> stderr.txt &;
+	node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass > stdout.txt 2> stderr.txt &
 	
-	
+
 	log "";
 	log "setting c9 to set on boot";
 	log "";
