@@ -307,19 +307,17 @@ installC9() {
 	cd c9sdk;
 	sudo scripts/install-sdk.sh | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
+	#remove from cron (just incase it is already there, and then add it [so we don't double add])
+	crontab -u root -l | grep -v 'node /usr/local/c9sdk/server.js'  | crontab -u root -
+	(crontab -u root -l ; echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass < /dev/null &") | crontab -u root -
 	
-	
+
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
 	
 	log "";
 	log "";
 	log "add C9 to start on boot: [NOTE- crontab is user specific, do you need root? [USE ROOT]]";
-	log "";
-	
-	log "sudo su;crontab -e;";
-	log "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass < /dev/null &";
-	log "";
 	log "";
 
 }
@@ -360,8 +358,10 @@ drawIntroScreen(){
 addSelfToCron(){
 	log "adding self to cron";
 
-	(crontab -u root -l ; echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a tdub:tdubc9 < /dev/null &") | crontab -u root -
+	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && sh runthis.sh >> $SCRIPTPATH/logs/runthis.log") | crontab -u root -
 
+
+	#cd /home/hacks && sh notify.sh>>test.log
 
 	#write out current crontab
 	#crontab -l > "$SCRIPTPATH/lib/scriptcron.old"
@@ -379,7 +379,7 @@ removeSelfFromCron(){
 
 	#echo "" > "$SCRIPTPATH/lib/scriptcron"
 
-	crontab -u root -l | grep -v 'node /usr/local/c9sdk/server.js'  | crontab -u root -
+	crontab -u root -l | grep -v 'cd $SCRIPTPATH && sh runthis.sh'  | crontab -u root -
 }
 
 
