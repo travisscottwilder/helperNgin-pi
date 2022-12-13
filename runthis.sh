@@ -229,6 +229,10 @@ installOLEDScreenPythonOne() {
 	log "${blue}--- Install OLED Screen Python Scripts & Libs ONE [A]--------------------------------------------${resetColor}"
 
 
+	sudo mkdir /fonts;
+	sudo cp "$SCRIPTPATH"/lib/fonts/* /fonts/;
+	sudo chown 777 /fonts -Rf;
+
 	cd ~;
 	sudo apt-get install -y python3-pip | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo pip3 install --upgrade adafruit-python-shell | tee -a "$SCRIPTPATH"/logs/runthis.log
@@ -418,8 +422,9 @@ drawOptionsMenu(){
 	log "------ OTHER ${white}---------------";
 	log "-------------------";
 	log "";
-	log "${blue} 16 ${green} |${resetColor} Add new port to firewall"
-	log "${blue} 17 ${green} |${resetColor} Mount external USB & automount it"
+	log "${blue} 17 ${green} |${resetColor} Add new port to firewall"
+	log "${blue} 18 ${green} |${resetColor} Mount external USB & automount it"
+	log "${blue} 19 ${green} |${resetColor} Add script to start on boot"
 	
 	log "";
 	log "${resetColor}-------------------";
@@ -452,11 +457,11 @@ drawOptionsMenu(){
 			"15") 
 				exe_15=true;
 				exe_actionDone="Install OLED Screen Python Libs";
+				addSelfToCron
 				break;;
 			"16") 
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Python Libs";
-				addSelfToCron
 				break;;
 			
 			
@@ -677,7 +682,7 @@ if (( $highestLevelCompleted == 0 )); then
 	else
 		save $log_marker;
 		#this is being ran in a cron go ahead and exit this
-		exit;;
+		exit;
 	fi
 
 
