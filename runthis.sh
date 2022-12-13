@@ -312,7 +312,7 @@ installC9() {
 
 	#remove from cron (just incase it is already there, and then add it [so we don't double add])
 	crontab -u root -l | grep -v 'node /usr/local/c9sdk/server.js'  | crontab -u root -
-	(crontab -u root -l ; echo "@reboot node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass >> $SCRIPTPATH/logs/c9server.log &") | crontab -u root -
+	(crontab -u root -l ; echo "@reboot /usr/local/bin/node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass >> $SCRIPTPATH/logs/c9server.log 2>&1") | crontab -u root -
 	
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
