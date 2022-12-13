@@ -356,7 +356,7 @@ drawIntroScreen(){
 #
 # adds this script to the cronjob for root user
 addSelfToCron(){
-	log "adding self to cron";
+	log "adding self to cron";;
 
 	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && sh runthis.sh >> $SCRIPTPATH/logs/runthis.log") | crontab -u root -
 
