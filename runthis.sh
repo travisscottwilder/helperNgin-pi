@@ -82,6 +82,8 @@ else
 	# Initial starting value for checks
 	CHECKS=0
 
+	log "Checking internet 1";
+
 	# Loop while we're not online.
 	while [ $IS_ONLINE -eq 0 ]; do
 		# We're offline. Sleep for a bit, then check again
@@ -93,9 +95,13 @@ else
 
 		CHECKS=$[ $CHECKS + 1 ]
 		if [ $CHECKS -gt $MAX_CHECKS ]; then
+			log "MAX CHECKS 1.";
 			break
 		fi
 	done
+
+
+	log "Checking internet 2";
 
 	# Initial check to see if we are online
 	IS_ONLINE=check_onlineTwo
@@ -112,6 +118,7 @@ else
 
 		CHECKS=$[ $CHECKS + 1 ]
 		if [ $CHECKS -gt $MAX_CHECKS ]; then
+			log "MAX CHECKS 2.";
 			break
 		fi
 	done
