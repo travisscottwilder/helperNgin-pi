@@ -19,8 +19,7 @@ SCRIPTPATH=$(dirname "$SCRIPT")
 
 
 
-#small upgrade of the system
-sudo apt-get update -y;
+#install git 
 sudo apt-get install git -y;
 
 
