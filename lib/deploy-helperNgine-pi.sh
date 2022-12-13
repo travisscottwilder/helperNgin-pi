@@ -3,7 +3,6 @@
 #
 # The primary purpose of this middle man script is because git does not come installed by default, so this script:
 #
-#   installs updates
 #   installs git
 #   clones this full repo into same dir this script is saved to
 #   makes runthis.sh executable and then runs it
