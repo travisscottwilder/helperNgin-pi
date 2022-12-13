@@ -402,11 +402,14 @@ installC9() {
 	cd c9sdk;
 	sudo scripts/install-sdk.sh | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
+
 	log "";
 	log "running c9 node server so it works right now";
 	log "";
+
 	#load node server now
 	node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass > stdout.txt 2> stderr.txt &;
+	
 	
 	log "";
 	log "setting c9 to set on boot";
