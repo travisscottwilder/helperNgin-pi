@@ -379,7 +379,7 @@ removeSelfFromCron(){
 
 	#echo "" > "$SCRIPTPATH/lib/scriptcron"
 
-	crontab -u root -l | grep -v 'cd $SCRIPTPATH && ./runthis.sh'  | crontab -u root -
+	crontab -u root -l | grep -v 'cd $SCRIPTPATH'  | crontab -u root -
 }
 
 
