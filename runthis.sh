@@ -62,7 +62,7 @@ highestSubLvlCompleted=0;
 
 
 
-function check_online{ netcat -z -w 5 8.8.8.8 53 && echo 1 || echo 0; }
+function check_online(){ netcat -z -w 5 8.8.8.8 53 && echo 1 || echo 0; }
 
 
 
@@ -70,7 +70,7 @@ if [ -t 1 ] ; then
 	log "Live mode";
 else
 	
-	
+
 	# Initial check to see if we are online
 	IS_ONLINE=check_online
 	# How many times we should check if we're online - this prevents infinite looping
@@ -136,9 +136,6 @@ save(){ echo $1 >> "$SCRIPTPATH"/logs/progress.log; }
 freshInstallWithUtils() {
 	log "";
 	log "${blue}--- Fresh Install - updating System & Utils --------------------------------------------${resetColor}"
-
-	#update system to wait for network before booting, since we will need internet before this script can run
-	sudo raspi-config nonint do_boot_wait 0;
 
 	sudo apt-get update -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
@@ -322,8 +319,6 @@ installOLEDScreenPythonTwo() {
 	
 	sudo rm raspi-blinka.py;
 
-	#update system to wait for network before booting, since we will need internet before this script can run
-	sudo raspi-config nonint do_boot_wait 0;
 
 	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306 | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo pip3 install --upgrade psutil | tee -a "$SCRIPTPATH"/logs/runthis.log;
