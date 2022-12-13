@@ -365,7 +365,7 @@ drawIntroScreen(){
 # adds this script to the cronjob for root user
 addSelfToCron(){ 
 	#update system to wait for network before booting, since we will need internet before this script can run
-	raspi-config nonint do_boot_wait 0
+	sudo raspi-config nonint do_boot_wait 0
 
 	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh") | crontab -u root - 
 }
