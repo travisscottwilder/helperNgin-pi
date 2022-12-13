@@ -84,7 +84,7 @@ else
 	
 	log "Crontab mode";
 
-	sleep 20;
+	sleep 24;
 
 	# Initial check to see if we are online
 	IS_ONLINE=check_online
@@ -111,7 +111,7 @@ else
 		fi
 	done
 
-
+	sleep 1;
 	log "Checking internet 2";
 
 	# Initial check to see if we are online
@@ -133,6 +133,9 @@ else
 			break
 		fi
 	done
+
+	#final sleep of 5 before we leave
+	sleep 5;
 
 	if [ $IS_ONLINE -eq 0 ]; then
 		# We never were able to get online. Kill script.
@@ -399,9 +402,15 @@ installC9() {
 	cd c9sdk;
 	sudo scripts/install-sdk.sh | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
+	log "";
+	log "running c9 node server so it works right now";
+	log "";
 	#load node server now
-	nohup node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass
-
+	node /usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p $c9portToUse -a $userToUse:$c9userPass > stdout.txt 2> stderr.txt &;
+	
+	log "";
+	log "setting c9 to set on boot";
+	log "";
 
 	#remove from cron (just incase it is already there, and then add it [so we don't double add])
 	crontab -u root -l | grep -v 'node /usr/local/c9sdk/server.js'  | crontab -u root -
