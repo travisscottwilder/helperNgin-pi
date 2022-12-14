@@ -836,9 +836,14 @@ runScriptOnBoot(){
 	log "${yellow}-------------------------------------${resetColor}"
 	log "${yellow}-------------------------------------${resetColor}"
 	log "${blue}------------------ EXAMPLES -------------------${resetColor}" 
+	log "";
+	log "${green}${SCRIPTPATH}/OLED/SSD1306/128x32/stats.py${resetColor}"
+	log "";
 	log "${green}${SCRIPTPATH}/OLED/SSD1306/128x64/stats.py${resetColor}"
 	log "${green}${SCRIPTPATH}/OLED/SSD1306/128x64/psutilstats.py${resetColor}"
+	log "";
 	log "${green}/usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a user:pass${resetColor}"
+	log "";
 	log "${yellow}-------------------------------------${resetColor}"
 	log "${yellow}-------------------------------------${resetColor}"
 	log ""
