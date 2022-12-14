@@ -25,12 +25,10 @@ Then after that use `sudo ~/helperNgin-pi/runthis.sh` to run
 
 IF YOU WANT TO INIT GIT REPO AND EDIT
 
-1 ) `mkdir ~/.ssh;sudo chmod 700 ~/.ssh;`
-
-2) move github ssh [id_rsa] into .ssh folder of user (/root/ or /home/pi/)
-
+1) `mkdir ~/.ssh;sudo chmod 700 ~/.ssh;`
+2) `sudo mv id_rsa .ssh/id_rsa;`
 3) `cd ~;sudo chmod 600 .ssh/id_rsa`;
-3) to init for github: `ssh-add ~/.ssh/id_rsa`
+4) change your .git/config url to be `git@github.com:travisscottwilder/helperNgin-pi.git`, NOT HTTPS 
 
 
 -----------------
