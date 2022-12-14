@@ -881,13 +881,18 @@ fi
 
 
 if (( $highestLevelCompleted < 15 || highestLevelCompleted == 0)); then
+	log "yes this is for python"
 	if [ "$exe_15" = true ]; then
+		log "yes 2 this is going to happen: [$highestSubLvlCompleted]";
 		if (( $highestSubLvlCompleted < 3 )); then
+			log ".......... yup it is going to do python 1"
 			save "xprogressx=15.0;";
 			installOLEDScreenPythonOne
 		elif (( $highestSubLvlCompleted < 6 )); then
+			log "what? trying to do python 2 my guy";
 			installOLEDScreenPythonTwo
 		else
+			log "DONEEEEEEEEEEEEEE";
 			save "xprogressx=15.done;";
 		fi
 	fi

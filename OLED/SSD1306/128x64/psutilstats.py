@@ -76,7 +76,7 @@ bottom = oled.height-padding
 x = 0
 
 # font = ImageFont.load_default()
-font = ImageFont.truetype('PixelOperator.ttf', FONTSIZE)
+font = ImageFont.truetype('/fonts/PixelOperator.ttf', FONTSIZE)
 
 while True:
     # Draw a black filled box to clear the image.

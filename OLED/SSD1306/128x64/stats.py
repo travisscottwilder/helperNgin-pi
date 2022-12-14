@@ -41,7 +41,7 @@ draw = ImageDraw.Draw(image)
 # Draw a white background
 draw.rectangle((0, 0, oled.width, oled.height), outline=255, fill=255)
 
-font = ImageFont.truetype('PixelOperator.ttf', 16)
+font = ImageFont.truetype('/fonts/PixelOperator.ttf', 16)
 #font = ImageFont.load_default()
 
 while True:
