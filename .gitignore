@@ -1,0 +1,2 @@
+#ignore crontab logs
+logs/cron_*.log

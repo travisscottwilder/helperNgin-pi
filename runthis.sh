@@ -829,26 +829,105 @@ configureNmountUSB(){
 #
 #
 runScriptOnBoot(){
-	echo "blah";
 	
-	#what script are we running
+	log "";
+	log "${resetColor} -- ADDING TO CRONTAB --";
+	log "";
+	log "${yellow}-------------------------------------${resetColor}"
+	log "${yellow}-------------------------------------${resetColor}"
+	log "${blue}------------------ EXAMPLES -------------------${resetColor}" 
+	log "${green}${SCRIPTPATH}/OLED/SSD1306/128x64/stats.py${resetColor}"
+	log "${green}${SCRIPTPATH}/OLED/SSD1306/128x64/psutilstats.py${resetColor}"
+	log "${green}/usr/local/c9sdk/server.js -w / -l 0.0.0.0 -p 9191 -a user:pass${resetColor}"
+	log "${yellow}-------------------------------------${resetColor}"
+	log "${yellow}-------------------------------------${resetColor}"
+	log ""
+	log "";
+	log "${yellow}---What script would you like ran? (also add any params) ----------------------${resetColor}"
+	log ""
+	log "${blue} NOTE - please use the full path starting at system root dir ${resetColor}";
+	log ""
+	read bootScript
 	
-	#type of execution -> bash, sh, node, python
+	log "";
+	log "";
+	log "GOT IT - using script & params: $bootScript";
+	log "";
 	
-	#what user are we running as
+	log "${yellow}-------------------------------------${resetColor}"
+	log "${yellow}-------------------------------------${resetColor}"
+	log "${blue}------------------ EXAMPLES -------------------${resetColor}" 
+	log "${green}root"
+	
+	#print out all "normal" users (ignores system users)
+	eval getent passwd {$(awk '/^UID_MIN/ {print $2}' /etc/login.defs)..$(awk '/^UID_MAX/ {print $2}' /etc/login.defs)} | cut -d: -f1;
+
+	log "${yellow}-------------------------------------${resetColor}"
+	log "${yellow}-------------------------------------${resetColor}"
+	log ""
+	log "";
+	log "${yellow}--- Under what user's crontab should this script be added to? ----------------------${resetColor}"
+	log ""
+	log ""
+	read bootUser
+
+	log "";
+	log "";
+	log "SAWWEEEEEET - Will use the crontab for user: $bootUser";
+	log "";
+	
+	log "${yellow}-------------------------------------${resetColor}"
+	log "${yellow}-------------------------------------${resetColor}"
+	log "${blue}------------------ EXAMPLES -------------------${resetColor}" 
+	log "${green}python${resetColor}"
+	log "${green}python3${resetColor}"
+	log "${green}node${resetColor}"
+	log "${green}sh${resetColor}"
+	log "${green}bash${resetColor}"
+	log "${yellow}-------------------------------------${resetColor}"
+	log "${yellow}-------------------------------------${resetColor}"
+	log "";
+	log "";
+	log "${yellow}--- How should we execute this script? ----------------------${resetColor}"
+	log ""
+	log ""
+	read bootHow;
+
+	bootHowPath='';
+
+	case $bootHow in
+		
+		"python") bootHowPath="/bin/python2" ;;
+		"python3") bootHowPath="/bin/python3" ;;
+		"node") bootHowPath="/usr/local/bin/node" ;;
+		"sh") bootHowPath="/bin/sh" ;;
+		"bash") bootHowPath="/bin/bash" ;;
+		*) bootHowPath="$bootHow" ;; #unknown so use whatever they passed in
+	esac
+	
+	#figure out the command for the script, via
+	
+	
+	bootScriptPath=$(dirname "$bootScript");
+	bootScriptFile=$(basename "$bootScript");
+	logFile="${SCRIPTPATH}/logs/cron_${bootUser}_${bootScriptFile}.log";
+	
+	
+	touch $logFile; #make sure log file exists
+	sudo chmod 777 $logFile;
+	cronTxt="@reboot cd ${bootScriptPath} && ${bootHowPath} $bootScriptFile >> ${logFile} 2>&1";
+	
+	
+	#REMOVE FROM CRONTAB [we do this as an attempt to not duplicate entries if it already exists]
+	crontab -u $bootUser -l | grep -v "$cronTxt"  | crontab -u $bootUser - 
 	
 	#add to crontab
-	
-	
-	
-	#(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh") | crontab -u root - 
+	(crontab -u $bootUser -l ; echo "$cronTxt") | crontab -u $bootUser - 
 
-	#crontab -u root -l | grep -v "cd $SCRIPTPATH && ./runthis.sh"  | crontab -u root - 
-
-	
-	
-	#add git ignore for the new .log files that will exist for each cron we set up
-	
+	log "";
+	log "";
+	log "Created new crontab: $cronTxt | on user: $bootUser";
+	log "";
 }
 
 
@@ -1056,9 +1135,8 @@ fi
 
 
 if (( $highestLevelCompleted < 15 || highestLevelCompleted == 0)); then
-	log "yes this is for python"
 	if [ "$exe_15" = true ]; then
-		log "yes 2 this is going to happen: [$highestSubLvlCompleted]";
+		log "PYTHON OLED yes 2 this is going to happen: [$highestSubLvlCompleted]";
 		if (( $highestSubLvlCompleted < 3 )); then
 			log ".......... yup it is going to do python 1"
 			save "xprogressx=15.0;";
