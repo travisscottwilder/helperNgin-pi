@@ -14,17 +14,6 @@ blue=$'\e[01;34m'
 magenta=$'\e[01;35m'
 resetColor=$'\e[0m'
 
-exe_two=false;
-exe_three=false;
-
-exe_nodeA=false;
-exe_nodeB=false;
-exe_nodeC=false;
-
-exe_four=false;
-exe_five=false;
-exe_sixo=false;
-exe_seven=false;
 
 exe_11=false;
 exe_12=false;
@@ -40,14 +29,15 @@ exe_actionDone="NA";
 
 c9userPass="";
 userToUse="";
-askForOptions=true;
-
 c9portToUse=9191;
 log_marker="xxxxxBREAKxxxxx"; #NOTE also hard coded in a couple commands below
 lastProgress='NA';
 userSelectedOption=false;
 
-
+usbMountName=false;
+usbMountType=false;
+usbMountUUID=false; #this is actually PARTUUID
+usbMountFolder=false;
 
 # Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT=$(readlink -f "$0")
@@ -189,11 +179,11 @@ freshInstallWithUtils() {
 	sudo apt-get clean | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	
-	
 	#install nano
 	sudo apt-get install nano | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
-	
+	#install usbmount to auto mount usbs that get plugged in || /etc/usbmount/usbmount.conf
+	sudo apt-get install -y usbmount | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	
 	drawTimeElapsed
@@ -257,13 +247,6 @@ installNodeJS() {
 	drawTimeElapsed
 	log "";
 	
-	#FIX YARN:
-	#sudo apt remove cmdtest
-	#sudo apt remove yarn
-	#curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-	#echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-	#sudo apt-get update
-	#sudo apt-get install yarn -y
 }
 
 
@@ -287,6 +270,7 @@ installARGOFanScript() {
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawTimeElapsed
+	log "";
 }
 
 
@@ -346,6 +330,8 @@ installOLEDScreenPythonOne() {
 	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
 
+
+
 #
 #
 #
@@ -374,10 +360,6 @@ installOLEDScreenPythonTwo() {
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
-	
-	log "add an OLED script on boot: [NOTE- crontab is user specific, do you need root? [USE YOUR DEFAULT USER]]";
-	log "crontab -e";
-	log "@reboot python3 PATH_TO_SCRIPT/monitor.py &";
 	
 	log "rebooting";
 	log "rebooting";
@@ -439,13 +421,6 @@ installC9() {
 	log "";
 }
 
-
-
-#get access to your SSD that is actually a usb (ARGON METAL CASE)
-#find "SDA" device:
-#lsblk
-#create directory and mount above SDA identified to newly created folder
-#cd /mnt/;sudo mkdir SDB;sudo mount /dev/sdaXXXX /mnt/SDB;sudo chmod 777 /mnt/SDB -Rf;
 
 
 
@@ -513,7 +488,7 @@ drawOptionsMenu(){
 	log ""
 	log "${blue} 1 ${green} |${resetColor} Install All"
 	log "${blue} 2 ${green} |${resetColor} Install Web Tools [NodeJS,Cloud9 IDE]"
-	log "${blue} 3 ${green} |${resetColor} Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]"
+	log "${blue} 3 ${green} |${resetColor} Install Pi GPIO Tools [Argon Case,OLED Python Libs,Python GPIO Tools]"
 	log ""
 	log ""
 	log ""
@@ -526,7 +501,7 @@ drawOptionsMenu(){
 	log "${blue} 12 ${green} |${resetColor} Install NodeJS & Utils"
 	log "${blue} 13 ${green} |${resetColor} Cloud9 IDE"
 	log "";
-	log "${blue} 14 ${green} |${resetColor} Install Argo Case Fan Script"
+	log "${blue} 14 ${green} |${resetColor} Install Argon Case Utils [case fan script & auto mount usb]"
 	log "${blue} 15 ${green} |${resetColor} Install OLED Screen Python Libs"
 	log "${blue} 16 ${green} |${resetColor} Install Pi GPIO Python Libs"
 	log "";
@@ -549,6 +524,8 @@ drawOptionsMenu(){
 	while true; do
 		read -p "${yellow}--- Select an option to continue --------------------------------------------${resetColor}" yn
 		userSelectedOption=$yn;
+		log "user selected: $yn"
+		
 		case $yn in
 			"11") 
 				exe_11=true;
@@ -564,7 +541,8 @@ drawOptionsMenu(){
 				break;;
 			"14") 
 				exe_14=true;
-				exe_actionDone="Install Argo Case Fan Script";
+				exe_18=true;
+				exe_actionDone="Install Argo Case Fan Script,mount external hard drive & add it to automount on boot";
 				break;;
 			"15") 
 				exe_15=true;
@@ -574,6 +552,18 @@ drawOptionsMenu(){
 			"16") 
 				exe_16=true;
 				exe_actionDone="Install Pi GPIO Python Libs";
+				break;;
+			"17") 
+				exe_17=true;
+				exe_actionDone="Add new port to firewall";
+				break;;
+			"18") 
+				exe_18=true;
+				exe_actionDone="mount external hard drive & add it to automount on boot";
+				break;;
+			"19") 
+				exe_19=true;
+				exe_actionDone="Add script to start on boot";
 				break;;
 			
 			
@@ -585,8 +575,11 @@ drawOptionsMenu(){
 				exe_14=true;
 				exe_15=true;
 				exe_16=true;
+				exe_18=true;
 				exe_actionDone="Install All";
 				addSelfToCron
+				
+				usbMountFolder="/mnt/data";
 				break;;
 			"2") 
 				exe_12=true;
@@ -598,14 +591,17 @@ drawOptionsMenu(){
 				exe_14=true;
 				exe_15=true;
 				exe_16=true;
-				exe_actionDone="Install Pi GPIO Tools [Argo Fan,OLED Python Libs,Python GPIO Tools]";
+				exe_18=true;
+				exe_actionDone="Install Pi GPIO Tools [Argon Case,OLED Python Libs,Python GPIO Tools]";
 				addSelfToCron
+				
+				usbMountFolder="/mnt/data";
 				break;;
 			
 			
 			[qQquit]* ) exit;;
 
-			* ) log "Please answer a number [1-7]. || Detected input [$yn]";;
+			* ) log "Please answer a number from the menu presented. || Detected input [$yn]";;
 		esac
 	done
 	
@@ -743,12 +739,16 @@ loadConfig() {
 					"userSelectedOption") userSelectedOption="${configVar[1]}" ;;
 					"userToUse") userToUse="${configVar[1]}" ;;
 					"c9userPass") c9userPass="${configVar[1]}" ;;
+					"usbMountName") usbMountName="${configVar[1]}" ;;
+					"usbMountType") usbMountType="${configVar[1]}" ;;
+					"usbMountUUID") usbMountUUID="${configVar[1]}" ;;
+					"usbMountFolder") usbMountFolder="${configVar[1]}" ;;
 
 					* ) log "did not find ${configVar[0]}" ;;
 				esac
 			fi
 		fi
-	done
+	done 
 
 	#log "config loading -> highest sub level: $highestSubLvlCompleted || $highestLevelCompleted"
 
@@ -760,6 +760,108 @@ loadConfig() {
 	fi
 
 }
+
+
+
+
+#
+#
+#
+addNewPortToFireWall(){
+	while true; do
+		read -p "${yellow}--- Please enter in your port or [q] to quit --------------------------------------------${resetColor}" yn
+		case $yn in
+			[qQquit]* ) return;;
+			
+			*)	sudo ufw allow $yn | tee -a "$SCRIPTPATH"/logs/runthis.log;
+				log "port $yn added to ufw firewall";
+			;;
+		esac;
+	done;
+}
+
+
+
+#
+#
+#
+configureNmountUSB(){
+
+	if [ $usbMountName != false ]; then
+		
+		sudo mkdir $usbMountFolder;
+		sudo mount /dev/$usbMountName $usbMountFolder;
+		sudo chmod 775 $usbMountFolder;
+		sudo chmod 775 $usbMountFolder -Rf;
+		
+		log "Created $usbMountFolder and mounted /dev/$usbMountName";
+		
+		valueToEcho=false;
+		
+		case $usbMountType in
+			
+			"vfat") valueToEcho="PARTUUID=$usbMountUUID $usbMountFolder vfat defauls,auto,users,rw,nofail,umask=000 0 0" ;;
+			"ntfs") valueToEcho="PARTUUID=$usbMountUUID $usbMountFolder ntfs defauls,auto,users,rw,nofail,umask=000 0 0" ;;
+			"exfat") valueToEcho="PARTUUID=$usbMountUUID $usbMountFolder exfat defauls,auto,users,rw,nofail 0 0" ;;
+			"ext4") valueToEcho="PARTUUID=$usbMountUUID $usbMountFolder ext4 defauls,auto,users,rw,nofail 0 0" ;;
+			
+			
+			
+			*) log "unknown file type: $usbMountType drive not added to auto mount" ;;
+		esac
+		
+		if [ "$valueToEcho" != false ]; then
+			
+			echo $valueToEcho >> /etc/fstab;
+			log "Added to /etc/fstab -> $valueToEcho";
+		fi
+		
+	else
+		log "Do not have a USB to mount";
+	fi
+	
+}
+
+
+
+
+#
+#
+#
+runScriptOnBoot(){
+	echo "blah";
+	
+	#what script are we running
+	
+	#type of execution -> bash, sh, node, python
+	
+	#what user are we running as
+	
+	#add to crontab
+	
+	
+	
+	#(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh") | crontab -u root - 
+
+	#crontab -u root -l | grep -v "cd $SCRIPTPATH && ./runthis.sh"  | crontab -u root - 
+
+	
+	
+	#add git ignore for the new .log files that will exist for each cron we set up
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -821,6 +923,8 @@ if (( $highestLevelCompleted == 0 )); then
 		log "";
 		read userToUse
 		
+		log "user for C9: $userToUse"
+		
 		log "";
 		log "";
 		log "${yellow}--- Enter in the password for ${red}C9${yellow} user [$userToUse] about to be created in order to access IDE --------------------------------------------${resetColor}"
@@ -829,6 +933,77 @@ if (( $highestLevelCompleted == 0 )); then
 		save "userToUse=$userToUse;";
 		save "c9userPass=$c9userPass;";
 	fi
+
+
+
+	if [ "$exe_18" = true ]; then
+		
+		lsblk
+		
+		log "";
+		log "";
+		log "${yellow}--- Enter in the name of the USB device to auto mount. Use the size as reference --------------------------------------------${resetColor}"
+		log "";
+		log "";
+		log "${yellow}--- Expecting a name like sda2 --------------------------------------------${resetColor}"
+		log "";
+		read usbMountName
+		
+		log ""
+		log "PERFECT!";
+		log "";
+		log "";
+		
+		blkid
+		
+		log "";
+		log "";
+		log "${yellow}--- Now what is the file type for drive ${usbMountName}? Look under 'type' --------------------------------------------${resetColor}"
+		log "";
+		log "";
+		log "${yellow}--- Expecting a name like ext4 --------------------------------------------${resetColor}"
+		log "";
+		read usbMountType
+		
+		log "";
+		log "PERFECT!";
+		log "";
+		log "";
+		
+		
+		blkid
+		
+		log "";
+		log "";
+		log "${yellow}--- Now what is the PARTUUID of ${usbMountName}? --------------------------------------------${resetColor}"
+		log "";
+		log "";
+		log "${yellow}--- Expecting a name like ddbefb06-02 --------------------------------------------${resetColor}"
+		log "";
+		read usbMountUUID
+		
+		
+		if [ "$usbMountFolder" == false ]; then
+			log "";
+			log "";
+			log "${yellow}--- What folder are we mounting this USB to?  --------------------------------------------${resetColor}"
+			log "";
+			read usbMountFolder
+		
+		fi
+		
+		
+		
+		log "Planning to mount: $usbMountName to $usbMountFolder of type [$usbMountType] and UUID [$usbMountUUID]"
+		
+		
+		save "usbMountName=$usbMountName;";
+		save "usbMountType=$usbMountType;";
+		save "usbMountUUID=$usbMountUUID;";
+		save "usbMountFolder=$usbMountFolder;";
+	fi
+
+
 
 else
 	addSelfToCron;
@@ -907,6 +1082,32 @@ if (( $highestLevelCompleted < 16 || highestLevelCompleted == 0)); then
 	fi
 fi
 
+
+if (( $highestLevelCompleted < 17 || highestLevelCompleted == 0)); then
+	if [ "$exe_17" = true ]; then
+		save "xprogressx=17.0;";
+		addNewPortToFireWall;
+		save "xprogressx=17.done;";
+	fi
+fi
+
+
+if (( $highestLevelCompleted < 18 || highestLevelCompleted == 0)); then
+	if [ "$exe_18" = true ]; then
+		save "xprogressx=18.0;";
+		configureNmountUSB;
+		save "xprogressx=18.done;";
+	fi
+fi
+
+
+if (( $highestLevelCompleted < 19 || highestLevelCompleted == 0)); then
+	if [ "$exe_19" = true ]; then
+		save "xprogressx=19.0;";
+		runScriptOnBoot;
+		save "xprogressx=19.done;";
+	fi
+fi
 
 
 
