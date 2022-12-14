@@ -39,10 +39,9 @@ usbMountType=false;
 usbMountUUID=false; #this is actually PARTUUID
 usbMountFolder=false;
 
-# Absolute path to this script, e.g. /home/user/bin/foo.sh
-SCRIPT=$(readlink -f "$0")
-# Absolute path this script is in, thus /home/user/bin
-SCRIPTPATH=$(dirname "$SCRIPT")
+
+SCRIPT=$(readlink -f "$0") # Absolute path to this script, e.g. /home/user/bin/foo.sh
+SCRIPTPATH=$(dirname "$SCRIPT") # Absolute path this script is in, thus /home/user/bin
 
 highestLevelCompleted=0;
 highestSubLvlCompleted=0;
@@ -68,8 +67,10 @@ save(){ echo $1 >> "$SCRIPTPATH"/logs/progress.log; }
 
 
 
+
+#if this is ran from a cron then we want to sleep and make sure we have internet
 if [ -t 1 ] ; then 
-	log "Live mode 1";
+	log "Live mode";
 else
 	
 	log "Crontab mode";
@@ -154,10 +155,9 @@ fi
 
 
 #
+#	primarily updates and upgrades the system as well as installs comvience of life items like bc, firewall, & autoban
 #
-#
-#
-#
+# installs ufw and whitelists ports: 22,80,443
 #
 freshInstallWithUtils() {
 	log "";
@@ -223,16 +223,11 @@ freshInstallWithUtils() {
 
 
 #
-#
-#
-#
-#
+#	installs nodejs and the rpio modules for GPIO logic
 #
 installNodeJS() {
 	log "";
 	log "${blue}--- Install NodeJS --------------------------------------------${resetColor}"
-
-	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
 	sudo apt-get install -y nodejs | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo apt-get install -y python3-pip | tee -a "$SCRIPTPATH"/logs/runthis.log;
@@ -252,10 +247,7 @@ installNodeJS() {
 
 
 #
-#
-#
-#
-#
+# installs argon bash script and runs it for the fan script
 #
 installARGOFanScript() {
 	log "";
@@ -276,10 +268,7 @@ installARGOFanScript() {
 
 
 #
-#
-#
-#
-#
+# install python libraries for GPIO interation 
 #
 installGPIOPythonLibs() {
 	log "";
@@ -301,10 +290,7 @@ installGPIOPythonLibs() {
 
 
 #
-#
-#
-#
-#
+# Installs Python libraries for OLED screen interaction -> this is step 1 (A) out of 2
 #
 installOLEDScreenPythonOne() {
 	log "";
@@ -327,16 +313,16 @@ installOLEDScreenPythonOne() {
 	log "rebooting";
 	log "";
 	save "xprogressx=15.3;";
-	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	
+	#sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	
+	installOLEDScreenPythonTwo;
 }
 
 
 
 #
-#
-#
-#
-#
+# Installs Python libraries for OLED screen interaction -> this is step 2 (B) out of 2
 #
 installOLEDScreenPythonTwo() {
 	log "";
@@ -366,6 +352,8 @@ installOLEDScreenPythonTwo() {
 	log "rebooting";
 	log "";
 	save "xprogressx=15.6;";
+	
+	save "xprogressx=15.done;";
 	sudo reboot now | tee -a "$SCRIPTPATH"/logs/runthis.log;
 }
 
@@ -374,8 +362,7 @@ installOLEDScreenPythonTwo() {
 
 
 #
-#
-#
+# installs cloud9 web IDE on the port specified. Also adds the server.js script to run on boot for the root user in the crontab
 #
 installC9() {
 	log "${blue}--- Install Cloud 9 web IDE --------------------------------------------${resetColor}"
@@ -426,7 +413,7 @@ installC9() {
 
 
 #
-#
+# Splash intro screen used between functions as a break up
 #
 drawIntroScreen(){
 	#clear
@@ -447,6 +434,7 @@ drawIntroScreen(){
 
 #
 # adds this script to the cronjob for root user
+#
 addSelfToCron(){ 
 	#update system to wait for network before booting, since we will need internet before this script can run
 	sudo raspi-config nonint do_boot_wait 0;
@@ -459,6 +447,7 @@ addSelfToCron(){
 
 #
 # removes this script from the cronjob of the root user
+#
 removeSelfFromCron(){ 
 	crontab -u root -l | grep -v "cd $SCRIPTPATH && ./runthis.sh"  | crontab -u root - 
 }
@@ -466,7 +455,7 @@ removeSelfFromCron(){
 
 
 #
-#
+# Main function logic to start everything off, this asks for input and sets what functions should run
 #
 drawOptionsMenu(){
 	drawIntroScreen
@@ -615,8 +604,7 @@ drawOptionsMenu(){
 
 
 #
-#
-#
+# end of script summary message
 #
 drawSummary() {
 	drawIntroScreen
@@ -650,9 +638,7 @@ drawSummary() {
 
 
 #
-#
-#
-#
+# calculates how much time has elapsed and then prints it out
 #
 drawTimeElapsed(){
 	
@@ -679,7 +665,9 @@ drawTimeElapsed(){
 
 
 #
-#	NOTE THE MARKER IS HARD CODED IDK HOW TO USE A VARIABLE
+#	loads the current progress from SCRIPT_DIR/logs/progress.log so the system can resume progress
+#
+#	NOTE THE MARKER of "xxxxxBREAKxxxxx" IS HARD CODED IDK HOW TO USE A VARIABLE
 #
 loadConfig() {
 	CONTENT=$(tac "$SCRIPTPATH/logs/progress.log" | awk '!flag; /xxxxxBREAKxxxxx/{flag = 1};' | tac);
@@ -765,7 +753,7 @@ loadConfig() {
 
 
 #
-#
+# asks and whitelists a new port through ufw firewall
 #
 addNewPortToFireWall(){
 	while true; do
@@ -783,7 +771,7 @@ addNewPortToFireWall(){
 
 
 #
-#
+# configure new mount point for a USB & add it to auto start via /etc/fstab
 #
 configureNmountUSB(){
 
@@ -799,12 +787,14 @@ configureNmountUSB(){
 		valueToEcho=false;
 		
 		case $usbMountType in
+			"q") log "ok, nevermind" ;;
+			"Q") log "ok, nevermind" ;;
+			"quit") log "ok, nevermind" ;;
 			
 			"vfat") valueToEcho="PARTUUID=$usbMountUUID $usbMountFolder vfat defauls,auto,users,rw,nofail,umask=000 0 0" ;;
 			"ntfs") valueToEcho="PARTUUID=$usbMountUUID $usbMountFolder ntfs defauls,auto,users,rw,nofail,umask=000 0 0" ;;
 			"exfat") valueToEcho="PARTUUID=$usbMountUUID $usbMountFolder exfat defauls,auto,users,rw,nofail 0 0" ;;
 			"ext4") valueToEcho="PARTUUID=$usbMountUUID $usbMountFolder ext4 defauls,auto,users,rw,nofail 0 0" ;;
-			
 			
 			
 			*) log "unknown file type: $usbMountType drive not added to auto mount" ;;
@@ -826,7 +816,7 @@ configureNmountUSB(){
 
 
 #
-#
+# configures and sets a script to run on boot via the crontab. System asks what the script is and type of execution
 #
 runScriptOnBoot(){
 	
@@ -949,11 +939,7 @@ runScriptOnBoot(){
 
 
 
-#
-# DEBUG
-#
-# cd ~;sudo chmod 777 helperNgin-pi;sudo chown tdub:tdub;cd helperNgin-pi;sudo rm runthis.sh;sudo curl https://raw.githubusercontent.com/travisscottwilder/pi-installer/main/runthis.sh > runthis.sh;sudo chmod +x runthis.sh;sudo ./runthis.sh
-#
+
 ###########################################
 ########################################################################
 ########################################################################
@@ -966,8 +952,8 @@ runScriptOnBoot(){
 #check if there is progress to load
 loadConfig;
 
-#log "highest level about to use is: $highestLevelCompleted"
 
+#is this an initial run?
 if (( $highestLevelCompleted == 0 )); then
 	save $log_marker; #start marker >> reset the progress if we are selecting a new one
 
@@ -983,9 +969,6 @@ if (( $highestLevelCompleted == 0 )); then
 		#this is being ran in a cron go ahead and exit this
 		exit;
 	fi
-
-
-
 
 
 	#start main script
@@ -1088,7 +1071,7 @@ if (( $highestLevelCompleted == 0 )); then
 	fi
 
 
-
+#ELSE no this is presuming progress
 else
 	addSelfToCron;
 	log "";
@@ -1099,8 +1082,20 @@ else
 fi
 
 
+
+
+
+
+
+#GOGOGOGOGOGOGO
+#GOGOGOGOGOGOGO
+
+
+
 log "";
 log "";
+
+
 
 
 if (( $highestLevelCompleted < 11 || highestLevelCompleted == 0)); then
