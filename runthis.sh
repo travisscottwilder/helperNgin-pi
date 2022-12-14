@@ -1192,6 +1192,6 @@ fi
 drawSummary;
 
 save "Done >> end of file";
-log "Done >> end of file";
+log "Done >> end of file.";
 save "$log_marker";
 removeSelfFromCron;
