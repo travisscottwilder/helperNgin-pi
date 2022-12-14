@@ -28,7 +28,7 @@ IF YOU WANT TO INIT GIT REPO AND EDIT
 1) `mkdir ~/.ssh;sudo chmod 700 ~/.ssh;`
 2) `sudo mv id_rsa .ssh/id_rsa;`
 3) `cd ~;sudo chmod 600 .ssh/id_rsa`;
-4) change your .git/config url to be `git@github.com:travisscottwilder/helperNgin-pi.git`, NOT HTTPS 
+4) change your .git/config url to be `git@xxxx`, NOT HTTPS, IE `git@github.com:travisscottwilder/helperNgin-pi.git`
 
 
 -----------------
