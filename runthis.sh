@@ -228,7 +228,9 @@ freshInstallWithUtils() {
 installNodeJS() {
 	log "";
 	log "${blue}--- Install NodeJS --------------------------------------------${resetColor}"
-
+	
+	sudo npm install -g rpio --save | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	
 	sudo apt-get install -y nodejs | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo apt-get install -y python3-pip | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo pip3 install --upgrade setuptools | tee -a "$SCRIPTPATH"/logs/runthis.log;
