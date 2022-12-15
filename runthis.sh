@@ -175,7 +175,7 @@ freshInstallWithUtils() {
 	drawTimeElapsed
 	
 	sudo apt-get clean | tee -a "$SCRIPTPATH"/logs/runthis.log;
-	sudo apt full-upgrade -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo apt-get full-upgrade -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo apt-get clean | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	
@@ -189,7 +189,7 @@ freshInstallWithUtils() {
 	drawTimeElapsed
 	
 	#INSTALL FIREWALL AND ALLOW OUR EXPECTED PORTS
-	sudo apt install ufw -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo apt-get install ufw -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo ufw allow 22 | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo ufw allow 80 | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo ufw allow 443 | tee -a "$SCRIPTPATH"/logs/runthis.log;
@@ -198,7 +198,7 @@ freshInstallWithUtils() {
 	drawTimeElapsed
 	
 	#install brute force auto ban software
-	sudo apt install fail2ban -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo apt-get install fail2ban -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo service fail2ban start | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	
