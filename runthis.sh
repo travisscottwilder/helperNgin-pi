@@ -783,10 +783,10 @@ configureNmountUSB(){
 
 	if [ $usbMountName != false ]; then
 		
-		sudo mkdir $usbMountFolder;
-		sudo mount /dev/$usbMountName $usbMountFolder;
-		sudo chmod 775 $usbMountFolder;
-		sudo chmod 775 $usbMountFolder -Rf;
+		sudo mkdir $usbMountFolder | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		sudo mount /dev/$usbMountName $usbMountFolder | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		sudo chmod 775 $usbMountFolder | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		sudo chmod 775 $usbMountFolder -Rf | tee -a "$SCRIPTPATH"/logs/runthis.log;
 		
 		log "Created $usbMountFolder and mounted /dev/$usbMountName";
 		
@@ -808,7 +808,7 @@ configureNmountUSB(){
 		
 		if [ "$valueToEcho" != false ]; then
 			
-			echo $valueToEcho >> /etc/fstab;
+			echo $valueToEcho >> /etc/fstab | tee -a "$SCRIPTPATH"/logs/runthis.log;
 			log "Added to /etc/fstab -> $valueToEcho";
 		fi
 		
@@ -914,7 +914,7 @@ runScriptOnBoot(){
 	logFile="${SCRIPTPATH}/logs/cron_${bootUser}_${bootScriptFile}.log";
 	
 	
-	touch $logFile; #make sure log file exists
+	touch $logFile | tee -a "$SCRIPTPATH"/logs/runthis.log; #make sure log file exists
 	sudo chmod 777 $logFile;
 	cronTxt="@reboot cd ${bootScriptPath} && ${bootHowPath} $bootScriptFile >> ${logFile} 2>&1";
 	
@@ -940,39 +940,73 @@ installApachePHPMySQL(){
 	log "";
 	log "${blue}--- Installing Apache, PHP, Mysql and PHPMyAdmin --------------------------------------------${resetColor}"
 	
-	sudo apt install apache2 -y;
 	
 	
-	sudo chown -R tdub:www-data /var/www/html/;
-	sudo chmod -R 770 /var/www/html/;
 	
+	sudo apt install mariadb-server php-mysql -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo mysql_secure_installation | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
-	sudo apt install php -y
+	log ""
+	log "";
+	log "${yellow}--- Create a new global admin user for MySQL? [y/n]  ----------------------${resetColor}"
+	log ""
+	read createNewUser;
+	
+	case $createNewUser in
+		"y") 
+			log ""
+			log "";
+			log "${yellow}--- What password did you use for root during the above install? (needed to log into mysql and create user) ----------------------${resetColor}"
+			log ""
+			read mysqlRootPwd;
+			
+			log ""
+			log "";
+			log "${yellow}--- New MySQL DB User's name  ----------------------${resetColor}"
+			log ""
+			read mysqlNewUser;
+			
+			log ""
+			log "";
+			log "${yellow}--- New MySQL DB User's Password  ----------------------${resetColor}"
+			log ""
+			read mysqlNewPass;
+			
+			mysql -u root -p$mysqlRootPwd <<EOF
+CREATE USER '$mysqlNewUser'@'%' IDENTIFIED BY '$mysqlNewPass';
+GRANT ALL PRIVILEGES ON *.* TO '$mysqlNewUser'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+EOF
+			log "Created new admin user: $mysqlNewUser";
+			
+			sudo ufw allow 3306 | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		;;
+	esac
+	
+
+
+	sudo apt install apache2 -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	
+	log "Apache2 installed"
+	
+	sudo chown -R tdub:www-data /var/www/html/ | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo chmod -R 770 /var/www/html/ | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	
+	log "web www permissions updated"
+	
+	sudo apt install php -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo service apache2 restart | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	
+	log "PHP installed";
+	
+	#create phpmyadmin and move it
+	sudo apt install phpmyadmin -y
+	sudo phpenmod mysqli;
 	sudo service apache2 restart;
-	
-	
-	sudo apt install mariadb-server php-mysql -y;
-	sudo mysql_secure_installation;
-	
-	
-	#todo make php files takes priority
-	#todo change web root
-	#change mysql database file location to the encrypted USB
-	
-	
-	#sudo mysql --user=root --password
-	#create user tdub@% identified by 'your_password';
-	#grant all privileges on *.* to tdub@%;
-	#FLUSH PRIVILEGES;
-	#exit;
-	
-	
-	#sudo apt install phpmyadmin -y
-	#sudo phpenmod mysqli
-	#sudo service apache2 restart
 	#MOVE DIR TO PUBLIC HTML
-	#sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+	sudo ln -s /usr/share/phpmyadmin /var/www/html/rawdb
 	
+	log "PHP my admin installed and added to /var/www/html/rawdb";
 	
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
