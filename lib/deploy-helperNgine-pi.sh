@@ -33,5 +33,5 @@ sudo rm "$SCRIPT";
 
 #cd into that folder and run the actual pi helper
 cd helperNgin-pi;
-sudo chmod +x runthis.sh;sudo ./runthis.sh &;
+sudo chmod +x runthis.sh;sudo nohup ./runthis.sh &;
 
