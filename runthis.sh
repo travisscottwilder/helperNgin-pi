@@ -1151,7 +1151,7 @@ if (( $highestLevelCompleted == 0 )); then
 
 	if [ "$exe_18" = true ]; then
 		
-		lsblk | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		lsblk --fs | tee -a "$SCRIPTPATH"/logs/runthis.log;
 		
 		log "";
 		log "";
@@ -1167,15 +1167,14 @@ if (( $highestLevelCompleted == 0 )); then
 		log "";
 		log "";
 		
-		su tdub -c "blkid" | tee -a "$SCRIPTPATH"/logs/runthis.log;
-		su pi -c "blkid" | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		lsblk --fs | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
 		log "";
 		log "";
-		log "${yellow}--- Now what is the file type for drive ${usbMountName}? Look under 'type' --------------------------------------------${resetColor}"
+		log "${yellow}--- Now what is the file type for drive ${usbMountName}? Look under 'FSTYPE' --------------------------------------------${resetColor}"
 		log "";
 		log "";
-		log "${yellow}--- Expecting a name like ext4 --------------------------------------------${resetColor}"
+		log "${yellow}--- Expecting a name like ext4,vfat --------------------------------------------${resetColor}"
 		log "";
 		read usbMountType
 		
@@ -1185,12 +1184,11 @@ if (( $highestLevelCompleted == 0 )); then
 		log "";
 		
 		
-		su tdub -c "blkid" | tee -a "$SCRIPTPATH"/logs/runthis.log;
-		su pi -c "blkid" | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		ls -l /dev/disk/by-partuuid | tee -a "$SCRIPTPATH"/logs/runthis.log;
 		
 		log "";
 		log "";
-		log "${yellow}--- Now what is the PARTUUID of ${usbMountName}? --------------------------------------------${resetColor}"
+		log "${yellow}--- Now what is the PARTUUID (in blue first number) of ${usbMountName}? --------------------------------------------${resetColor}"
 		log "";
 		log "";
 		log "${yellow}--- Expecting a name like ddbefb06-02 --------------------------------------------${resetColor}"
