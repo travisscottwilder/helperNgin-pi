@@ -1151,7 +1151,7 @@ if (( $highestLevelCompleted == 0 )); then
 
 	if [ "$exe_18" = true ]; then
 		
-		lsblk
+		lsblk | tee -a "$SCRIPTPATH"/logs/runthis.log;
 		
 		log "";
 		log "";
@@ -1167,8 +1167,9 @@ if (( $highestLevelCompleted == 0 )); then
 		log "";
 		log "";
 		
-		blkid
-		
+		su tdub -c "blkid" | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		su pi -c "blkid" | tee -a "$SCRIPTPATH"/logs/runthis.log;
+
 		log "";
 		log "";
 		log "${yellow}--- Now what is the file type for drive ${usbMountName}? Look under 'type' --------------------------------------------${resetColor}"
@@ -1184,7 +1185,8 @@ if (( $highestLevelCompleted == 0 )); then
 		log "";
 		
 		
-		blkid
+		su tdub -c "blkid" | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		su pi -c "blkid" | tee -a "$SCRIPTPATH"/logs/runthis.log;
 		
 		log "";
 		log "";
