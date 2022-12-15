@@ -1151,7 +1151,7 @@ if (( $highestLevelCompleted == 0 )); then
 
 	if [ "$exe_18" = true ]; then
 		
-		lsblk --fs | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		lsblk | tee -a "$SCRIPTPATH"/logs/runthis.log;
 		
 		log "";
 		log "";
