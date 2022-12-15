@@ -946,6 +946,11 @@ installApachePHPMySQL(){
 	sudo apt install mariadb-server php-mysql -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo mysql_secure_installation | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
+	sudo echo "bind-address = 0.0.0.0" >> /etc/mysql/my.cnf | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo systemctl restart mariadb;
+	
+	log "added 0.0.0.0 as the bing address so it'll accept outside connections";
+	
 	log ""
 	log "";
 	log "${yellow}--- Create a new global admin user for MySQL? [y/n]  ----------------------${resetColor}"
@@ -983,6 +988,35 @@ EOF
 		;;
 	esac
 	
+	
+	log ""
+	log "";
+	log "${yellow}--- Would you like to move mardiDB database location from /var/lib/mysql? [y/n]  ----------------------${resetColor}"
+	log ""
+	read moveSql;
+	
+	case $moveSql in
+		"y") 
+			log "";
+			log "${yellow}--- Enter in the new path for the mysql DB   ----------------------${resetColor}"
+			log ""
+			log "${blue} NOTE - expecting value like /mnt/mysqlDB ${resetColor}";
+			log ""
+			read newSql;
+			
+			sudo mkdir $newSql | tee -a "$SCRIPTPATH"/logs/runthis.log;
+
+			sudo chown -R mysql:mysql $newSql;
+			sudo cp -R -p /var/lib/mysql/* $newSql;
+			
+			sudo sed -i "s|/var/lib/mysql|$newSql|" /etc/mysql/mariadb.conf.d/50-server.cnf | tee -a "$SCRIPTPATH"/logs/runthis.log;
+			
+			
+			log "Updated SQL db path to be: $newSql";
+			
+			sudo service mariadb restart | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		;;
+	esac	
 
 
 	sudo apt install apache2 -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
@@ -1000,14 +1034,39 @@ EOF
 	log "PHP installed";
 	
 	#create phpmyadmin and move it
-	sudo apt install phpmyadmin -y
-	sudo phpenmod mysqli;
-	sudo service apache2 restart;
+	sudo apt install phpmyadmin -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo phpenmod mysqli| tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo service apache2 restart| tee -a "$SCRIPTPATH"/logs/runthis.log;
 	#MOVE DIR TO PUBLIC HTML
-	sudo ln -s /usr/share/phpmyadmin /var/www/html/rawdb
+	sudo ln -s /usr/share/phpmyadmin /var/www/html/rawdb | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	log "PHP my admin installed and added to /var/www/html/rawdb";
 	
+	
+	log ""
+	log "";
+	log "${yellow}--- Would you like to move public html from /var/www/html? [y/n]  ----------------------${resetColor}"
+	log ""
+	read moveHtml;
+	
+	case $moveHtml in
+		"y") 
+			log "";
+			log "${yellow}--- Enter in the new path for public html   ----------------------${resetColor}"
+			log ""
+			log "${blue} NOTE - expecting value like /mnt/tdub ${resetColor}";
+			log ""
+			read newHtml;
+			
+			sudo mkdir $newHtml | tee -a "$SCRIPTPATH"/logs/runthis.log;
+			
+			sudo sed -i "s|/var/www/html|$newHtml|" /etc/apache2/sites-available/000-default.conf | tee -a "$SCRIPTPATH"/logs/runthis.log;
+			sudo sed -i "s|/var/www/|$newHtml|" /etc/apache2/apache2.conf | tee -a "$SCRIPTPATH"/logs/runthis.log;
+			sudo service apache2 restart | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		;;
+	esac	
+	
+
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	drawIntroScreen
