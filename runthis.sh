@@ -443,6 +443,8 @@ addSelfToCron(){
 
 	#to attempt to avoid double adding we will remove before we add
 	removeSelfFromCron;
+	removeSelfFromCron;
+	removeSelfFromCron;
 
 	(crontab -u root -l ; echo "@reboot cd $SCRIPTPATH && ./runthis.sh") | crontab -u root - 
 }
