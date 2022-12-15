@@ -489,6 +489,7 @@ drawOptionsMenu(){
 	log "";
 	log "${blue} 12 ${green} |${resetColor} Install NodeJS & Utils"
 	log "${blue} 13 ${green} |${resetColor} Cloud9 IDE"
+	
 	log "";
 	log "${blue} 14 ${green} |${resetColor} Install Argon Case Utils [case fan script & auto mount usb]"
 	log "${blue} 15 ${green} |${resetColor} Install OLED Screen Python Libs"
@@ -501,6 +502,7 @@ drawOptionsMenu(){
 	log "${blue} 17 ${green} |${resetColor} Add new port to firewall"
 	log "${blue} 18 ${green} |${resetColor} Mount external USB & automount it"
 	log "${blue} 19 ${green} |${resetColor} Add script to start on boot"
+	log "${blue} 20 ${green} |${resetColor} Install Apache, PHP & MySQL"
 	
 	log "";
 	log "${resetColor}-------------------";
@@ -553,6 +555,10 @@ drawOptionsMenu(){
 			"19") 
 				exe_19=true;
 				exe_actionDone="Add script to start on boot";
+				break;;
+			"20") 
+				exe_20=true;
+				exe_actionDone="Install Apache & PHP";
 				break;;
 			
 			
@@ -927,6 +933,53 @@ runScriptOnBoot(){
 
 
 
+#
+# installs apache and php onto this server
+# 
+installApachePHPMySQL(){
+	log "";
+	log "${blue}--- Installing Apache, PHP, Mysql and PHPMyAdmin --------------------------------------------${resetColor}"
+	
+	sudo apt install apache2 -y;
+	
+	
+	sudo chown -R tdub:www-data /var/www/html/;
+	sudo chmod -R 770 /var/www/html/;
+	
+	
+	sudo apt install php -y
+	sudo service apache2 restart;
+	
+	
+	sudo apt install mariadb-server php-mysql -y;
+	sudo mysql_secure_installation;
+	
+	
+	#todo make php files takes priority
+	#todo change web root
+	#change mysql database file location to the encrypted USB
+	
+	
+	#sudo mysql --user=root --password
+	#create user tdub@% identified by 'your_password';
+	#grant all privileges on *.* to tdub@%;
+	#FLUSH PRIVILEGES;
+	#exit;
+	
+	
+	#sudo apt install phpmyadmin -y
+	#sudo phpenmod mysqli
+	#sudo service apache2 restart
+	#MOVE DIR TO PUBLIC HTML
+	#sudo ln -s /usr/share/phpmyadmin /var/www/html/phpmyadmin
+	
+	
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	drawIntroScreen
+	
+	log "";
+}
 
 
 
@@ -1184,6 +1237,15 @@ if (( $highestLevelCompleted < 19 || highestLevelCompleted == 0)); then
 		save "xprogressx=19.0;";
 		runScriptOnBoot;
 		save "xprogressx=19.done;";
+	fi
+fi
+
+
+if (( $highestLevelCompleted < 20 || highestLevelCompleted == 0)); then
+	if [ "$exe_20" = true ]; then
+		save "xprogressx=20.0;";
+		installApachePHPMySQL;
+		save "xprogressx=20.done;";
 	fi
 fi
 

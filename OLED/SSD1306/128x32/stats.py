@@ -67,6 +67,9 @@ oled = adafruit_ssd1306.SSD1306_I2C(WIDTH, HEIGHT, i2c, addr=IC2ADDRESS)
 oled.fill(0)
 oled.show()
 
+#change rotation to be "upsidedown"
+oled.rotation = 2;
+
 # Create blank image for drawing.
 # Make sure to create image with mode '1' for 1-bit color.
 image = Image.new("1", (oled.width, oled.height))
@@ -111,5 +114,6 @@ while True:
 
     # Display image
     oled.image(image)
+    
     oled.show()
     time.sleep(LOOPTIME)
