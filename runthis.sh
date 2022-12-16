@@ -205,6 +205,11 @@ freshInstallWithUtils() {
 	#install git
 	sudo apt-get install git -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
+	
+	#update base firmware and bootloader
+	sudo rpi-eeprom-update -d -a;
+	sudo rpi-update -y;
+	
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
@@ -506,7 +511,8 @@ drawOptionsMenu(){
 	log "${blue} 17 ${green} |${resetColor} Add new port to firewall"
 	log "${blue} 18 ${green} |${resetColor} Mount external USB & automount it"
 	log "${blue} 19 ${green} |${resetColor} Add script to start on boot"
-	log "${blue} 20 ${green} |${resetColor} Install Apache, PHP & MySQL"
+	log "${blue} 20 ${green} |${resetColor} Install Apache, PHP & MySQL [REQUIRES INTERACTION THROUGHOUT SCRIPT]"
+	log "${blue} 21 ${green} |${resetColor} Format and partition new USB/SSD drive "
 	
 	log "";
 	log "${resetColor}-------------------";
@@ -563,6 +569,10 @@ drawOptionsMenu(){
 			"20") 
 				exe_20=true;
 				exe_actionDone="Install Apache & PHP";
+				break;;
+			"21") 
+				exe_21=true;
+				exe_actionDone="Format and partition new USB/SSD drive";
 				break;;
 			
 			
@@ -811,16 +821,78 @@ configureNmountUSB(){
 		esac
 		
 		if [ "$valueToEcho" != false ]; then
-			
 			echo $valueToEcho >> /etc/fstab | tee -a "$SCRIPTPATH"/logs/runthis.log;
+			
+			log "";
 			log "Added to /etc/fstab -> $valueToEcho";
+			log "";
+		else
+			log "Do not have a USB to mount";
 		fi
 		
 	else
 		log "Do not have a USB to mount";
 	fi
-	
 }
+
+
+
+
+#
+# formats a USB/SSD attached to the pi. used for like external storage like ARGON metal case with m.2 SSD
+#
+formatNewDrive(){
+
+
+	log "";
+	log "${blue}--- Formatting new hard drive --------------------------------------------${resetColor}"
+	log "------------------------------------------------------------------------------------";
+	log "------------------------------------------------------------------------------------";
+	log "";
+	log "";
+	
+	
+	sudo fdisk -l;
+	
+	log "";
+	log "";
+	log "${yellow}--- Look above identify the path of your HDD and enter it below --------------------------------------------${resetColor}"
+	log ""
+	log "${blue} NOTE - we are expecting a value like /dev/sda ${resetColor}";
+	log ""
+	read newHDDPath
+	
+	log "";
+	log "";
+	
+	
+	#format the disk
+	log "Editing the partition for: $newHDDPath";
+	log "";
+	
+	
+	log "${red} ENTER IN THE FOLLOW PARAMS WHEN PROMPTED: n, p, 1, <enter>, <enter>, w${resetColor}";
+	sudo fdisk $newHDDPath
+	
+	
+	log "${yellow}disk formatted, now press y when prompted";
+	sudo mkfs -t ext4 $newHDDPath;
+	
+	log "${yellow}formatted and partition created";
+	
+	log "";
+	log "${yellow}DEVICE STILL NEEDS MOUNTING - use installer option 18 to mount drive";
+	log "";
+	
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
+	log "";
+	drawTimeElapsed
+	log "";
+
+}
+
+
 
 
 
@@ -943,17 +1015,15 @@ runScriptOnBoot(){
 installApachePHPMySQL(){
 	log "";
 	log "${blue}--- Installing Apache, PHP, Mysql and PHPMyAdmin --------------------------------------------${resetColor}"
+	log "";
 	
-	
-	
-	
+	log "Installing mariaDB...";
 	sudo apt install mariadb-server php-mysql -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo mysql_secure_installation | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
-	sudo echo "bind-address = 0.0.0.0" >> /etc/mysql/my.cnf | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo sed -i "s|127.0.0.1|0.0.0.0|" /etc/mysql/mariadb.conf.d/50-server.cnf | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo systemctl restart mariadb;
-	
-	log "added 0.0.0.0 as the bing address so it'll accept outside connections";
+	log "updated binding address to 0.0.0.0 so it'll accept outside connections [was 127.0.0.1]";
 	
 	log ""
 	log "";
@@ -1008,13 +1078,16 @@ EOF
 			log ""
 			read newSql;
 			
+			log "Stopping mariaDB so we can copy everything over safely to: $newSql";
+			sudo service mariadb stop;
 			sudo mkdir $newSql | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
+			
 			sudo chown -R mysql:mysql $newSql;
 			sudo cp -R -p /var/lib/mysql/* $newSql;
 			
 			sudo sed -i "s|/var/lib/mysql|$newSql|" /etc/mysql/mariadb.conf.d/50-server.cnf | tee -a "$SCRIPTPATH"/logs/runthis.log;
-			
+			sudo service mariadb start;
 			
 			log "Updated SQL db path to be: $newSql";
 			
@@ -1029,22 +1102,6 @@ EOF
 	
 	sudo chown -R tdub:www-data /var/www/html/ | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo chmod -R 770 /var/www/html/ | tee -a "$SCRIPTPATH"/logs/runthis.log;
-	
-	log "web www permissions updated"
-	
-	sudo apt install php -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
-	sudo service apache2 restart | tee -a "$SCRIPTPATH"/logs/runthis.log;
-	
-	log "PHP installed";
-	
-	#create phpmyadmin and move it
-	sudo apt install phpmyadmin -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
-	sudo phpenmod mysqli| tee -a "$SCRIPTPATH"/logs/runthis.log;
-	sudo service apache2 restart| tee -a "$SCRIPTPATH"/logs/runthis.log;
-	#MOVE DIR TO PUBLIC HTML
-	sudo ln -s /usr/share/phpmyadmin /var/www/html/rawdb | tee -a "$SCRIPTPATH"/logs/runthis.log;
-	
-	log "PHP my admin installed and added to /var/www/html/rawdb";
 	
 	
 	log ""
@@ -1070,6 +1127,28 @@ EOF
 		;;
 	esac	
 	
+	
+	
+	log "web www permissions updated"
+	
+	sudo apt install php -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo service apache2 restart | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	
+	log "PHP installed";
+	
+	#create phpmyadmin and move it
+	sudo apt install phpmyadmin -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo phpenmod mysqli| tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo service apache2 restart| tee -a "$SCRIPTPATH"/logs/runthis.log;
+	#MOVE DIR TO PUBLIC HTML
+	if [ "$moveSql" == 'y' ]; then
+		sudo ln -s /usr/share/phpmyadmin "$newSql"/rawdb | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		log "PHP my admin installed and added to $newSql/rawdb";
+	else 
+		sudo ln -s /usr/share/phpmyadmin /var/www/html/rawdb | tee -a "$SCRIPTPATH"/logs/runthis.log; #default install
+		log "PHP my admin installed and added to /var/www/html/rawdb";
+	fi
+	
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
@@ -1084,12 +1163,18 @@ EOF
 
 
 
-
-
-
-
-
-
+#
+#.
+###.
+#####.
+#######.
+##########
+##############
+###################
+########################
+#############################
+################################
+####################################
 ###########################################
 ########################################################################
 ########################################################################
@@ -1097,6 +1182,23 @@ EOF
 ########################################################################
 ########################################################################
 ###########################################
+####################################
+################################
+#############################
+########################
+#
+#			START LOGIC
+#
+####
+#######
+##########################################################################################
+#######
+####
+##
+#
+
+
+
 
 
 #check if there is progress to load
@@ -1238,6 +1340,9 @@ fi
 
 
 #GOGOGOGOGOGOGO
+#
+#	done asking questions for most the info and done loading config to see if we are resuming, let's get to calling functions n doing shit!
+#
 #GOGOGOGOGOGOGO
 
 
@@ -1343,6 +1448,15 @@ if (( $highestLevelCompleted < 20 || highestLevelCompleted == 0)); then
 		save "xprogressx=20.0;";
 		installApachePHPMySQL;
 		save "xprogressx=20.done;";
+	fi
+fi
+
+
+if (( $highestLevelCompleted < 21 || highestLevelCompleted == 0)); then
+	if [ "$exe_21" = true ]; then
+		save "xprogressx=21.0;";
+		formatNewDrive;
+		save "xprogressx=21.done;";
 	fi
 fi
 
