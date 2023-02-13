@@ -1,6 +1,6 @@
 # helperNgin-pi
 
-use this on a fresh install
+use this on a fresh install of Raspberry Pi OS Lite
 	
 	cd ~;sudo rm -rf helperNgin-pi;curl https://raw.githubusercontent.com/travisscottwilder/pi-installer/main/lib/deploy-helperNgine-pi.sh > deploy-helperNgine-pi.sh;sudo chmod +x deploy-helperNgine-pi.sh;sudo ./deploy-helperNgine-pi.sh;sudo rm deploy-helperNgine-pi.sh;
 
