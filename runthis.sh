@@ -1146,7 +1146,7 @@ EOF
 	sudo service apache2 restart| tee -a "$SCRIPTPATH"/logs/runthis.log;
 	#MOVE DIR TO PUBLIC HTML
 	if [ "$moveSql" == 'y' ]; then
-		sudo ln -s /usr/share/phpmyadmin "$newSql"/rawdb | tee -a "$SCRIPTPATH"/logs/runthis.log;
+		sudo ln -s /usr/share/phpmyadmin "$newHtml"/rawdb | tee -a "$SCRIPTPATH"/logs/runthis.log;
 		log "PHP my admin installed and added to $newSql/rawdb";
 	else 
 		sudo ln -s /usr/share/phpmyadmin /var/www/html/rawdb | tee -a "$SCRIPTPATH"/logs/runthis.log; #default install
