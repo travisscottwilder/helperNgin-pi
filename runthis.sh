@@ -467,6 +467,10 @@ removeSelfFromCron(){
 # Main function logic to start everything off, this asks for input and sets what functions should run
 #
 drawOptionsMenu(){
+
+	#TODO add:
+	#edit hostname -> sudo nano /etc/hostname;sudo nano /etc/hosts;
+
 	drawIntroScreen
 	
 	log "";
