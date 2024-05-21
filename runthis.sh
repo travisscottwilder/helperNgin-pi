@@ -1368,6 +1368,16 @@ log "";
 
 
 
+if [ "$exe_15" = true ]; then
+	log "NOTE NOTE NOTE";
+ 	log "Make sure to enable I2C communication by typing `rasp-config` -> interface options -> i2c -> enable";
+ 	log "NOTE NOTE NOTE";
+fi
+
+
+
+
+
 if (( $highestLevelCompleted < 11 || highestLevelCompleted == 0)); then
 	if [ "$exe_11" = true ]; then
 		save "xprogressx=11.0;";
