@@ -924,7 +924,7 @@ runScriptOnBoot(){
 	log "${yellow}-------------------------------------${resetColor}"
 	log "${blue}------------------ EXAMPLES -------------------${resetColor}" 
 	log "";
-	log "${green}${SCRIPTPATH}/OLED/SSD1306/128x32/stats.py${resetColor}"
+	log "${green}${SCRIPTPATH}/OLED/SSD1306/128x32/stats_ip.py${resetColor}"
 	log "";
 	log "${green}${SCRIPTPATH}/OLED/SSD1306/128x64/stats.py${resetColor}"
 	log "${green}${SCRIPTPATH}/OLED/SSD1306/128x64/psutilstats.py${resetColor}"
