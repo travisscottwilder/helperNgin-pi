@@ -310,7 +310,7 @@ installOLEDScreenPythonOne() {
 
 	cd ~;
 	sudo apt-get install -y python3-pip | tee -a "$SCRIPTPATH"/logs/runthis.log;
-	sudo pip3 install --upgrade adafruit-python-shell | tee -a "$SCRIPTPATH"/logs/runthis.log
+	sudo pip3 install --upgrade adafruit-python-shell --break-system-packages | tee -a "$SCRIPTPATH"/logs/runthis.log
 	
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
@@ -345,8 +345,8 @@ installOLEDScreenPythonTwo() {
 	sudo rm raspi-blinka.py;
 
 
-	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306 | tee -a "$SCRIPTPATH"/logs/runthis.log;
-	sudo pip3 install --upgrade psutil | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306 --break-system-packages | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo pip3 install --upgrade psutil --break-system-packages | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	sudo apt-get install python3-pil | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
@@ -491,6 +491,7 @@ drawOptionsMenu(){
 	log "${blue} 1 ${green} |${resetColor} Install All"
 	log "${blue} 2 ${green} |${resetColor} Install Web Tools [NodeJS,Cloud9 IDE]"
 	log "${blue} 3 ${green} |${resetColor} Install Pi GPIO Tools [Argon Case,OLED Python Libs,Python GPIO Tools]"
+ 	log "${blue} 4 ${green} |${resetColor} New Pi Playground [System Update & Ultils,OLED Python Libs,Python GPIO Tools]"
 	log ""
 	log ""
 	log ""
