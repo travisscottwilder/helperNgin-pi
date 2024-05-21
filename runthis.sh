@@ -611,6 +611,14 @@ drawOptionsMenu(){
 				
 				usbMountFolder="/mnt/data";
 				break;;
+
+    			"4") 
+				exe_11=true;
+				exe_15=true;
+				exe_16=true;
+				exe_actionDone="New Pi Playground [System Update & Ultils,OLED Python Libs,Python GPIO Tools]";
+				addSelfToCron
+				break;;
 			
 			
 			[qQquit]* ) exit;;
