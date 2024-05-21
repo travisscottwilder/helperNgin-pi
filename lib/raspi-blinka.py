@@ -76,13 +76,13 @@ def update_python():
 def update_pip():
     print("Making sure PIP is installed")
     shell.run_command("sudo apt-get install -y python3-pip")
-    shell.run_command("sudo pip3 install --upgrade setuptools")
+    shell.run_command("sudo pip3 install --upgrade setuptools --break-system-packages")
 
 def install_blinka():
     print("Installing latest version of Blinka locally")
     shell.run_command("sudo apt-get install -y i2c-tools libgpiod-dev")
-    shell.run_command("pip3 install --upgrade RPi.GPIO")
-    shell.run_command("pip3 install --upgrade adafruit-blinka")
+    shell.run_command("pip3 install --upgrade RPi.GPIO --break-system-packages")
+    shell.run_command("pip3 install --upgrade adafruit-blinka --break-system-packages")
 
 def main():
     global default_python
