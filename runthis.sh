@@ -345,12 +345,12 @@ installOLEDScreenPythonTwo() {
 	sudo python3 raspi-blinka.py | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
 	sudo rm raspi-blinka.py;
-
+	log "blinka INSTALLED";
 
 	sudo pip3 install --upgrade adafruit-circuitpython-ssd1306 --break-system-packages | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo pip3 install --upgrade psutil --break-system-packages | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	
-	sudo apt-get install python3-pil | tee -a "$SCRIPTPATH"/logs/runthis.log;
+	sudo apt-get install python3-pil -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
 	log "${blue}----------------------------------------------------------------------------------------------------------${resetColor}"
