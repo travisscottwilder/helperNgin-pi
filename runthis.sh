@@ -192,9 +192,11 @@ freshInstallWithUtils() {
 	sudo apt-get install ufw -y | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo ufw allow 22 | tee -a "$SCRIPTPATH"/logs/runthis.log;
 	sudo ufw allow 80 | tee -a "$SCRIPTPATH"/logs/runthis.log;
-	sudo ufw allow 443 | tee -a "$SCRIPTPATH"/logs/runthis.log;
-	sudo ufw enable | tee -a "$SCRIPTPATH"/logs/runthis.log;
-	
+	log "...Test1";
+ 	sudo ufw allow 443 | tee -a "$SCRIPTPATH"/logs/runthis.log;
+ 	log "...Test2";
+	sudo ufw enable -y | tee -a "$SCRIPTPATH"/logs/runthis.log; #NOTE just added -y to this to try and get rid of confirmation?
+	log "...Test3";
 	drawTimeElapsed
 	
 	#install brute force auto ban software
