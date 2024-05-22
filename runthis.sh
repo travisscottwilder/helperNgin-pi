@@ -1370,7 +1370,7 @@ log "";
 
 if [ "$exe_15" = true ]; then
 	log "NOTE NOTE NOTE";
- 	log "Make sure to enable I2C communication by typing 'rasp-config' -> interface options -> i2c -> enable";
+ 	log "Make sure to enable I2C communication by typing 'sudo raspi-config' -> interface options -> i2c -> enable";
  	log "NOTE NOTE NOTE";
 fi
 
