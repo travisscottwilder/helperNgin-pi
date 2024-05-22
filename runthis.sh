@@ -305,7 +305,8 @@ installOLEDScreenPythonOne() {
 	log "";
 	log "${blue}--- Install OLED Screen Python Scripts & Libs ONE [A]--------------------------------------------${resetColor}"
 
-
+	sudo raspi-config nonint do_i2c 0; #enable i2c bus (yes 0 means true in this case, 1 means false)
+ 
 	sudo mkdir /fonts;
 	sudo cp "$SCRIPTPATH"/lib/fonts/* /fonts/;
 	sudo chown 777 /fonts -Rf;
